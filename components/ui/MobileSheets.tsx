@@ -102,7 +102,7 @@ export const MobileSheets: React.FC = () => {
                   watching the festival unfold from a Kolkata balcony.
                 </p>
                 <div className="pt-2 text-[10px] font-mono text-white/40 uppercase tracking-widest">
-                  Design & Curation &mdash; Sayan &copy; 2026
+                  Design & Curation &mdash; Soumyadeep &copy; 2026
                 </div>
               </div>
             )}

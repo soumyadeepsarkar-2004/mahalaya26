@@ -30,6 +30,8 @@ export const metadata: Metadata = {
   title: "Mahalaya '26 — A Bengali Festival Memory",
   description:
     "An immersive audiovisual journey through Mahalaya and Durga Puja in Bengal.",
+  authors: [{ name: "Soumyadeep" }],
+  creator: "Soumyadeep",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
