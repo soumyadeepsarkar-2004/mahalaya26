@@ -92,7 +92,7 @@ export const AmbientPlayer: React.FC = () => {
       case "dhak":
         return {
           icon: <Flame className="w-2.5 h-2.5 text-amber-400 animate-bounce" />,
-          label: "DHAK BEATS",
+          label: "TRADITIONAL DHAK",
           color: "text-amber-400 border-amber-500/30 bg-amber-500/10",
         };
       case "chant":
@@ -104,7 +104,7 @@ export const AmbientPlayer: React.FC = () => {
       default:
         return {
           icon: <Music className="w-2.5 h-2.5 text-emerald-400" />,
-          label: "FESTIVE SONG",
+          label: "PUJA SPECIAL GAAN",
           color: "text-emerald-300 border-emerald-500/30 bg-emerald-500/10",
         };
     }
@@ -215,12 +215,12 @@ export const AmbientPlayer: React.FC = () => {
             {/* Warm Amber Dial Backlight */}
             <div className="absolute inset-0 bg-gradient-to-b from-amber-500/10 via-amber-600/5 to-transparent pointer-events-none" />
 
-            {/* Dial Scale Header: Station Frequency & Broadcast status */}
-            <div className="flex items-center justify-between text-[7px] font-mono text-[#a88665] uppercase tracking-widest border-b border-[#382b1f] pb-1">
-              <span className="font-semibold text-[#e6b980]">
-                {track.frequency || "MW · 540-1600 kHz"}
+            {/* Dial Scale Header: Station Frequency or Track Display Type & Broadcast status */}
+            <div className="flex items-center justify-between text-[7px] font-mono text-[#a88665] uppercase tracking-wider border-b border-[#382b1f] pb-1">
+              <span className="font-semibold text-[#e6b980] truncate max-w-[160px]">
+                {track.displayType || track.frequency || "MW · 540-1600 kHz"}
               </span>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 shrink-0">
                 <span
                   className={`w-1.5 h-1.5 rounded-full transition-colors ${
                     isPlaying
@@ -229,7 +229,7 @@ export const AmbientPlayer: React.FC = () => {
                   }`}
                 />
                 <span className="text-[6.5px] text-[#c9a073] font-bold">
-                  {isPlaying ? (isLiveStream ? "ON AIR LIVE" : "PLAYING") : "PAUSED"}
+                  {isPlaying ? (isLiveStream ? "LIVE BROADCAST" : "PLAYING") : "PAUSED"}
                 </span>
               </div>
             </div>
@@ -255,12 +255,12 @@ export const AmbientPlayer: React.FC = () => {
               title={
                 isLiveStream
                   ? "Click along dial to switch radio stations"
-                  : "Click to seek broadcast"
+                  : "Click to seek track"
               }
               className="relative h-6 my-1 bg-[#0d0a08] rounded border border-[#2e2319] cursor-pointer flex items-center px-1"
             >
               {/* Tick marks & Station indicators */}
-              <div className="w-full flex justify-between px-1 pointer-events-none opacity-55">
+              <div className="w-full flex justify-between px-1 pointer-events-none opacity-60">
                 {playlist.map((pTrack, idx) => (
                   <div key={pTrack.id} className="flex flex-col items-center">
                     <div
@@ -273,7 +273,13 @@ export const AmbientPlayer: React.FC = () => {
                         idx === currentIndex ? "text-amber-300 font-bold" : "text-[#8a7056]"
                       }`}
                     >
-                      {pTrack.frequency?.replace(" FM", "").replace("AM ", "") || idx + 1}
+                      {pTrack.category === "radio"
+                        ? pTrack.frequency?.replace(" FM", "").replace("AM ", "") || "FM"
+                        : pTrack.category === "dhak"
+                        ? "DHAK"
+                        : pTrack.category === "chant"
+                        ? "CHNT"
+                        : `TRK ${idx + 1}`}
                     </span>
                   </div>
                 ))}
@@ -314,22 +320,30 @@ export const AmbientPlayer: React.FC = () => {
         </div>
 
         {/* -----------------------------------------------------------------------
-            3. STATION SWITCHER PILLS (For quick channel tuning)
+            3. STATION & SONG SWITCHER PILLS (Clearly labeled for all users)
             ----------------------------------------------------------------------- */}
-        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar pb-2 mb-2 border-b border-[#2e2319]">
-          {playlist.map((item, idx) => (
-            <button
-              key={item.id}
-              onClick={() => setTrackIndex(idx)}
-              className={`px-2 py-0.5 rounded-md text-[7.5px] font-mono tracking-wider uppercase transition-all whitespace-nowrap cursor-pointer border ${
-                idx === currentIndex
-                  ? "bg-[#d49b58]/20 border-[#d49b58] text-[#f0c28d] font-bold shadow-[0_0_8px_rgba(212,155,88,0.25)]"
-                  : "bg-[#16120e] border-[#382b1f] text-[#8a7056] hover:text-[#c9a073] hover:border-[#524132]"
-              }`}
-            >
-              {item.frequency || `CH ${idx + 1}`}
-            </button>
-          ))}
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-2 mb-2 border-b border-[#2e2319]">
+          {playlist.map((item, idx) => {
+            const icon =
+              item.category === "radio" ? "📻" :
+              item.category === "dhak" ? "🥁" :
+              item.category === "chant" ? "🕉️" : "🎵";
+
+            return (
+              <button
+                key={item.id}
+                onClick={() => setTrackIndex(idx)}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[7.5px] font-mono tracking-wider uppercase transition-all whitespace-nowrap cursor-pointer border ${
+                  idx === currentIndex
+                    ? "bg-[#d49b58]/25 border-[#d49b58] text-[#f0c28d] font-bold shadow-[0_0_8px_rgba(212,155,88,0.3)]"
+                    : "bg-[#16120e] border-[#382b1f] text-[#8a7056] hover:text-[#c9a073] hover:border-[#524132]"
+                }`}
+              >
+                <span>{icon}</span>
+                <span>{item.shortLabel || `Track ${idx + 1}`}</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* -----------------------------------------------------------------------
