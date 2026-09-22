@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mahalaya26-cache-v2';
+const CACHE_NAME = 'mahalaya26-cache-v3';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
@@ -7,7 +7,16 @@ const ASSETS_TO_CACHE = [
     '/manifest.webmanifest',
     '/assets/icon-192.png',
     '/assets/icon-512.png',
-    '/assets/icon-maskable-512.png'
+    '/assets/icon-maskable-512.png',
+    '/assets/bg-mahalaya-480.webp',
+    '/assets/bg-tritiya-480.webp',
+    '/assets/bg-panchomi-480.webp',
+    '/assets/bg-shasti-480.webp',
+    '/assets/bg-shaptami-480.webp',
+    '/assets/bg-ashtami-480.webp',
+    '/assets/bg-nabami-480.webp',
+    '/assets/bg-dashami-480.webp',
+    '/assets/bg-ekadashi-480.webp'
 ];
 
 self.addEventListener('install', (event) => {

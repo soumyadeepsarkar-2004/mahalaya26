@@ -305,10 +305,10 @@ updateUI();
 // Clock & Countdown
 function updateTime() {
     const now = new Date();
-    const mahalayaDate = new Date('2026-10-10T04:00:00');
+    const mahalayaDate = new Date('2026-10-10T04:00:00+05:30'); // Explicit IST
     
     // Time
-    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    const timeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
     const ctd = document.getElementById('current-time-desktop');
     const stm = document.getElementById('sheet-time');
     if(ctd) ctd.textContent = timeStr;
@@ -455,6 +455,7 @@ const backdrop = document.getElementById('backdrop');
 const sheetRadio = document.getElementById('sheet-radio');
 const sheetStatus = document.getElementById('sheet-status');
 const sheetMenu = document.getElementById('sheet-menu');
+const sheetAbout = document.getElementById('sheet-about');
 let activeSheet = null;
 
 function openSheet(sheet) {
@@ -484,7 +485,7 @@ const bmm = document.getElementById('btn-menu-mobile'); if(bmm) bmm.addEventList
 
 // Sheet swipe to close
 let sheetTouchStartY = 0;
-[sheetRadio, sheetStatus, sheetMenu].forEach(sheet => {
+[sheetRadio, sheetStatus, sheetMenu, sheetAbout].forEach(sheet => {
     if(!sheet) return;
     sheet.addEventListener('touchstart', e => {
         sheetTouchStartY = e.changedTouches[0].screenY;
@@ -495,15 +496,20 @@ let sheetTouchStartY = 0;
     }, {passive: true});
 });
 
-// Menu Button handlers (Placeholder logic)
-['btn-menu-archive', 'btn-menu-moments', 'btn-menu-about'].forEach(id => {
-    const btn = document.getElementById(id);
-    if (btn) {
-        btn.addEventListener('click', () => {
-            alert(id.replace('btn-menu-', '').toUpperCase() + ' - Coming Soon in next iteration.');
-            closeSheet();
-        });
-    }
+// Menu Button handlers
+const btnArchive = document.getElementById('btn-menu-archive');
+if(btnArchive) btnArchive.addEventListener('click', () => closeSheet());
+
+const btnMoments = document.getElementById('btn-menu-moments');
+if(btnMoments) btnMoments.addEventListener('click', () => {
+    closeSheet();
+    setTimeout(() => openSheet(sheetRadio), 400);
+});
+
+const btnAbout = document.getElementById('btn-menu-about');
+if(btnAbout) btnAbout.addEventListener('click', () => {
+    closeSheet();
+    setTimeout(() => openSheet(sheetAbout), 400);
 });
 
 // Handle resize events for responsive image loading
@@ -519,6 +525,7 @@ window.addEventListener('resize', () => {
             initTimelines(); // reset timelines UI sizes
             selectDay(currentIndex); // ensure selected
         }
+        initParticles(); // Debounced resize rebuild
     }, 250);
 });
 
@@ -526,7 +533,7 @@ window.addEventListener('resize', () => {
 const canvas = document.getElementById('particles-canvas');
 const ctx = canvas ? canvas.getContext('2d') : null;
 let particles = [];
-let animationFrameId;
+let animationFrameId = null;
 
 function initParticles() {
     if (!canvas || !ctx) return;
@@ -571,19 +578,25 @@ function drawParticles() {
 function renderLoop() {
     if (!document.hidden && !prefersReducedMotion) {
         drawParticles();
+        animationFrameId = requestAnimationFrame(renderLoop);
+    } else {
+        animationFrameId = null;
     }
-    animationFrameId = requestAnimationFrame(renderLoop);
 }
 
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-        cancelAnimationFrame(animationFrameId);
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
     } else {
-        renderLoop();
+        if (!animationFrameId && !prefersReducedMotion) {
+            renderLoop();
+        }
     }
 });
 
-window.addEventListener('resize', initParticles);
 initParticles();
 if(!prefersReducedMotion) renderLoop();
 updateAudioUI();
