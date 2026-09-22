@@ -354,7 +354,7 @@ export const AmbientPlayer: React.FC = () => {
               title={isPlaying ? "Pause Broadcast" : "Tune In / Play"}
               className="w-10 h-10 rounded-xl bg-gradient-to-b from-[#d49b58] to-[#99642d] border border-[#f0c28d] active:scale-95 text-[#1a120b] flex items-center justify-center transition-all shadow-[0_4px_12px_rgba(212,155,88,0.4)] cursor-pointer font-bold"
             >
-              {isLoading ? (
+              {isLoading && isPlaying ? (
                 <Loader2 className="w-4 h-4 animate-spin text-[#1a120b]" />
               ) : isPlaying ? (
                 <Pause className="w-4 h-4 fill-current" />

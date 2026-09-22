@@ -44,9 +44,21 @@ export function useAudio() {
       setIsPlaying(true);
       setIsLoading(false);
     };
-    const handlePause = () => setIsPlaying(false);
-    const handleWaiting = () => setIsLoading(true);
-    const handlePlaying = () => setIsLoading(false);
+    const handlePause = () => {
+      setIsPlaying(false);
+      setIsLoading(false);
+    };
+    const handleWaiting = () => {
+      if (useFestivalStore.getState().isPlaying) {
+        setIsLoading(true);
+      }
+    };
+    const handleCanPlay = () => {
+      setIsLoading(false);
+    };
+    const handlePlaying = () => {
+      setIsLoading(false);
+    };
     const handleEnded = () => nextTrack();
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
     const handleDurationChange = () => {
@@ -59,11 +71,13 @@ export function useAudio() {
     const handleError = () => {
       console.warn("Audio element encountered playback error");
       setAudioError(true);
+      setIsLoading(false);
     };
 
     audio.addEventListener("play", handlePlay);
     audio.addEventListener("pause", handlePause);
     audio.addEventListener("waiting", handleWaiting);
+    audio.addEventListener("canplay", handleCanPlay);
     audio.addEventListener("playing", handlePlaying);
     audio.addEventListener("ended", handleEnded);
     audio.addEventListener("timeupdate", handleTimeUpdate);
@@ -77,6 +91,7 @@ export function useAudio() {
       audio.removeEventListener("play", handlePlay);
       audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("waiting", handleWaiting);
+      audio.removeEventListener("canplay", handleCanPlay);
       audio.removeEventListener("playing", handlePlaying);
       audio.removeEventListener("ended", handleEnded);
       audio.removeEventListener("timeupdate", handleTimeUpdate);
@@ -95,7 +110,7 @@ export function useAudio() {
     cleanupHls();
     setCurrentTime(0);
     setDuration(0);
-    setIsLoading(true);
+    setIsLoading(wasPlaying);
 
     const isHls = track.src.includes(".m3u8");
     const isLive = Boolean(track.isLive || isHls);
@@ -106,7 +121,10 @@ export function useAudio() {
         // Native HLS support (Safari on macOS / iOS)
         audio.src = track.src;
         if (wasPlaying) {
-          audio.play().catch(() => setIsPlaying(false));
+          audio.play().catch(() => {
+            setIsPlaying(false);
+            setIsLoading(false);
+          });
         }
       } else if (Hls.isSupported()) {
         // HLS.js for Chrome, Firefox, Edge, Android
@@ -121,9 +139,13 @@ export function useAudio() {
         hls.attachMedia(audio);
 
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          setIsLoading(false);
           if (wasPlaying) {
-            audio.play().catch(() => setIsPlaying(false));
+            audio.play().catch(() => {
+              setIsPlaying(false);
+              setIsLoading(false);
+            });
+          } else {
+            setIsLoading(false);
           }
         });
 
@@ -141,6 +163,7 @@ export function useAudio() {
               default:
                 cleanupHls();
                 setAudioError(true);
+                setIsLoading(false);
                 break;
             }
           }
@@ -149,14 +172,20 @@ export function useAudio() {
         // Fallback
         audio.src = track.src;
         if (wasPlaying) {
-          audio.play().catch(() => setIsPlaying(false));
+          audio.play().catch(() => {
+            setIsPlaying(false);
+            setIsLoading(false);
+          });
         }
       }
     } else {
       // Standard MP3 or Icecast audio stream
       audio.src = track.src;
       if (wasPlaying) {
-        audio.play().catch(() => setIsPlaying(false));
+        audio.play().catch(() => {
+          setIsPlaying(false);
+          setIsLoading(false);
+        });
       }
     }
   }, [track?.src]);
@@ -167,12 +196,15 @@ export function useAudio() {
     if (!audio) return;
 
     if (isPlaying) {
+      setIsLoading(true);
       audio.play().catch((e) => {
         console.warn("Autoplay blocked or playback interrupted:", e);
         setIsPlaying(false);
+        setIsLoading(false);
       });
     } else {
       audio.pause();
+      setIsLoading(false);
     }
   }, [isPlaying]);
 
