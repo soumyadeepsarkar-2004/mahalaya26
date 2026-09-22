@@ -144,7 +144,7 @@
         </div>
 
                 <!-- RADIO DESKTOP -->
-        <div class="radio-card hidden md:flex absolute bottom-[28px] left-[clamp(24px,4vw,64px)] w-[clamp(360px,30vw,450px)] flex-col gap-4 p-5 rounded-[2px] pointer-events-auto border border-white/5 shadow-2xl overflow-hidden" style="background: linear-gradient(135deg, rgba(var(--scene-rgb), 0.15) 0%, rgba(var(--scene-rgb), 0.05) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+        <div class="radio-card hidden md:flex absolute bottom-[24px] left-[clamp(24px,4vw,64px)] w-[280px] xl:w-[320px] z-40 flex-col gap-3 p-4 rounded-[4px] pointer-events-auto border border-white/5 shadow-2xl overflow-hidden" style="background: linear-gradient(135deg, rgba(var(--scene-rgb), 0.15) 0%, rgba(var(--scene-rgb), 0.05) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
             <!-- Top editorial line -->
             <div class="flex items-center justify-between">
                 <span class="text-[8px] font-mono tracking-[0.3em] text-white/60">PUJA RADIO</span>
@@ -160,11 +160,11 @@
             
             <div class="w-full h-px bg-white/10"></div>
             
-            <div class="flex items-center gap-4">
-                <div class="w-16 h-16 rounded-[2px] bg-cover bg-center shrink-0 border border-white/10 shadow-lg transition-all duration-700" id="radio-thumb"></div>
-                <div class="flex flex-col">
+            <div class="flex items-center gap-3">
+                <div class="w-14 h-14 rounded-[2px] bg-cover bg-center shrink-0 border border-white/10 shadow-lg transition-all duration-700" id="radio-thumb"></div>
+                <div class="flex flex-col min-w-0">
                     <span class="text-[8px] font-mono tracking-[0.2em] text-white/40 mb-1">NOW PLAYING</span>
-                    <span class="text-sm text-white/90 font-serif" id="player-track-desktop">...</span>
+                    <span class="text-sm text-white/90 font-serif truncate w-full" id="player-track-desktop">...</span>
                 </div>
             </div>
             
@@ -188,7 +188,7 @@
         </div>
 
         <!-- RADIO MOBILE BAR -->
-        <div id="mobile-radio-bar" class="md:hidden absolute bottom-[calc(env(safe-area-inset-bottom,0px)+16px)] left-1/2 -translate-x-1/2 w-[calc(100%-32px)] p-[12px] flex items-center justify-between pointer-events-auto z-30 border border-white/10 rounded-[2px]" style="background: rgba(var(--scene-rgb), 0.15); backdrop-filter: blur(24px);">
+        <div id="mobile-radio-bar" class="md:hidden absolute bottom-[calc(env(safe-area-inset-bottom,0px)+16px)] left-1/2 -translate-x-1/2 w-[calc(100%-32px)] px-4 py-3 flex items-center justify-between pointer-events-auto z-40 border border-white/10 rounded-[16px] shadow-lg" style="background: rgba(var(--scene-rgb), 0.15); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
             <div class="flex items-center gap-2 shrink-0">
                 <div class="w-1.5 h-1.5 rounded-full bg-white/30" id="signal-mobile"></div>
                 <span class="text-[8px] font-mono tracking-[0.2em] text-white/50">PUJA RADIO</span>
@@ -196,13 +196,14 @@
             <span class="text-[11px] text-white/90 truncate font-serif absolute left-1/2 -translate-x-1/2" id="player-track-mobile">...</span>
             
             <div class="flex items-center gap-3 shrink-0">
+                <span class="text-[9px] font-mono text-white/40" id="time-mobile">00:00</span>
                 <button id="btn-play-pause-mobile-bar" class="text-white/80 outline-none p-1">
                     <i class="fas fa-play text-[10px]" id="play-icon-mobile-bar"></i>
                 </button>
             </div>
         </div>
 
-<!-- DESKTOP UTILITIES -->
+        <!-- DESKTOP UTILITIES -->
         <div class="utilities-card hidden xl:flex items-end flex-col gap-3 pointer-events-none z-30">
             <div class="text-[7px] tracking-[0.35em] font-mono text-white/30 uppercase leading-relaxed text-right pr-2">
                 A small tribute<br>to Bengal<br>and everything<br>it gives us
@@ -215,7 +216,7 @@
     <div id="backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300 pointer-events-auto"></div>
 
     <!-- Mobile Radio Expanded Sheet -->
-    <div id="sheet-radio" class="fixed bottom-0 left-0 w-full rounded-t-[4px] p-6 pb-[calc(24px+env(safe-area-inset-bottom,0px))] z-50 transform translate-y-full transition-transform duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] pointer-events-auto flex flex-col items-center border-t border-white/10" style="background: rgba(var(--scene-rgb), 0.15); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);">
+    <div id="sheet-radio" class="fixed bottom-0 left-0 w-full rounded-t-[24px] p-6 pb-[calc(24px+env(safe-area-inset-bottom,0px))] z-50 transform translate-y-full transition-transform duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] pointer-events-auto flex flex-col items-center border-t border-white/10" style="background: rgba(var(--scene-rgb), 0.15); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);">
         <div class="w-10 h-1 bg-white/20 mb-8 sheet-handle"></div>
         
         <div class="w-full max-w-[240px] aspect-square bg-cover bg-center border border-white/10 mb-8 shadow-2xl transition-all duration-700" id="radio-thumb-mobile"></div>
