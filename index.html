@@ -2,285 +2,102 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mahalaya & Durga Puja Lo-Fi Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mahalaya '26</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                        serif: ['Cinzel', 'serif'],
-                    },
-                    colors: {
-                        durga: {
-                            red: '#D92525',
-                            gold: '#F2A900',
-                            clay: '#B05E27'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="text-white overflow-hidden bg-black selection:bg-orange-500 selection:text-white font-sans">
-    <div id="background-container" class="absolute inset-0 bg-cover bg-center -z-10 transition-all duration-1000 ease-in-out scale-105" style="background-image: url('assets/bg-mahalaya.png');"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/60 -z-10 pointer-events-none"></div>
+<body class="text-white overflow-hidden bg-black selection:bg-white/30 font-sans antialiased">
+    
+    <!-- Background Scene (Dual for crossfading) -->
+    <div id="bg-1" class="scene-bg bg-cover bg-center absolute inset-0 z-0 scale-[1.02] transform origin-center" style="background-image: url('assets/bg-mahalaya.png');"></div>
+    <div id="bg-2" class="scene-bg bg-cover bg-center absolute inset-0 z-0 scale-[1.02] transform origin-center" style="opacity: 0;"></div>
+    
+    <!-- Subtle grain overlay -->
+    <div class="absolute inset-0 z-0 pointer-events-none opacity-15 mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
+    <!-- Very soft localized vignette -->
+    <div class="absolute inset-0 z-0 pointer-events-none bg-gradient-to-t from-black/50 via-transparent to-black/20"></div>
 
-    <!-- Mobile Menu Button -->
-    <button id="mobile-menu-btn" class="md:hidden absolute top-4 left-4 z-50 p-2 text-2xl text-white drop-shadow-md">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <div class="flex h-screen w-full relative">
-        <!-- Sidebar -->
-        <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-80 max-w-full bg-black/40 backdrop-blur-2xl border-r border-white/10 p-6 flex flex-col justify-between transform -translate-x-full md:translate-x-0 transition-transform duration-500 ease-out z-40 shadow-2xl">
-            <div class="h-full overflow-y-auto no-scrollbar pb-24">
-                
-                <!-- Header -->
-                <div class="mb-10 text-center">
-                    <h1 class="text-4xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-durga-gold via-orange-300 to-durga-red tracking-wider drop-shadow-sm">MAHALAYA</h1>
-                    <p class="text-[10px] text-gray-300 font-light tracking-[0.3em] mt-2 uppercase">Lo-Fi Experience</p>
-                </div>
-
-                <!-- Navigation Tabs -->
-                <div class="flex space-x-2 mb-6 bg-black/30 p-1.5 rounded-xl border border-white/5">
-                    <button id="tab-playlists" class="flex-1 py-2 px-4 rounded-lg bg-white/10 text-white font-medium text-sm transition-all shadow-sm">Journey</button>
-                    <button id="tab-radio" class="flex-1 py-2 px-4 rounded-lg text-gray-400 hover:text-white font-medium text-sm transition-all">Live Radio</button>
-                </div>
-
-                <!-- Content Area -->
-                <div id="scroll-content" class="relative">
-                    <!-- Playlists -->
-                    <div id="content-playlists" class="space-y-2">
-                        <button class="w-full flex items-center text-left p-3 rounded-xl hover:bg-white/10 transition-all group playlist-item border border-transparent hover:border-white/5" data-playlist="mahalaya">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-durga-gold to-orange-600 flex items-center justify-center shadow-lg shadow-orange-900/20 group-hover:scale-105 transition-transform">
-                                <i class="fas fa-sun text-white text-sm"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="font-serif font-semibold text-orange-100 text-lg group-hover:text-white transition-colors">Mahalaya</p>
-                                <p class="text-[11px] text-gray-400 font-light">Dawn chants</p>
-                            </div>
-                        </button>
-                        <button class="w-full flex items-center text-left p-3 rounded-xl hover:bg-white/10 transition-all group playlist-item border border-transparent hover:border-white/5" data-playlist="tritiya">
-                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                                <i class="fas fa-paint-brush text-gray-400 group-hover:text-white transition-colors"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="font-serif font-semibold text-gray-300 group-hover:text-orange-100 transition-colors text-lg">Tritiya</p>
-                                <p class="text-[11px] text-gray-400 font-light">Preparation</p>
-                            </div>
-                        </button>
-                        <button class="w-full flex items-center text-left p-3 rounded-xl hover:bg-white/10 transition-all group playlist-item border border-transparent hover:border-white/5" data-playlist="panchomi">
-                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                                <i class="fas fa-eye text-gray-400 group-hover:text-white transition-colors"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="font-serif font-semibold text-gray-300 group-hover:text-orange-100 transition-colors text-lg">Panchami</p>
-                                <p class="text-[11px] text-gray-400 font-light">Bodhon Awakening</p>
-                            </div>
-                        </button>
-                        <button class="w-full flex items-center text-left p-3 rounded-xl hover:bg-white/10 transition-all group playlist-item border border-transparent hover:border-white/5" data-playlist="shasti">
-                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                                <i class="fas fa-om text-gray-400 group-hover:text-white transition-colors"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="font-serif font-semibold text-gray-300 group-hover:text-orange-100 transition-colors text-lg">Shashthi</p>
-                                <p class="text-[11px] text-gray-400 font-light">Welcoming the Goddess</p>
-                            </div>
-                        </button>
-                        <button class="w-full flex items-center text-left p-3 rounded-xl hover:bg-white/10 transition-all group playlist-item border border-transparent hover:border-white/5" data-playlist="shaptami">
-                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                                <i class="fas fa-leaf text-gray-400 group-hover:text-white transition-colors"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="font-serif font-semibold text-gray-300 group-hover:text-orange-100 transition-colors text-lg">Saptami</p>
-                                <p class="text-[11px] text-gray-400 font-light">Morning Anjali</p>
-                            </div>
-                        </button>
-                        <button class="w-full flex items-center text-left p-3 rounded-xl hover:bg-white/10 transition-all group playlist-item border border-transparent hover:border-white/5" data-playlist="ashtami">
-                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                                <i class="fas fa-fire text-gray-400 group-hover:text-durga-red transition-colors"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="font-serif font-semibold text-gray-300 group-hover:text-orange-100 transition-colors text-lg">Ashtami</p>
-                                <p class="text-[11px] text-gray-400 font-light">Sandhi Puja</p>
-                            </div>
-                        </button>
-                        <button class="w-full flex items-center text-left p-3 rounded-xl hover:bg-white/10 transition-all group playlist-item border border-transparent hover:border-white/5" data-playlist="nabami">
-                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                                <i class="fas fa-drum text-gray-400 group-hover:text-white transition-colors"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="font-serif font-semibold text-gray-300 group-hover:text-orange-100 transition-colors text-lg">Navami</p>
-                                <p class="text-[11px] text-gray-400 font-light">Evening Celebrations</p>
-                            </div>
-                        </button>
-                        <button class="w-full flex items-center text-left p-3 rounded-xl hover:bg-white/10 transition-all group playlist-item border border-transparent hover:border-white/5" data-playlist="dashami">
-                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                                <i class="fas fa-water text-gray-400 group-hover:text-white transition-colors"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="font-serif font-semibold text-gray-300 group-hover:text-orange-100 transition-colors text-lg">Dashami</p>
-                                <p class="text-[11px] text-gray-400 font-light">Bisarjan & Sindoor Khela</p>
-                            </div>
-                        </button>
-                        <button class="w-full flex items-center text-left p-3 rounded-xl hover:bg-white/10 transition-all group playlist-item border border-transparent hover:border-white/5" data-playlist="ekadashi">
-                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                                <i class="fas fa-heart text-gray-400 group-hover:text-durga-red transition-colors"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="font-serif font-semibold text-gray-300 group-hover:text-orange-100 transition-colors text-lg">Ekadashi</p>
-                                <p class="text-[11px] text-gray-400 font-light">Asche bochhor</p>
-                            </div>
-                        </button>
-                    </div>
-
-                    <!-- Radio Content -->
-                    <div id="content-radio" class="hidden space-y-2">
-                        <button class="w-full flex items-center text-left p-3 rounded-xl hover:bg-white/10 transition-all group radio-station border border-transparent hover:border-white/5">
-                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                                <i class="fas fa-broadcast-tower text-gray-400 group-hover:text-white transition-colors"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="font-serif font-semibold text-gray-300 group-hover:text-orange-100 transition-colors text-lg">Akashvani Kolkata</p>
-                                <p class="text-[11px] text-gray-400 font-light">Classic AM Broadcast</p>
-                            </div>
-                        </button>
-                        <button class="w-full flex items-center text-left p-3 rounded-xl hover:bg-white/10 transition-all group radio-station border border-transparent hover:border-white/5">
-                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                                <i class="fas fa-satellite-dish text-gray-400 group-hover:text-white transition-colors"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="font-serif font-semibold text-gray-300 group-hover:text-orange-100 transition-colors text-lg">Retro Puja Radio</p>
-                                <p class="text-[11px] text-gray-400 font-light">Vintage Tunes</p>
-                            </div>
-                        </button>
-                        <button class="w-full flex items-center text-left p-3 rounded-xl hover:bg-white/10 transition-all group radio-station border border-transparent hover:border-white/5">
-                            <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                                <i class="fas fa-headphones text-gray-400 group-hover:text-white transition-colors"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="font-serif font-semibold text-gray-300 group-hover:text-orange-100 transition-colors text-lg">Lofi Durga Puja</p>
-                                <p class="text-[11px] text-gray-400 font-light">Chill Beats</p>
-                            </div>
-                        </button>
-                    </div>
-                </div>
+    <div class="relative z-10 w-full h-screen flex flex-col justify-between p-4 md:p-8 pb-8 md:pb-10">
+        
+        <!-- Top Row -->
+        <div class="flex justify-between items-start">
+            <!-- Identity -->
+            <div class="glass-micro px-4 py-2 rounded-full text-[10px] tracking-widest font-medium text-white/90 uppercase shadow-sm">
+                Mahalaya '26
             </div>
-        </aside>
-
-        <!-- Main Content Area -->
-        <main class="flex-1 flex flex-col relative h-full">
             
-            <!-- Central Main Area (Timer etc) -->
-            <div class="flex-1 flex flex-col items-center justify-center relative">
-                <!-- Countdown Timer -->
-                <div id="countdown-container" class="glass-panel p-10 md:p-14 rounded-[2rem] transition-all duration-1000 z-10 w-11/12 max-w-3xl text-center shadow-2xl border border-white/10 backdrop-blur-md flex flex-col items-center">
-                    <h2 class="text-xs md:text-sm font-semibold mb-2 text-durga-gold tracking-[0.3em] uppercase">The Wait is Over in</h2>
-                    <h3 class="text-3xl md:text-5xl font-serif font-bold mb-10 text-white tracking-widest drop-shadow-md">Mahalaya 2026</h3>
-                    
-                    <div class="flex gap-4 md:gap-10 justify-center w-full">
-                        <div class="flex flex-col items-center">
-                            <div class="text-5xl md:text-7xl font-serif font-semibold text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] days-val">00</div>
-                            <div class="text-[10px] md:text-xs text-gray-400 mt-3 tracking-[0.2em] uppercase font-medium">Days</div>
-                        </div>
-                        <div class="text-4xl md:text-6xl font-serif font-light text-white/30 pt-1">:</div>
-                        <div class="flex flex-col items-center">
-                            <div class="text-5xl md:text-7xl font-serif font-semibold text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] hours-val">00</div>
-                            <div class="text-[10px] md:text-xs text-gray-400 mt-3 tracking-[0.2em] uppercase font-medium">Hrs</div>
-                        </div>
-                        <div class="text-4xl md:text-6xl font-serif font-light text-white/30 pt-1">:</div>
-                        <div class="flex flex-col items-center">
-                            <div class="text-5xl md:text-7xl font-serif font-semibold text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] minutes-val">00</div>
-                            <div class="text-[10px] md:text-xs text-gray-400 mt-3 tracking-[0.2em] uppercase font-medium">Min</div>
-                        </div>
-                        <div class="text-4xl md:text-6xl font-serif font-light text-durga-gold/50 pt-1">:</div>
-                        <div class="flex flex-col items-center">
-                            <div class="text-5xl md:text-7xl font-serif font-semibold text-durga-gold drop-shadow-[0_0_15px_rgba(242,169,0,0.5)] seconds-val">00</div>
-                            <div class="text-[10px] md:text-xs text-durga-gold/80 mt-3 tracking-[0.2em] uppercase font-medium">Sec</div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Countdown Capsule -->
+            <div id="countdown-capsule" class="glass-micro px-4 py-2 rounded-full text-xs tracking-widest text-white/90 flex items-center gap-3">
+                <span class="font-serif text-lg leading-none" id="cd-val">00</span>
+                <span class="text-[9px] uppercase tracking-[0.2em] opacity-70 leading-tight" id="cd-label">Days<br>Until</span>
+            </div>
+        </div>
 
-                <!-- Live Mahalaya Broadcast Message (Hidden initially) -->
-                <div id="live-broadcast" class="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center glass-panel p-10 md:p-16 rounded-[2rem] z-10 w-11/12 max-w-2xl text-center backdrop-blur-md border border-white/10">
-                    <h2 class="text-4xl md:text-6xl font-serif font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-durga-gold to-orange-400 drop-shadow-lg">Shubho Mahalaya</h2>
-                    <p class="text-sm md:text-base text-gray-300 tracking-[0.2em] uppercase mb-8">Live Broadcast is on</p>
-                    <!-- Equalizer for center -->
-                    <div class="flex gap-1.5 h-16 items-end justify-center">
-                        <div class="w-3 bg-durga-gold rounded-t eq-bar eq-1 shadow-[0_0_10px_rgba(242,169,0,0.8)]"></div>
-                        <div class="w-3 bg-orange-400 rounded-t eq-bar eq-2 shadow-[0_0_10px_rgba(251,146,60,0.8)]"></div>
-                        <div class="w-3 bg-durga-red rounded-t eq-bar eq-3 shadow-[0_0_10px_rgba(217,37,37,0.8)]"></div>
-                        <div class="w-3 bg-orange-300 rounded-t eq-bar eq-4 shadow-[0_0_10px_rgba(253,186,116,0.8)]"></div>
-                        <div class="w-3 bg-durga-gold rounded-t eq-bar eq-5 shadow-[0_0_10px_rgba(242,169,0,0.8)]"></div>
-                    </div>
+        <!-- Bottom Area -->
+        <div class="flex flex-col lg:flex-row justify-between items-end gap-6 md:gap-8 w-full max-w-[1600px] mx-auto relative">
+            
+            <!-- Festival Panel (Bottom Left) -->
+            <div class="glass-primary p-6 md:p-8 rounded-[24px] md:rounded-[32px] w-full lg:w-[400px] transform transition-all duration-700 ease-out" id="festival-panel">
+                <h2 id="fp-title" class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white/95 mb-1 md:mb-2 tracking-wide drop-shadow-sm transition-opacity duration-500">MAHALAYA</h2>
+                <p id="fp-subtitle" class="text-base md:text-lg font-serif text-white/80 italic mb-6 md:mb-8 transition-opacity duration-500">Dawn chants & anticipation</p>
+                <div class="text-[9px] md:text-[10px] tracking-[0.2em] font-sans text-white/60 uppercase flex items-center gap-2 md:gap-3 opacity-80">
+                    <span>Bengal</span> <span class="w-1 h-1 rounded-full bg-white/40"></span> <span>Durga Puja</span> <span class="w-1 h-1 rounded-full bg-white/40"></span> <span>2026</span>
                 </div>
             </div>
 
-            <!-- Player Bottom Bar -->
-            <div class="bg-black/40 backdrop-blur-xl border-t border-white/10 p-4 md:p-6 w-full relative z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
-                <div class="max-w-screen-xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <!-- Timeline (Bottom Center) -->
+            <div class="glass-secondary rounded-full p-1.5 flex overflow-x-auto no-scrollbar w-full lg:w-auto shrink-0 snap-x snap-mandatory mask-edges md:mx-auto">
+                <div id="timeline-container" class="flex items-center gap-1 min-w-max px-2"></div>
+            </div>
+
+            <!-- Radio Controller (Bottom Right) -->
+            <div class="glass-primary p-4 md:p-5 rounded-[20px] md:rounded-[24px] w-full lg:w-80 flex flex-col gap-4 shrink-0 group">
+                <div class="flex justify-between items-center px-1">
+                    <div class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-red-500/80 shadow-[0_0_8px_rgba(239,68,68,0.6)]" id="on-air-indicator"></div>
+                        <span class="text-[9px] tracking-[0.2em] uppercase font-medium text-white/70" id="radio-mode">Puja Radio</span>
+                    </div>
+                    <div class="flex items-end gap-[3px] h-3 opacity-0 transition-opacity duration-500" id="audio-eq">
+                        <div class="w-[2px] bg-white/80 rounded-t h-[30%] eq-bar eq-1"></div>
+                        <div class="w-[2px] bg-white/80 rounded-t h-[70%] eq-bar eq-2"></div>
+                        <div class="w-[2px] bg-white/80 rounded-t h-[50%] eq-bar eq-3"></div>
+                        <div class="w-[2px] bg-white/80 rounded-t h-[90%] eq-bar eq-4"></div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col px-1">
+                    <span id="player-track" class="font-serif text-sm md:text-base text-white/95 truncate tracking-wide">Awaiting Dawn...</span>
+                </div>
+
+                <div class="flex items-center gap-4 px-1">
+                    <button id="btn-play-pause" class="w-10 h-10 rounded-full glass-micro flex items-center justify-center hover:bg-white/10 transition-colors shrink-0 outline-none">
+                        <i class="fas fa-play text-xs text-white translate-x-[1px]" id="play-icon"></i>
+                    </button>
                     
-                    <!-- Track Info -->
-                    <div class="flex items-center gap-4 w-full md:w-1/3">
-                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 flex items-center justify-center shrink-0 shadow-inner group">
-                            <i class="fas fa-music text-gray-400 text-xl group-hover:text-durga-gold transition-colors"></i>
-                        </div>
-                        <div class="overflow-hidden flex-1">
-                            <h3 id="current-track-name" class="font-serif font-semibold text-white truncate text-base md:text-lg tracking-wide">Awaiting Dawn...</h3>
-                            <p id="current-playlist-name" class="text-xs text-durga-gold/80 truncate font-light tracking-wider mt-0.5 uppercase">Mahalaya Special</p>
-                        </div>
-                        
-                        <!-- Small Equalizer (visible only when playing) -->
-                        <div id="mini-eq" class="hidden gap-[2px] h-5 items-end ml-2 shrink-0">
-                            <div class="w-1.5 bg-durga-gold rounded-t eq-bar eq-1"></div>
-                            <div class="w-1.5 bg-orange-400 rounded-t eq-bar eq-2"></div>
-                            <div class="w-1.5 bg-durga-gold rounded-t eq-bar eq-3"></div>
+                    <div class="flex-1 flex flex-col justify-center cursor-pointer py-2 group/prog" id="progress-container">
+                        <div class="h-[3px] w-full bg-white/10 rounded-full overflow-hidden relative">
+                            <div id="progress-bar" class="absolute top-0 left-0 h-full bg-white/80 rounded-full w-0 shadow-[0_0_5px_rgba(255,255,255,0.5)]"></div>
                         </div>
                     </div>
-
-                    <!-- Controls -->
-                    <div class="flex flex-col items-center w-full md:w-1/3">
-                        <div class="flex items-center gap-8 mb-3">
-                            <button id="btn-prev" class="text-gray-400 hover:text-white transition-colors"><i class="fas fa-step-backward text-xl"></i></button>
-                            <button id="btn-play-pause" class="w-14 h-14 flex items-center justify-center rounded-full bg-white text-black hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-                                <i class="fas fa-play ml-1 text-xl" id="play-icon"></i>
-                            </button>
-                            <button id="btn-next" class="text-gray-400 hover:text-white transition-colors"><i class="fas fa-step-forward text-xl"></i></button>
+                    
+                    <div class="flex items-center gap-2 group/vol relative cursor-pointer hidden sm:flex">
+                        <i class="fas fa-volume-up text-[10px] text-white/50 hover:text-white/90 transition-colors"></i>
+                        <div class="w-0 overflow-hidden group-hover/vol:w-16 transition-all duration-300 ease-out flex items-center">
+                            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.8" class="w-full h-[3px] bg-white/10 rounded-full appearance-none">
                         </div>
-                        <!-- Progress Bar -->
-                        <div class="w-full flex items-center gap-4 text-[11px] text-gray-400 font-medium">
-                            <span id="time-current" class="w-10 text-right tracking-wider">0:00</span>
-                            <div class="flex-1 h-1.5 bg-white/10 rounded-full cursor-pointer relative overflow-hidden group" id="progress-container">
-                                <div id="progress-bar" class="absolute top-0 left-0 h-full bg-gradient-to-r from-durga-gold to-orange-400 rounded-full w-0 relative">
-                                    <div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                </div>
-                            </div>
-                            <span id="time-total" class="w-10 tracking-wider">--:--</span>
-                        </div>
-                    </div>
-
-                    <!-- Volume -->
-                    <div class="hidden md:flex items-center justify-end gap-4 w-1/3 group">
-                        <i class="fas fa-volume-up text-gray-400 group-hover:text-white transition-colors text-sm"></i>
-                        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.8" class="w-28 h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-durga-gold">
                     </div>
                 </div>
             </div>
-        </main>
+            
+        </div>
     </div>
     
-    <!-- Audio Element -->
     <audio id="audio-player"></audio>
-
     <script src="script.js"></script>
 </body>
 </html>

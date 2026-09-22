@@ -1,279 +1,300 @@
-// --- Tracks Data (Mock data) ---
-const playlists = {
-    "mahalaya": [
-        { title: "Birendra Krishna Bhadra - Ya Chandi", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-        { title: "Jago Tumi Jago", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
-    ],
-    "tritiya": [
-        { title: "Agomoni Gaan - Flute", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
-    ],
-    "panchomi": [
-        { title: "Festive Anticipation", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
-    ],
-    "shasti": [
-        { title: "Bodhon Dhak", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" }
-    ],
-    "shaptami": [
-        { title: "Anjali Mantra", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" }
-    ],
-    "ashtami": [
-        { title: "Sandhi Puja Aarti", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-        { title: "Intense Dhak Beats", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" }
-    ],
-    "nabami": [
-        { title: "Dhunuchi Naach", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" }
-    ],
-    "dashami": [
-        { title: "Bisarjan Melancholy", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" }
-    ],
-    "ekadashi": [
-        { title: "Asche Bochhor Abar Hobe - Quiet Flute", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" }
-    ],
-    "radio": [
-        { title: "Akashvani Kolkata (Live Stream)", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3" },
-        { title: "Retro Puja Radio", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3" },
-        { title: "Lofi Durga Puja Beats", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3" }
-    ]
-};
+// --- Data Models ---
 
-let currentPlaylist = playlists["mahalaya"];
+const festivalDays = [
+    {
+        id: "mahalaya",
+        title: "MAHALAYA",
+        subtitle: "Dawn chants & anticipation",
+        bgUrl: "assets/bg-mahalaya.png",
+        sceneRgb: "230, 161, 91", // Warm dawn
+        tracks: [
+            { title: "Birendra Krishna Bhadra - Ya Chandi", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { title: "Jago Tumi Jago", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
+        ]
+    },
+    {
+        id: "tritiya",
+        title: "TRITIYA",
+        subtitle: "Preparation & afternoon warmth",
+        bgUrl: "assets/bg-tritiya.png",
+        sceneRgb: "230, 161, 91", 
+        tracks: [
+            { title: "Agomoni Gaan - Flute", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
+        ]
+    },
+    {
+        id: "panchomi",
+        title: "PANCHAMI",
+        subtitle: "Bodhon Awakening",
+        bgUrl: "assets/bg-panchomi.png",
+        sceneRgb: "230, 161, 91", // Warm amber
+        tracks: [
+            { title: "Festive Anticipation", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
+        ]
+    },
+    {
+        id: "shasti",
+        title: "SHASHTHI",
+        subtitle: "Adhibas & Welcoming",
+        bgUrl: "assets/bg-shasti.png",
+        sceneRgb: "150, 100, 50", // Twilight gold
+        tracks: [
+            { title: "Bodhon Dhak", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" }
+        ]
+    },
+    {
+        id: "shaptami",
+        title: "SAPTAMI",
+        subtitle: "Morning Anjali",
+        bgUrl: "assets/bg-shaptami.png",
+        sceneRgb: "240, 230, 200", // Soft cream/gold
+        tracks: [
+            { title: "Anjali Mantra", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" }
+        ]
+    },
+    {
+        id: "ashtami",
+        title: "ASHTAMI",
+        subtitle: "Sandhi Puja & Diya Light",
+        bgUrl: "assets/bg-ashtami.png",
+        sceneRgb: "242, 169, 0", // Diya amber
+        tracks: [
+            { title: "Sandhi Puja Aarti", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+            { title: "Intense Dhak Beats", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" }
+        ]
+    },
+    {
+        id: "nabami",
+        title: "NAVAMI",
+        subtitle: "Evening Celebrations",
+        bgUrl: "assets/bg-nabami.png",
+        sceneRgb: "217, 37, 37", // Festival red
+        tracks: [
+            { title: "Dhunuchi Naach", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" }
+        ]
+    },
+    {
+        id: "dashami",
+        title: "DASHAMI",
+        subtitle: "Bisarjan & Sindoor Khela",
+        bgUrl: "assets/bg-dashami.png",
+        sceneRgb: "255, 69, 0", // Vermilion red
+        tracks: [
+            { title: "Bisarjan Melancholy", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" }
+        ]
+    },
+    {
+        id: "ekadashi",
+        title: "EKADASHI",
+        subtitle: "Asche bochhor abar hobe",
+        bgUrl: "assets/bg-ekadashi.png",
+        sceneRgb: "100, 120, 140", // Cool muted blue-grey
+        tracks: [
+            { title: "Quiet Morning Flute", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" }
+        ]
+    }
+];
+
+// --- State ---
+let currentDayIndex = 0;
 let currentTrackIndex = 0;
 let isPlaying = false;
+let activeBgLayer = 1; // 1 or 2
 
-// --- Background Images Mapping ---
-const backgroundImages = {
-    "mahalaya": "assets/bg-mahalaya.png",
-    "tritiya": "assets/bg-tritiya.png",
-    "panchomi": "assets/bg-panchomi.png",
-    "shasti": "assets/bg-shasti.png",
-    "shaptami": "assets/bg-shaptami.png",
-    "ashtami": "assets/bg-ashtami.png",
-    "nabami": "assets/bg-nabami.png",
-    "dashami": "assets/bg-dashami.png",
-    "ekadashi": "assets/bg-ekadashi.png",
-    "radio": "assets/bg-mahalaya.png"
-};
-
-// --- Elements ---
-const backgroundContainer = document.getElementById('background-container');
+// --- DOM Elements ---
+const bg1 = document.getElementById('bg-1');
+const bg2 = document.getElementById('bg-2');
+const fpTitle = document.getElementById('fp-title');
+const fpSubtitle = document.getElementById('fp-subtitle');
+const timelineContainer = document.getElementById('timeline-container');
+const playerTrack = document.getElementById('player-track');
 const audio = document.getElementById('audio-player');
 const playPauseBtn = document.getElementById('btn-play-pause');
 const playIcon = document.getElementById('play-icon');
-const prevBtn = document.getElementById('btn-prev');
-const nextBtn = document.getElementById('btn-next');
-const trackName = document.getElementById('current-track-name');
-const playlistName = document.getElementById('current-playlist-name');
+const audioEq = document.getElementById('audio-eq');
 const progressBar = document.getElementById('progress-bar');
 const progressContainer = document.getElementById('progress-container');
-const timeCurrent = document.getElementById('time-current');
-const timeTotal = document.getElementById('time-total');
 const volumeSlider = document.getElementById('volume-slider');
-const miniEq = document.getElementById('mini-eq');
-const liveEq = document.getElementById('live-broadcast'); // for large eq
-const tabRadio = document.getElementById('tab-radio');
-const tabPlaylists = document.getElementById('tab-playlists');
-const contentRadio = document.getElementById('content-radio');
-const contentPlaylists = document.getElementById('content-playlists');
-const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-const sidebar = document.getElementById('sidebar');
+const cdVal = document.getElementById('cd-val');
+const cdLabel = document.getElementById('cd-label');
+const root = document.documentElement;
 
-// --- Initialization ---
-function loadTrack(index) {
-    if (index >= currentPlaylist.length || index < 0) return;
-    const track = currentPlaylist[index];
+// --- Initialize Application ---
+function init() {
+    buildTimeline();
+    selectDay(0, false);
+    startCountdown();
+}
+
+// --- Build Timeline ---
+function buildTimeline() {
+    festivalDays.forEach((day, index) => {
+        const pill = document.createElement('div');
+        pill.className = 'timeline-pill';
+        pill.textContent = day.title;
+        pill.addEventListener('click', () => {
+            if (currentDayIndex !== index) {
+                selectDay(index, true);
+            }
+        });
+        timelineContainer.appendChild(pill);
+    });
+}
+
+// --- Select Day ---
+function selectDay(index, crossfade = true) {
+    currentDayIndex = index;
+    const day = festivalDays[index];
+
+    // Update Timeline UI
+    const pills = timelineContainer.querySelectorAll('.timeline-pill');
+    pills.forEach((pill, i) => {
+        if (i === index) {
+            pill.classList.add('active');
+            pill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+            pill.classList.remove('active');
+        }
+    });
+
+    // Update Scene Color Variable
+    root.style.setProperty('--scene-rgb', day.sceneRgb);
+
+    // Update Text with fade
+    fpTitle.style.opacity = '0';
+    fpSubtitle.style.opacity = '0';
+    setTimeout(() => {
+        fpTitle.textContent = day.title;
+        fpSubtitle.textContent = day.subtitle;
+        fpTitle.style.opacity = '1';
+        fpSubtitle.style.opacity = '1';
+    }, 300);
+
+    // Update Background via Crossfade
+    if (crossfade) {
+        if (activeBgLayer === 1) {
+            bg2.style.backgroundImage = \`url('\${day.bgUrl}')\`;
+            bg2.style.opacity = '1';
+            bg1.style.opacity = '0';
+            activeBgLayer = 2;
+        } else {
+            bg1.style.backgroundImage = \`url('\${day.bgUrl}')\`;
+            bg1.style.opacity = '1';
+            bg2.style.opacity = '0';
+            activeBgLayer = 1;
+        }
+    } else {
+        bg1.style.backgroundImage = \`url('\${day.bgUrl}')\`;
+        bg1.style.opacity = '1';
+        bg2.style.opacity = '0';
+    }
+
+    // Preload next image silently
+    if (index + 1 < festivalDays.length) {
+        const img = new Image();
+        img.src = festivalDays[index + 1].bgUrl;
+    }
+
+    // Update Audio Track
+    currentTrackIndex = 0;
+    loadTrack();
+    if (isPlaying) {
+        audio.play().catch(console.error);
+    }
+}
+
+// --- Audio Management ---
+function loadTrack() {
+    const day = festivalDays[currentDayIndex];
+    if (!day.tracks || day.tracks.length === 0) return;
+    
+    const track = day.tracks[currentTrackIndex];
     audio.src = track.src;
-    trackName.textContent = track.title;
+    playerTrack.textContent = track.title;
     audio.load();
 }
 
-// Format time in seconds to M:SS
-function formatTime(seconds) {
-    if (isNaN(seconds)) return "0:00";
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    return `${m}:${s.toString().padStart(2, '0')}`;
-}
-
-// --- Player Logic ---
 function togglePlay() {
     if (audio.paused) {
-        audio.play().catch(e => console.error("Playback failed:", e));
-        playIcon.classList.remove('fa-play');
-        playIcon.classList.add('fa-pause');
-        playIcon.classList.remove('ml-1'); // adjust pause icon centering
-        miniEq.classList.remove('hidden');
-        miniEq.classList.add('playing', 'flex');
-        liveEq.classList.add('playing');
-        isPlaying = true;
+        audio.play().then(() => {
+            isPlaying = true;
+            playIcon.classList.replace('fa-play', 'fa-pause');
+            audioEq.style.opacity = '1';
+        }).catch(console.error);
     } else {
         audio.pause();
-        playIcon.classList.remove('fa-pause');
-        playIcon.classList.add('fa-play');
-        playIcon.classList.add('ml-1');
-        miniEq.classList.remove('playing');
-        liveEq.classList.remove('playing');
         isPlaying = false;
+        playIcon.classList.replace('fa-pause', 'fa-play');
+        audioEq.style.opacity = '0';
     }
 }
 
-function nextTrack() {
-    currentTrackIndex = (currentTrackIndex + 1) % currentPlaylist.length;
-    loadTrack(currentTrackIndex);
-    if (isPlaying) {
-        audio.play();
-    }
-}
-
-function prevTrack() {
-    currentTrackIndex = (currentTrackIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
-    loadTrack(currentTrackIndex);
-    if (isPlaying) {
-        audio.play();
-    }
-}
-
-// Audio Event Listeners
-audio.addEventListener('loadedmetadata', () => {
-    timeTotal.textContent = formatTime(audio.duration);
-});
+playPauseBtn.addEventListener('click', togglePlay);
 
 audio.addEventListener('timeupdate', () => {
-    timeCurrent.textContent = formatTime(audio.currentTime);
-    const progressPercent = (audio.currentTime / audio.duration) * 100;
-    progressBar.style.width = `${progressPercent}%`;
+    if (audio.duration) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = \`\${percent}%\`;
+    }
 });
 
-audio.addEventListener('ended', nextTrack);
-
-// Click on progress bar to seek
 progressContainer.addEventListener('click', (e) => {
     const rect = progressContainer.getBoundingClientRect();
     const pos = (e.clientX - rect.left) / rect.width;
     audio.currentTime = pos * audio.duration;
 });
 
-// Controls Event Listeners
-playPauseBtn.addEventListener('click', togglePlay);
-nextBtn.addEventListener('click', nextTrack);
-prevBtn.addEventListener('click', prevTrack);
+audio.addEventListener('ended', () => {
+    const day = festivalDays[currentDayIndex];
+    if (currentTrackIndex + 1 < day.tracks.length) {
+        currentTrackIndex++;
+        loadTrack();
+        audio.play();
+    } else {
+        // Stop playing or loop
+        currentTrackIndex = 0;
+        loadTrack();
+        isPlaying = false;
+        playIcon.classList.replace('fa-pause', 'fa-play');
+        audioEq.style.opacity = '0';
+    }
+});
+
 volumeSlider.addEventListener('input', (e) => {
     audio.volume = e.target.value;
 });
 
-// --- Tab Switching ---
-function switchTab(activeTab, inactiveTab, showContent, hideContent) {
-    activeTab.classList.add('text-orange-200', 'border-b-2', 'border-orange-200');
-    activeTab.classList.remove('text-gray-400', 'hover:text-white');
-    
-    inactiveTab.classList.remove('text-orange-200', 'border-b-2', 'border-orange-200');
-    inactiveTab.classList.add('text-gray-400', 'hover:text-white');
+// --- Minimal Countdown ---
+function startCountdown() {
+    // Target Oct 6, 2026, 04:00 AM IST
+    const targetDate = new Date('October 6, 2026 04:00:00 GMT+0530').getTime();
 
-    showContent.classList.remove('hidden');
-    hideContent.classList.add('hidden');
+    const updateCd = () => {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance <= 0) {
+            cdVal.textContent = "NOW";
+            cdLabel.innerHTML = "MAHALAYA<br>BEGINS";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        
+        if (days > 0) {
+            cdVal.textContent = days.toString().padStart(2, '0');
+            cdLabel.innerHTML = "Days<br>Until";
+        } else {
+            cdVal.textContent = hours.toString().padStart(2, '0');
+            cdLabel.innerHTML = "Hrs<br>Until";
+        }
+    };
+
+    updateCd();
+    setInterval(updateCd, 1000 * 60); // Update every minute to save battery
 }
 
-tabRadio.addEventListener('click', () => switchTab(tabRadio, tabPlaylists, contentRadio, contentPlaylists));
-tabPlaylists.addEventListener('click', () => switchTab(tabPlaylists, tabRadio, contentPlaylists, contentRadio));
-
-
-// --- Select Playlist / Station ---
-function setActiveItem(clickedItem) {
-    document.querySelectorAll('.playlist-item, .radio-station').forEach(el => {
-        el.classList.remove('playlist-active');
-    });
-    clickedItem.classList.add('playlist-active');
-}
-
-document.querySelectorAll('.playlist-item').forEach(item => {
-    item.addEventListener('click', () => {
-        setActiveItem(item);
-        const playlistKey = item.getAttribute('data-playlist');
-        currentPlaylist = playlists[playlistKey];
-        currentTrackIndex = 0;
-        
-        // Use the text from the p containing the name, ignoring the icon
-        const nameEl = item.querySelector('.font-semibold');
-        playlistName.textContent = nameEl ? nameEl.textContent : "Unknown Playlist";
-        
-        // Update background
-        const bgImg = backgroundImages[playlistKey] || "assets/bg-mahalaya.png";
-        backgroundContainer.style.backgroundImage = `url('${bgImg}')`;
-
-        loadTrack(currentTrackIndex);
-        if (isPlaying) {
-            audio.play().catch(e => console.error(e));
-        } else {
-            togglePlay(); // auto-play when selecting a new playlist
-        }
-    });
-});
-
-document.querySelectorAll('.radio-station').forEach((item, idx) => {
-    item.addEventListener('click', () => {
-        setActiveItem(item);
-        currentPlaylist = playlists["radio"];
-        currentTrackIndex = idx;
-        
-        const nameEl = item.querySelector('.font-semibold');
-        playlistName.textContent = nameEl ? nameEl.textContent : "Live Radio";
-        
-        // Update background for radio
-        backgroundContainer.style.backgroundImage = `url('assets/bg-mahalaya.png')`;
-
-        loadTrack(currentTrackIndex);
-        if (!isPlaying) {
-            togglePlay();
-        } else {
-            audio.play().catch(e => console.error(e));
-        }
-    });
-});
-
-// --- Mobile Sidebar Toggle ---
-mobileMenuBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('-translate-x-full');
-});
-
-// --- Countdown Timer Logic ---
-// Set target to next Mahalaya (Oct 6, 2026, 04:00 AM IST)
-// For demonstration, let's create a date dynamically if it's past, but hardcoding for now.
-const targetDate = new Date('October 6, 2026 04:00:00 GMT+0530').getTime();
-
-const countdownContainer = document.getElementById('countdown-container');
-const liveBroadcastContainer = document.getElementById('live-broadcast');
-
-const timerInterval = setInterval(() => {
-    const now = new Date().getTime();
-    const distance = targetDate - now;
-
-    if (distance <= 0) {
-        clearInterval(timerInterval);
-        // Transition to Live Broadcast
-        countdownContainer.classList.add('opacity-0');
-        setTimeout(() => {
-            countdownContainer.classList.add('hidden');
-            liveBroadcastContainer.classList.remove('hidden');
-            // Auto play Mahalaya (simulate)
-            currentPlaylist = playlists["mahalaya"];
-            currentTrackIndex = 0;
-            playlistName.textContent = "Mahalaya";
-            loadTrack(0);
-            togglePlay();
-        }, 1000);
-        return;
-    }
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    document.querySelectorAll('.days-val').forEach(el => el.textContent = days.toString().padStart(2, '0'));
-    document.querySelectorAll('.hours-val').forEach(el => el.textContent = hours.toString().padStart(2, '0'));
-    document.querySelectorAll('.minutes-val').forEach(el => el.textContent = minutes.toString().padStart(2, '0'));
-    document.querySelectorAll('.seconds-val').forEach(el => el.textContent = seconds.toString().padStart(2, '0'));
-}, 1000);
-
-// Init
-loadTrack(0);
+// Start
+init();
 audio.volume = volumeSlider.value;
