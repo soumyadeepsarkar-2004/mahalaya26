@@ -1,597 +1,474 @@
-// --- Data Models ---
-
+// Mahalaya26 Data
 const festivalDays = [
-    {
-        id: "mahalaya",
-        label: "Mahalaya",
-        title: "Mahalaya",
-        subtitle: "The Call",
-        desc: "Dawn breaks. The eternal chants fill the mist-covered air. The anticipation begins.",
-        bgUrl: "assets/bg-mahalaya.webp",
-        sceneRgb: "230, 161, 91", 
-        tracks: [
-            { title: "Dawn Ambience 1", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-            { title: "Dawn Ambience 2", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
-        ]
-    },
-    {
-        id: "tritiya",
-        label: "Tritiya",
-        title: "Tritiya",
-        subtitle: "Preparations",
-        desc: "The city hums with quiet energy. Bamboo structures rise, and the scent of shiuli floats in the breeze.",
-        bgUrl: "assets/bg-tritiya.webp",
-        sceneRgb: "230, 161, 91", 
-        tracks: [
-            { title: "Afternoon Warmth", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
-        ]
-    },
-    {
-        id: "panchami",
-        label: "Panchami",
-        title: "Panchami",
-        subtitle: "The Awakening",
-        desc: "The air feels different now. She is on her way. Golden afternoon light washes over the balcony.",
-        bgUrl: "assets/bg-panchomi.webp", // keeping old file name for now if not renamed
-        sceneRgb: "230, 161, 91", 
-        tracks: [
-            { title: "Sunset Glow", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
-        ]
-    },
-    {
-        id: "shashthi",
-        label: "Shashthi",
-        title: "Shashthi",
-        subtitle: "Adhibas",
-        desc: "The Goddess is welcomed under the bel tree. Twilight falls, and the first dhak beats echo across Bengal.",
-        bgUrl: "assets/bg-shasti.webp",
-        sceneRgb: "150, 100, 50", 
-        tracks: [
-            { title: "Twilight Rhythms", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" }
-        ]
-    },
-    {
-        id: "saptami",
-        label: "Saptami",
-        title: "Saptami",
-        subtitle: "Pushpanjali",
-        desc: "A bright morning. Offerings of marigold and bel leaves. A shared devotion connects the pandal to the sky.",
-        bgUrl: "assets/bg-shaptami.webp",
-        sceneRgb: "240, 230, 200", 
-        tracks: [
-            { title: "Morning Devotion", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" }
-        ]
-    },
-    {
-        id: "ashtami",
-        label: "Ashtami",
-        title: "Ashtami",
-        subtitle: "Sandhi",
-        desc: "The most sacred hour. 108 lotuses, 108 diyas. The night is steeped in amber light and intense rhythm.",
-        bgUrl: "assets/bg-ashtami.webp",
-        sceneRgb: "242, 169, 0", 
-        tracks: [
-            { title: "Sacred Hour", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-            { title: "Deep Night", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" }
-        ]
-    },
-    {
-        id: "navami",
-        label: "Navami",
-        title: "Navami",
-        subtitle: "Celebration",
-        desc: "The peak of joy. Dhunuchi naach lights up the night. The scent of coconut husk smoke fills the air.",
-        bgUrl: "assets/bg-nabami.webp",
-        sceneRgb: "217, 37, 37", 
-        tracks: [
-            { title: "Joyous Celebration", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" }
-        ]
-    },
-    {
-        id: "dashami",
-        label: "Dashami",
-        title: "Dashami",
-        subtitle: "Sindoor Khela",
-        desc: "A bittersweet farewell. Faces painted in red. The immersion draws near, leaving a haze of vermilion.",
-        bgUrl: "assets/bg-dashami.webp",
-        sceneRgb: "255, 69, 0", 
-        tracks: [
-            { title: "Bittersweet Farewell", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" }
-        ]
-    },
-    {
-        id: "ekadashi",
-        label: "Ekadashi",
-        title: "Ekadashi",
-        subtitle: "The Silence",
-        desc: "The pandals are empty. A cool, quiet morning remains, carrying a promise: 'Asche bochor abar hobe'.",
-        bgUrl: "assets/bg-ekadashi.webp",
-        sceneRgb: "100, 120, 140", 
-        tracks: [
-            { title: "Quiet Morning", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" }
-        ]
-    }
+    { id: 'mahalaya', date: 'Oct 10', title: 'Mahalaya', subtitle: 'The Awakening', desc: 'The scent of shiuli fills the air as Birendra Krishna Bhadra\'s voice echoes through the morning mist, marking the beginning of Devi Paksha.', image: 'assets/bg-mahalaya', rgb: '230, 161, 91' },
+    { id: 'tritiya', date: 'Oct 13', title: 'Tritiya', subtitle: 'The Anticipation', desc: 'The city starts transforming. Bamboo scaffolds become grand pandals, and the festive spirit begins to take physical form.', image: 'assets/bg-tritiya', rgb: '166, 124, 82' },
+    { id: 'panchami', date: 'Oct 15', title: 'Panchami', subtitle: 'The Arrival', desc: 'The wait is over. The idols are unveiled, and the city streets begin to swell with early pandal hoppers.', image: 'assets/bg-panchomi', rgb: '197, 107, 45' },
+    { id: 'shashthi', date: 'Oct 16', title: 'Shashthi', subtitle: 'The Welcome', desc: 'Bodhon. The Goddess is welcomed under the bel tree. The dhak beats resound, officially starting the grand festival.', image: 'assets/bg-shasti', rgb: '228, 142, 88' },
+    { id: 'saptami', date: 'Oct 17', title: 'Saptami', subtitle: 'The Invocation', desc: 'Nabapatrika snan at dawn. The city is now fully immersed in joy, lights, and the endless rhythm of celebrations.', image: 'assets/bg-shaptami', rgb: '224, 117, 43' },
+    { id: 'ashtami', date: 'Oct 18', title: 'Ashtami', subtitle: 'The Devotion', desc: 'Pushpanjali in the morning, Sandhi Puja at the juncture of Ashtami and Navami. The most auspicious day of the festival.', image: 'assets/bg-ashtami', rgb: '218, 59, 33' },
+    { id: 'nabami', date: 'Oct 19', title: 'Nabami', subtitle: 'The Celebration', desc: 'The final night of unbridled joy. The dhunuchi naach reaches its peak, but a hint of melancholy lingers in the air.', image: 'assets/bg-nabami', rgb: '186, 73, 51' },
+    { id: 'dashami', date: 'Oct 20', title: 'Dashami', subtitle: 'The Farewell', desc: 'Sindoor Khela and immersion. With tearful eyes, we bid adieu to the Goddess, whispering "Asche bochor abar hobe".', image: 'assets/bg-dashami', rgb: '158, 62, 46' },
+    { id: 'ekadashi', date: 'Oct 21', title: 'Ekadashi', subtitle: 'The Aftermath', desc: 'Empty pandals, scattered flowers, and quiet streets. The wait for next year begins.', image: 'assets/bg-ekadashi', rgb: '109, 114, 120' }
 ];
 
-// --- State ---
-let currentDayIndex = 0;
+// Audio Tracks
+const audioTracks = [
+    { title: "Mahalaya - Birendra Krishna Bhadra", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+    { title: "Dhak Beats Ambience", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+    { title: "Kolkata Pandal Sounds", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+    { title: "Sandhi Puja Bells", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
+];
+
+// State
+let currentIndex = 0;
 let currentTrackIndex = 0;
 let isPlaying = false;
-let activeBgLayer = 1;
 let transitionId = 0;
+let isMobile = window.innerWidth < 768;
+let imageVariant = '-1280.webp';
 
-// Render Loop State
-let isPageVisible = true;
-let prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Detect Network / Device capability
+const navConn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+const isSlowNetwork = navConn && (navConn.saveData || navConn.effectiveType === '2g' || navConn.effectiveType === '3g');
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// --- DOM Elements ---
+// Determine image variant
+function updateImageVariant() {
+    let width = window.innerWidth;
+    if (width <= 480) imageVariant = '-480.webp';
+    else if (width <= 768) imageVariant = '-768.webp';
+    else if (width <= 1280) imageVariant = '-1280.webp';
+    else imageVariant = '.webp';
+    
+    if (isSlowNetwork && width > 768) imageVariant = '-1280.webp'; // limit max on slow net
+}
+updateImageVariant();
+
+// DOM Elements
 const bg1 = document.getElementById('bg-1');
 const bg2 = document.getElementById('bg-2');
-const parallaxWrapper = document.getElementById('parallax-wrapper');
-const uiLayer = document.getElementById('ui-layer');
-
-const chapterIndicator = document.getElementById('chapter-indicator');
-const fpTitle = document.getElementById('fp-title');
-const fpTitleNext = document.getElementById('fp-title-next');
-const fpSubtitle = document.getElementById('fp-subtitle');
-const fpSubtitleNext = document.getElementById('fp-subtitle-next');
-const fpDesc = document.getElementById('fp-desc');
-const fpDescNext = document.getElementById('fp-desc-next');
-
-const timelineContainer = document.getElementById('timeline-container');
-const timelinePrev = document.getElementById('timeline-prev');
-const timelineNext = document.getElementById('timeline-next');
-
-const playerTrack = document.getElementById('player-track');
-const radioThumb = document.getElementById('radio-thumb');
-const audio = document.getElementById('audio-player');
-const playPauseBtnSmall = document.getElementById('btn-play-pause-small');
-const playIconSmall = document.getElementById('play-icon-small');
-
-const audioEq = document.getElementById('audio-eq');
-const onAirIndicator = document.getElementById('on-air-indicator');
-const volumeSlider = document.getElementById('volume-slider');
-const cdVal = document.getElementById('cd-val');
-const cdLabel = document.getElementById('cd-label');
-const currentTimeEl = document.getElementById('current-time');
 const root = document.documentElement;
+const timelineDesktop = document.getElementById('timeline-desktop');
+const timelineMobile = document.getElementById('timeline-mobile');
 
-// Custom Cursor
-const cursorDot = document.getElementById('cursor-dot');
-const cursorOutline = document.getElementById('cursor-outline');
-const particlesCanvas = document.getElementById('particles-canvas');
-let particles = [];
+// PWA Logic
+let deferredPrompt;
+const pwaPrompt = document.getElementById('pwa-prompt');
+const btnInstallPwa = document.getElementById('btn-install-pwa');
+const btnDismissPwa = document.getElementById('btn-dismiss-pwa');
 
-// --- Initialize Application ---
-function init() {
-    buildTimeline();
-    selectDay(0, false);
-    startCountdown();
-    startClock();
-    if (!prefersReducedMotion) {
-        initMagnetic();
-        initParticlesData();
-    }
-    
-    // Unified Render Loop
-    requestAnimationFrame(renderLoop);
-
-    document.addEventListener("visibilitychange", () => {
-        isPageVisible = document.visibilityState === 'visible';
-    });
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(err => console.error(err));
 }
 
-// --- Build Timeline ---
-function buildTimeline() {
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const dismissed = localStorage.getItem('mahalaya-pwa-dismissed');
+    if (!dismissed && !window.matchMedia('(display-mode: standalone)').matches && !navigator.standalone) {
+        setTimeout(() => {
+            pwaPrompt.classList.remove('hidden');
+            setTimeout(() => {
+                pwaPrompt.classList.remove('opacity-0', 'translate-y-4');
+            }, 50);
+        }, 15000); // Show after 15s interaction
+    }
+});
+
+btnInstallPwa.addEventListener('click', async () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            deferredPrompt = null;
+        }
+        hidePwaPrompt();
+    }
+});
+
+btnDismissPwa.addEventListener('click', () => {
+    localStorage.setItem('mahalaya-pwa-dismissed', 'true');
+    hidePwaPrompt();
+});
+
+function hidePwaPrompt() {
+    pwaPrompt.classList.add('opacity-0', 'translate-y-4');
+    setTimeout(() => pwaPrompt.classList.add('hidden'), 500);
+}
+
+// Check offline
+window.addEventListener('offline', () => {
+    document.getElementById('offline-indicator').classList.remove('hidden');
+    document.getElementById('offline-indicator').classList.add('flex');
+});
+window.addEventListener('online', () => {
+    document.getElementById('offline-indicator').classList.add('hidden');
+    document.getElementById('offline-indicator').classList.remove('flex');
+});
+
+// Audio
+const audio = document.getElementById('audio-player');
+audio.src = audioTracks[0].src;
+audio.volume = 0.8;
+
+// Initialize Timelines
+function initTimelines() {
+    timelineDesktop.innerHTML = '';
+    timelineMobile.innerHTML = '';
+    
     festivalDays.forEach((day, index) => {
+        // Desktop Card
         const card = document.createElement('div');
-        card.className = 'timeline-card';
-        card.innerHTML = \`
-            <div class="timeline-thumb" style="background-image: url('\${day.bgUrl}')"></div>
-            <div class="timeline-title">\${day.label}</div>
-            <div class="timeline-subtitle">\${day.subtitle}</div>
-        \`;
-        card.addEventListener('click', () => {
-            if (currentDayIndex !== index) {
-                selectDay(index, true);
-            }
-        });
-        timelineContainer.appendChild(card);
-    });
+        card.className = `timeline-card ${index === currentIndex ? 'active' : ''}`;
+        card.innerHTML = `
+            <div class="timeline-thumb" style="background-image: url('${day.image}-480.webp')"></div>
+            <div class="timeline-title">${day.date}</div>
+            <div class="timeline-subtitle">${day.title}</div>
+        `;
+        card.onclick = () => selectDay(index);
+        timelineDesktop.appendChild(card);
 
-    timelinePrev?.addEventListener('click', () => {
-        timelineContainer.scrollBy({ left: -120, behavior: 'smooth' });
-    });
-    timelineNext?.addEventListener('click', () => {
-        timelineContainer.scrollBy({ left: 120, behavior: 'smooth' });
+        // Mobile Pill
+        const pill = document.createElement('div');
+        pill.className = `timeline-pill ${index === currentIndex ? 'active' : ''}`;
+        pill.innerHTML = `[ ${day.title.toUpperCase()} ]`;
+        pill.onclick = () => selectDay(index);
+        timelineMobile.appendChild(pill);
     });
 }
+initTimelines();
 
-// --- Text Morph Animation ---
-function animateTextMorph(day, index) {
-    const id = ++transitionId;
-    const isForward = index > currentDayIndex || (currentDayIndex === festivalDays.length-1 && index === 0);
-    
-    chapterIndicator.textContent = \`CHAPTER 0\${index + 1} / 09\`;
+// Day Selection
+function selectDay(index) {
+    if (index === currentIndex) return;
+    currentIndex = index;
+    updateUI();
+}
 
-    fpTitleNext.textContent = day.title;
-    fpTitleNext.style.transform = isForward ? 'translateY(100%)' : 'translateY(-100%)';
-    fpTitleNext.style.opacity = '0';
-    
-    fpTitle.style.transform = isForward ? 'translateY(-100%)' : 'translateY(100%)';
-    fpTitle.style.opacity = '0';
-    
-    fpSubtitleNext.textContent = day.subtitle;
-    fpSubtitleNext.style.transform = isForward ? 'translateY(100%)' : 'translateY(-100%)';
-    fpSubtitleNext.style.opacity = '0';
-    
-    fpSubtitle.style.transform = isForward ? 'translateY(-100%)' : 'translateY(100%)';
-    fpSubtitle.style.opacity = '0';
+function preloadImage(url) {
+    if (!isSlowNetwork) {
+        const img = new Image();
+        img.src = url;
+    }
+}
 
-    if (fpDesc && fpDescNext) {
-        fpDescNext.textContent = day.desc;
-        fpDescNext.style.transform = 'translateY(10px)';
-        fpDescNext.style.opacity = '0';
-        
-        fpDesc.style.transform = 'translateY(-10px)';
-        fpDesc.style.opacity = '0';
+function updateUI() {
+    const day = festivalDays[currentIndex];
+    const tid = ++transitionId;
+    
+    // Update active states
+    Array.from(timelineDesktop.children).forEach((child, idx) => {
+        child.classList.toggle('active', idx === currentIndex);
+    });
+    Array.from(timelineMobile.children).forEach((child, idx) => {
+        child.classList.toggle('active', idx === currentIndex);
+    });
+    
+    // Scroll active element into view smoothly
+    const activeDesktop = timelineDesktop.children[currentIndex];
+    const activeMobile = timelineMobile.children[currentIndex];
+    if (activeDesktop) activeDesktop.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    if (activeMobile) activeMobile.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+
+    // Scene Transition
+    root.style.setProperty('--scene-rgb', day.rgb);
+    const imageUrl = `${day.image}${imageVariant}`;
+    
+    const activeBg = bg1.style.opacity === '0' ? bg1 : bg2;
+    const inactiveBg = bg1.style.opacity === '0' ? bg2 : bg1;
+    
+    activeBg.style.backgroundImage = `url('${imageUrl}')`;
+    activeBg.style.opacity = '1';
+    inactiveBg.style.opacity = '0';
+
+    // Update Radio Thumbs
+    const thumbUrl = `url('${day.image}-480.webp')`;
+    document.getElementById('radio-thumb').style.backgroundImage = thumbUrl;
+    const thumbMobile = document.getElementById('radio-thumb-mobile');
+    if (thumbMobile) thumbMobile.style.backgroundImage = thumbUrl;
+
+    // Preload next
+    if (currentIndex < festivalDays.length - 1) {
+        preloadImage(`${festivalDays[currentIndex + 1].image}${imageVariant}`);
     }
 
-    void fpTitleNext.offsetWidth; // trigger reflow
+    // Text Transition
+    const els = ['title', 'subtitle', 'desc'].map(type => ({
+        curr: document.getElementById(`fp-${type}`),
+        next: document.getElementById(`fp-${type}-next`),
+        val: type === 'title' ? day.title : (type === 'subtitle' ? day.subtitle : day.desc)
+    }));
 
-    fpTitleNext.style.transform = 'translateY(0)';
-    fpTitleNext.style.opacity = '1';
-    fpSubtitleNext.style.transform = 'translateY(0)';
-    fpSubtitleNext.style.opacity = '1';
-    
-    if (fpDescNext) {
-        fpDescNext.style.transform = 'translateY(0)';
-        fpDescNext.style.opacity = '1';
-    }
+    els.forEach(({curr, next, val}) => {
+        next.textContent = val;
+        curr.style.transform = 'translateY(-100%)';
+        curr.style.opacity = '0';
+        next.style.transform = 'translateY(-100%)';
+        next.style.opacity = '1';
+    });
+
+    document.getElementById('chapter-indicator').textContent = `CHAPTER 0${currentIndex + 1} / 09`;
 
     setTimeout(() => {
-        if (id !== transitionId) return;
-
-        fpTitle.textContent = day.title;
-        fpTitle.style.transition = 'none';
-        fpTitle.style.transform = 'translateY(0)';
-        fpTitle.style.opacity = '1';
-        
-        fpSubtitle.textContent = day.subtitle;
-        fpSubtitle.style.transition = 'none';
-        fpSubtitle.style.transform = 'translateY(0)';
-        fpSubtitle.style.opacity = '1';
-        
-        if (fpDesc) {
-            fpDesc.textContent = day.desc;
-            fpDesc.style.transition = 'none';
-            fpDesc.style.transform = 'translateY(0)';
-            fpDesc.style.opacity = '1';
-        }
-
-        fpTitleNext.style.transition = 'none';
-        fpTitleNext.style.opacity = '0';
-        fpSubtitleNext.style.transition = 'none';
-        fpSubtitleNext.style.opacity = '0';
-        
-        if (fpDescNext) {
-            fpDescNext.style.transition = 'none';
-            fpDescNext.style.opacity = '0';
-        }
-
-        setTimeout(() => {
-            if (id !== transitionId) return;
-            fpTitle.style.transition = '';
-            fpSubtitle.style.transition = '';
-            if(fpDesc) fpDesc.style.transition = '';
-            fpTitleNext.style.transition = '';
-            fpSubtitleNext.style.transition = '';
-            if(fpDescNext) fpDescNext.style.transition = '';
-        }, 50);
-
+        if (transitionId !== tid) return;
+        els.forEach(({curr, next, val}) => {
+            curr.textContent = val;
+            curr.style.transition = 'none';
+            curr.style.transform = 'translateY(0)';
+            curr.style.opacity = '1';
+            
+            next.style.transition = 'none';
+            next.style.transform = 'translateY(0)';
+            next.style.opacity = '0';
+            
+            curr.offsetHeight; next.offsetHeight; // flush css
+            
+            curr.style.transition = 'all 0.7s ease-out';
+            next.style.transition = 'all 0.7s ease-out';
+        });
     }, 700);
 }
 
-// --- Select Day ---
-function selectDay(index, crossfade = true) {
-    const day = festivalDays[index];
+// Initial set
+updateUI();
+
+// Clock & Countdown
+function updateTime() {
+    const now = new Date();
+    const mahalayaDate = new Date('2026-10-10T04:00:00');
     
-    if (crossfade && !prefersReducedMotion) animateTextMorph(day, index);
-    else {
-        transitionId++;
-        chapterIndicator.textContent = \`CHAPTER 0\${index + 1} / 09\`;
-        fpTitle.textContent = day.title;
-        fpSubtitle.textContent = day.subtitle;
-        if(fpDesc) fpDesc.textContent = day.desc;
+    // Time
+    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    document.getElementById('current-time-desktop').textContent = timeStr;
+    document.getElementById('sheet-time').textContent = timeStr;
+
+    // Countdown
+    const diff = mahalayaDate - now;
+    const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    const cdStr = days > 0 ? `0${days}`.slice(-2) + ' DAYS' : 'IT IS HERE';
+    document.getElementById('cd-val-desktop').textContent = cdStr;
+    document.getElementById('sheet-cd-val').textContent = cdStr;
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+// Mobile Swipe Navigation
+let touchStartX = 0;
+let touchEndX = 0;
+document.getElementById('ui-layer').addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+}, {passive: true});
+
+document.getElementById('ui-layer').addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, {passive: true});
+
+function handleSwipe() {
+    const swipeDist = touchEndX - touchStartX;
+    if (Math.abs(swipeDist) > 75) {
+        if (swipeDist < 0 && currentIndex < festivalDays.length - 1) {
+            selectDay(currentIndex + 1); // Swipe Left -> Next
+        }
+        if (swipeDist > 0 && currentIndex > 0) {
+            selectDay(currentIndex - 1); // Swipe Right -> Prev
+        }
     }
+}
 
-    currentDayIndex = index;
+// Audio Controls
+function togglePlay() {
+    if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+    } else {
+        audio.play().catch(e => console.error("Audio play blocked", e));
+        isPlaying = true;
+    }
+    updateAudioUI();
+}
 
-    const cards = timelineContainer.querySelectorAll('.timeline-card');
-    cards.forEach((card, i) => {
-        if (i === index) {
-            card.classList.add('active');
-            card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        } else {
-            card.classList.remove('active');
+function updateAudioUI() {
+    const playIcons = [
+        document.getElementById('play-icon-desktop'),
+        document.getElementById('play-icon-mobile-bar'),
+        document.getElementById('play-icon-sheet'),
+        document.getElementById('play-icon-mobile')
+    ];
+    
+    playIcons.forEach(icon => {
+        if(icon) {
+            icon.className = isPlaying ? "fas fa-pause text-xs text-white" : "fas fa-play text-xs text-white";
+            if (icon.id === 'play-icon-mobile') icon.className = isPlaying ? "fas fa-pause text-[9px] text-white/90" : "fas fa-play text-[9px] text-white/90 translate-x-[1px]";
         }
     });
 
-    root.style.setProperty('--scene-rgb', day.sceneRgb);
-    radioThumb.style.backgroundImage = \`url('\${day.bgUrl}')\`;
-
-    if (crossfade && !prefersReducedMotion) {
-        if (activeBgLayer === 1) {
-            bg2.style.backgroundImage = \`url('\${day.bgUrl}')\`;
-            bg2.style.opacity = '1';
-            bg1.style.opacity = '0';
-            activeBgLayer = 2;
-        } else {
-            bg1.style.backgroundImage = \`url('\${day.bgUrl}')\`;
-            bg1.style.opacity = '1';
-            bg2.style.opacity = '0';
-            activeBgLayer = 1;
-        }
-    } else {
-        bg1.style.backgroundImage = \`url('\${day.bgUrl}')\`;
-        bg1.style.opacity = '1';
-        bg2.style.opacity = '0';
-    }
-
-    // Preload current, previous, next
-    const preloadImg = (idx) => {
-        if (idx >= 0 && idx < festivalDays.length) {
-            const img = new Image();
-            img.src = festivalDays[idx].bgUrl;
-        }
-    };
-    preloadImg(index - 1);
-    preloadImg(index);
-    preloadImg(index + 1);
-
-    currentTrackIndex = 0;
-    loadTrack();
-    if (isPlaying) {
-        audio.play().catch(console.error);
-    }
-}
-
-// --- Audio Management ---
-function loadTrack() {
-    const day = festivalDays[currentDayIndex];
-    if (!day.tracks || day.tracks.length === 0) return;
+    const eq = document.getElementById('audio-eq');
+    if(eq) eq.style.opacity = isPlaying ? '1' : '0';
     
-    const track = day.tracks[currentTrackIndex];
-    audio.src = track.src;
-    playerTrack.textContent = track.title;
-    audio.load();
+    const trackName = audioTracks[currentTrackIndex].title;
+    document.getElementById('player-track-desktop').textContent = trackName;
+    document.getElementById('player-track-mobile').textContent = trackName;
+    document.getElementById('player-track-sheet').textContent = trackName;
 }
 
-function togglePlay() {
-    if (audio.paused) {
-        audio.play().then(() => {
-            isPlaying = true;
-            playIconSmall.classList.replace('fa-play', 'fa-pause');
-            audioEq.style.opacity = '1';
-            onAirIndicator.style.opacity = '1';
-        }).catch(console.error);
-    } else {
-        audio.pause();
-        isPlaying = false;
-        playIconSmall.classList.replace('fa-pause', 'fa-play');
-        audioEq.style.opacity = '0';
-        onAirIndicator.style.opacity = '0.5';
-    }
-}
-
-playPauseBtnSmall.addEventListener('click', togglePlay);
-
-document.getElementById('btn-next').addEventListener('click', () => {
-    const day = festivalDays[currentDayIndex];
-    if (currentTrackIndex + 1 < day.tracks.length) {
-        currentTrackIndex++;
-    } else {
-        currentTrackIndex = 0;
-    }
-    loadTrack();
-    if(isPlaying) audio.play();
-});
-
-document.getElementById('btn-prev').addEventListener('click', () => {
-    const day = festivalDays[currentDayIndex];
-    if (currentTrackIndex - 1 >= 0) {
-        currentTrackIndex--;
-    } else {
-        currentTrackIndex = day.tracks.length - 1;
-    }
-    loadTrack();
-    if(isPlaying) audio.play();
+[
+    document.getElementById('btn-play-pause-small'),
+    document.getElementById('btn-play-pause-mobile-bar'),
+    document.getElementById('btn-play-pause-sheet'),
+    document.getElementById('btn-play-ambience-mobile')
+].forEach(btn => {
+    if (btn) btn.addEventListener('click', (e) => {
+        e.stopPropagation(); // prevent opening sheet if clicking play on bar
+        togglePlay();
+    });
 });
 
 audio.addEventListener('ended', () => {
-    document.getElementById('btn-next').click();
+    currentTrackIndex = (currentTrackIndex + 1) % audioTracks.length;
+    audio.src = audioTracks[currentTrackIndex].src;
+    if (isPlaying) audio.play();
+    updateAudioUI();
 });
 
-volumeSlider.addEventListener('input', (e) => {
-    audio.volume = e.target.value;
+document.getElementById('btn-next').addEventListener('click', () => {
+    currentTrackIndex = (currentTrackIndex + 1) % audioTracks.length;
+    audio.src = audioTracks[currentTrackIndex].src;
+    if (isPlaying) audio.play();
+    updateAudioUI();
+});
+document.getElementById('btn-prev').addEventListener('click', () => {
+    currentTrackIndex = (currentTrackIndex - 1 + audioTracks.length) % audioTracks.length;
+    audio.src = audioTracks[currentTrackIndex].src;
+    if (isPlaying) audio.play();
+    updateAudioUI();
+});
+document.getElementById('btn-next-mobile').addEventListener('click', () => document.getElementById('btn-next').click());
+document.getElementById('btn-prev-mobile').addEventListener('click', () => document.getElementById('btn-prev').click());
+
+const volDes = document.getElementById('volume-slider-desktop');
+const volMob = document.getElementById('volume-slider-mobile');
+volDes.addEventListener('input', (e) => { audio.volume = e.target.value; volMob.value = e.target.value; });
+volMob.addEventListener('input', (e) => { audio.volume = e.target.value; volDes.value = e.target.value; });
+
+// Mobile Sheets Logic
+const backdrop = document.getElementById('backdrop');
+const sheetRadio = document.getElementById('sheet-radio');
+const sheetStatus = document.getElementById('sheet-status');
+const sheetMenu = document.getElementById('sheet-menu');
+let activeSheet = null;
+
+function openSheet(sheet) {
+    activeSheet = sheet;
+    backdrop.classList.remove('hidden');
+    setTimeout(() => {
+        backdrop.classList.remove('opacity-0');
+        sheet.classList.remove('translate-y-full');
+    }, 10);
+}
+
+function closeSheet() {
+    if (!activeSheet) return;
+    backdrop.classList.add('opacity-0');
+    activeSheet.classList.add('translate-y-full');
+    setTimeout(() => {
+        backdrop.classList.add('hidden');
+        activeSheet = null;
+    }, 400);
+}
+
+backdrop.addEventListener('click', closeSheet);
+document.getElementById('mobile-radio-bar').addEventListener('click', () => openSheet(sheetRadio));
+document.getElementById('btn-status-mobile').addEventListener('click', () => openSheet(sheetStatus));
+document.getElementById('btn-menu-mobile').addEventListener('click', () => openSheet(sheetMenu));
+
+// Sheet swipe to close
+let sheetTouchStartY = 0;
+[sheetRadio, sheetStatus, sheetMenu].forEach(sheet => {
+    sheet.addEventListener('touchstart', e => {
+        sheetTouchStartY = e.changedTouches[0].screenY;
+    }, {passive: true});
+    sheet.addEventListener('touchend', e => {
+        const deltaY = e.changedTouches[0].screenY - sheetTouchStartY;
+        if (deltaY > 50) closeSheet();
+    }, {passive: true});
 });
 
-// --- Unified Render Loop (Parallax, Cursor, Particles) ---
-let targetX = 0, targetY = 0;
-let currentX = 0, currentY = 0;
-let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
-let ox = cx, oy = cy;
-let ctx = null;
+// Handle resize events for responsive image loading
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        const wasMobile = isMobile;
+        isMobile = window.innerWidth < 768;
+        if (wasMobile !== isMobile) {
+            updateImageVariant();
+            selectDay(currentIndex); // refresh image
+        }
+    }, 250);
+});
 
-if (particlesCanvas) {
-    ctx = particlesCanvas.getContext('2d');
-}
+// Particles System (Optimized)
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let animationFrameId;
 
-if (window.innerWidth >= 768 && !prefersReducedMotion) {
-    window.addEventListener('mousemove', (e) => {
-        // Parallax
-        const px = (e.clientX / window.innerWidth - 0.5) * 2;
-        const py = (e.clientY / window.innerHeight - 0.5) * 2;
-        targetX = px * 15;
-        targetY = py * 15;
-
-        // Cursor
-        cx = e.clientX;
-        cy = e.clientY;
-        if(cursorDot) cursorDot.style.transform = \`translate3d(\${cx}px, \${cy}px, 0) translate(-50%, -50%)\`;
-    });
-}
-
-function initParticlesData() {
-    if(!particlesCanvas || window.innerWidth < 768) return; 
-    let width = particlesCanvas.width = window.innerWidth;
-    let height = particlesCanvas.height = window.innerHeight;
-    
-    window.addEventListener('resize', () => {
-        width = particlesCanvas.width = window.innerWidth;
-        height = particlesCanvas.height = window.innerHeight;
-    });
-
-    particles = [];
-    for(let i=0; i<40; i++) {
-        particles.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            r: Math.random() * 1.5,
-            vx: (Math.random() - 0.5) * 0.15,
-            vy: (Math.random() - 0.5) * 0.15,
-            alpha: Math.random() * 0.4
-        });
-    }
-}
-
-function renderLoop() {
-    if (!isPageVisible || prefersReducedMotion) {
-        requestAnimationFrame(renderLoop);
+function initParticles() {
+    if (isSlowNetwork || prefersReducedMotion) {
+        canvas.style.display = 'none';
         return;
     }
-
-    if (window.innerWidth >= 768) {
-        // Parallax Update
-        currentX += (targetX - currentX) * 0.05;
-        currentY += (targetY - currentY) * 0.05;
-        parallaxWrapper.style.transform = \`translate3d(\${-currentX}px, \${-currentY}px, 0)\`;
-        uiLayer.style.transform = \`translate3d(\${currentX * 0.3}px, \${currentY * 0.3}px, 0)\`;
-
-        // Cursor Outline Update
-        ox += (cx - ox) * 0.15;
-        oy += (cy - oy) * 0.15;
-        if(cursorOutline) cursorOutline.style.transform = \`translate3d(\${ox}px, \${oy}px, 0) translate(-50%, -50%)\`;
-    }
-
-    // Particles Update
-    if (ctx && particlesCanvas.width > 0) {
-        ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-        particles.forEach(p => {
-            p.x += p.vx;
-            p.y += p.vy;
-            if(p.x < 0) p.x = particlesCanvas.width;
-            if(p.x > particlesCanvas.width) p.x = 0;
-            if(p.y < 0) p.y = particlesCanvas.height;
-            if(p.y > particlesCanvas.height) p.y = 0;
-            
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = \`rgba(255, 255, 255, \${p.alpha})\`;
-            ctx.fill();
-        });
-    }
-
-    requestAnimationFrame(renderLoop);
-}
-
-// --- Cursor Interactive Effects ---
-if (window.innerWidth >= 768 && !prefersReducedMotion) {
-    const interactives = document.querySelectorAll('button, a, .magnetic, input[type="range"], .timeline-card');
-    interactives.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            if(cursorOutline) {
-                cursorOutline.style.width = '48px';
-                cursorOutline.style.height = '48px';
-                cursorOutline.style.borderColor = 'rgba(255,255,255,0.8)';
-                cursorOutline.style.backgroundColor = 'rgba(255,255,255,0.05)';
-                cursorOutline.style.backdropFilter = 'blur(2px)';
-            }
-        });
-        el.addEventListener('mouseleave', () => {
-            if(cursorOutline) {
-                cursorOutline.style.width = '32px';
-                cursorOutline.style.height = '32px';
-                cursorOutline.style.borderColor = 'rgba(255,255,255,0.3)';
-                cursorOutline.style.backgroundColor = 'transparent';
-                cursorOutline.style.backdropFilter = 'blur(0)';
-            }
-        });
-    });
-}
-
-// --- Magnetic UI ---
-function initMagnetic() {
-    if (window.innerWidth < 768) return;
-    const magnets = document.querySelectorAll('.magnetic, .magnetic-sm');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const numParticles = isMobile ? Math.floor(Math.random() * 8) + 8 : Math.min(window.innerWidth / 30, 60);
     
-    magnets.forEach(magnet => {
-        magnet.addEventListener('mousemove', (e) => {
-            const rect = magnet.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            const strength = magnet.classList.contains('magnetic-sm') ? 0.2 : 0.4;
-            magnet.style.transform = \`translate(\${x * strength}px, \${y * strength}px)\`;
-        });
+    particles = Array.from({length: numParticles}, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 1.5 + 0.5,
+        speedX: Math.random() * 0.5 - 0.25,
+        speedY: Math.random() * 0.5 - 0.25,
+        opacity: Math.random() * 0.5 + 0.1
+    }));
+}
+
+function drawParticles() {
+    if (isSlowNetwork || prefersReducedMotion) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    particles.forEach(p => {
+        p.x += p.speedX;
+        p.y -= Math.abs(p.speedY);
         
-        magnet.addEventListener('mouseleave', () => {
-            magnet.style.transform = 'translate(0px, 0px)';
-            magnet.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-            setTimeout(() => magnet.style.transition = '', 400);
-        });
+        if (p.y < 0) p.y = canvas.height;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        
+        ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
     });
 }
 
-// --- Minimal Countdown & Clock ---
-function startClock() {
-    const updateTime = () => {
-        const now = new Date();
-        currentTimeEl.textContent = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-    };
-    updateTime();
-    setInterval(updateTime, 1000 * 60);
+// Master Render Loop
+function renderLoop() {
+    if (!document.hidden && !prefersReducedMotion) {
+        drawParticles();
+    }
+    animationFrameId = requestAnimationFrame(renderLoop);
 }
 
-function startCountdown() {
-    // Corrected target date to October 10, 2026
-    const targetDate = new Date('October 10, 2026 04:00:00 GMT+0530').getTime();
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        cancelAnimationFrame(animationFrameId);
+    } else {
+        renderLoop();
+    }
+});
 
-    const updateCd = () => {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-
-        if (distance <= 0) {
-            cdVal.textContent = "NOW";
-            cdLabel.innerHTML = "MAHALAYA";
-            return;
-        }
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        
-        if (days > 0) {
-            cdVal.textContent = days.toString().padStart(2, '0') + " DAYS";
-            cdLabel.innerHTML = "UNTIL MAHALAYA";
-        } else {
-            cdVal.textContent = hours.toString().padStart(2, '0') + " HRS";
-            cdLabel.innerHTML = "UNTIL MAHALAYA";
-        }
-    };
-
-    updateCd();
-    setInterval(updateCd, 1000 * 60);
-}
-
-// Start
-init();
-audio.volume = volumeSlider.value;
+window.addEventListener('resize', initParticles);
+initParticles();
+if(!prefersReducedMotion) renderLoop();
+updateAudioUI();

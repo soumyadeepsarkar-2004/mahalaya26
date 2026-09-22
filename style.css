@@ -47,7 +47,7 @@ body {
     transition: background 0.8s ease, border-color 0.8s ease;
 }
 
-.glass-primary:hover {
+.glass-primary:hover, .glass-secondary:hover {
     background: linear-gradient(135deg, rgba(var(--scene-rgb), 0.14), rgba(255, 255, 255, 0.08));
     border: 1px solid rgba(255, 255, 255, 0.22);
 }
@@ -63,6 +63,7 @@ body {
     }
 }
 
+/* Overlays */
 .vignette-bottom {
     position: absolute;
     bottom: 0;
@@ -78,27 +79,51 @@ body {
         rgba(0,0,0,0.78) 100%
     );
 }
+.mobile-gradient {
+    background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.78) 100%);
+}
+@media (min-width: 768px) {
+    .mobile-gradient {
+        background: none;
+    }
+}
 
-/* Cinematic Desktop Positioning Architecture */
+/* Typography classes for responsiveness */
+.title-primary {
+    font-size: clamp(3rem, 14vw, 5rem);
+    line-height: 0.9;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+@media (min-width: 768px) {
+    .title-primary { font-size: clamp(3.6rem, 5.5vw, 6rem); }
+}
+
+.subtitle-primary {
+    font-size: 1.2rem;
+}
+@media (min-width: 768px) {
+    .subtitle-primary { font-size: clamp(1.2rem, 1.8vw, 2rem); }
+}
+
+.desc-primary {
+    font-size: 13px;
+    letter-spacing: 0.05em;
+}
+@media (min-width: 768px) {
+    .desc-primary { font-size: clamp(10px, 0.9vw, 13px); }
+}
+
+/* Desktop absolute layout wrappers */
 @media (min-width: 768px) {
     .hero-copy {
         width: min(520px, 42vw);
     }
     
-    .title-primary {
-        font-size: clamp(3.6rem, 5.5vw, 6rem);
-        line-height: 0.9;
-        font-family: 'Cormorant Garamond', serif;
-        font-weight: 600;
-        letter-spacing: 0.025em;
-        text-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    }
-
     .timeline-container-pos {
-        position: absolute;
-        left: 50%;
         bottom: clamp(175px, 20vh, 220px);
-        transform: translateX(-50%);
     }
 
     .radio-card {
@@ -114,15 +139,16 @@ body {
         bottom: 32px;
     }
 }
-
-/* Mobile Overrides (Fallback text sizes) */
 @media (max-width: 767px) {
-    .title-primary {
-        font-size: 3rem;
-        line-height: 1;
-        font-family: 'Cormorant Garamond', serif;
-        font-weight: 600;
-        text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    .timeline-container-pos {
+        bottom: calc(100px + env(safe-area-inset-bottom, 16px));
+    }
+    /* Hide landscape elements if cramped */
+    @media (orientation: landscape) {
+        .mobile-gradient { opacity: 0.8; }
+        .hero-copy {
+            top: 55%;
+        }
     }
 }
 
@@ -169,10 +195,10 @@ input[type=range]::-webkit-slider-thumb:hover {
     transform: scale(1.5);
 }
 
-/* Timeline Thumbnail Card */
+/* Desktop Timeline Thumbnail Card */
 .timeline-card {
     position: relative;
-    width: 90px;
+    width: 104px;
     flex-shrink: 0;
     cursor: pointer;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -180,11 +206,6 @@ input[type=range]::-webkit-slider-thumb:hover {
     opacity: 0.42;
     transform: scale(0.92);
     filter: grayscale(40%);
-}
-@media (min-width: 768px) {
-    .timeline-card {
-        width: 104px;
-    }
 }
 .timeline-card:hover {
     opacity: 0.8;
@@ -199,7 +220,7 @@ input[type=range]::-webkit-slider-thumb:hover {
 
 .timeline-thumb {
     width: 100%;
-    height: 50px;
+    height: 56px;
     border-radius: 8px;
     background-size: cover;
     background-position: center;
@@ -207,17 +228,14 @@ input[type=range]::-webkit-slider-thumb:hover {
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
-@media (min-width: 768px) {
-    .timeline-thumb { height: 56px; }
-    .timeline-card.active .timeline-thumb { height: 62px; }
-}
 .timeline-card.active .timeline-thumb {
+    height: 62px;
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 15px rgba(var(--scene-rgb), 0.3), 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .timeline-title {
-    font-size: 8px;
+    font-size: 9px;
     text-align: center;
     margin-top: 6px;
     font-family: 'Space Mono', monospace;
@@ -226,16 +244,13 @@ input[type=range]::-webkit-slider-thumb:hover {
     color: rgba(255,255,255,0.7);
     transition: color 0.3s;
 }
-@media (min-width: 768px) {
-    .timeline-title { font-size: 9px; }
-}
 .timeline-card.active .timeline-title {
     color: rgba(255,255,255,1);
     text-shadow: 0 0 8px rgba(var(--scene-rgb), 0.5);
 }
 
 .timeline-subtitle {
-    font-size: 9px;
+    font-size: 11px;
     text-align: center;
     margin-top: 2px;
     font-family: 'Cormorant Garamond', serif;
@@ -245,13 +260,35 @@ input[type=range]::-webkit-slider-thumb:hover {
     transform: translateY(-4px);
     transition: all 0.5s ease;
 }
-@media (min-width: 768px) {
-    .timeline-subtitle { font-size: 11px; }
-}
 .timeline-card.active .timeline-subtitle {
     opacity: 1;
     transform: translateY(0);
     color: rgba(255,255,255,0.7);
+}
+
+/* Mobile Timeline Pill (Text-only) */
+.timeline-pill {
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    scroll-snap-align: center;
+    opacity: 0.4;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: white;
+}
+.timeline-pill.active {
+    opacity: 1;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(var(--scene-rgb), 0.4);
+    backdrop-filter: blur(8px);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    color: white;
 }
 
 /* Utilities */
@@ -263,8 +300,8 @@ input[type=range]::-webkit-slider-thumb:hover {
     scrollbar-width: none;
 }
 .mask-edges-timeline {
-    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
