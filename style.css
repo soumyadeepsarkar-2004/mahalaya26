@@ -200,3 +200,22 @@ input[type=range]::-webkit-slider-thumb:hover {
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .animate-glass-shine {
+        animation: none !important;
+        display: none !important;
+    }
+    
+    .eq-bar {
+        animation: none !important;
+        height: 50% !important;
+    }
+}

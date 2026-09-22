@@ -3,103 +3,112 @@
 const festivalDays = [
     {
         id: "mahalaya",
+        label: "Mahalaya",
         title: "Mahalaya",
         subtitle: "The Call",
         desc: "Dawn breaks. The eternal chants fill the mist-covered air. The anticipation begins.",
-        bgUrl: "assets/bg-mahalaya.png",
+        bgUrl: "assets/bg-mahalaya.webp",
         sceneRgb: "230, 161, 91", 
         tracks: [
-            { title: "Birendra Krishna Bhadra - Ya Chandi", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-            { title: "Jago Tumi Jago", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
+            { title: "Dawn Ambience 1", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { title: "Dawn Ambience 2", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
         ]
     },
     {
         id: "tritiya",
+        label: "Tritiya",
         title: "Tritiya",
         subtitle: "Preparations",
         desc: "The city hums with quiet energy. Bamboo structures rise, and the scent of shiuli floats in the breeze.",
-        bgUrl: "assets/bg-tritiya.png",
+        bgUrl: "assets/bg-tritiya.webp",
         sceneRgb: "230, 161, 91", 
         tracks: [
-            { title: "Agomoni Flute", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
+            { title: "Afternoon Warmth", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
         ]
     },
     {
-        id: "panchomi",
+        id: "panchami",
+        label: "Panchami",
         title: "Panchami",
         subtitle: "The Awakening",
         desc: "The air feels different now. She is on her way. Golden afternoon light washes over the balcony.",
-        bgUrl: "assets/bg-panchomi.png",
+        bgUrl: "assets/bg-panchomi.webp", // keeping old file name for now if not renamed
         sceneRgb: "230, 161, 91", 
         tracks: [
-            { title: "Festive Anticipation", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
+            { title: "Sunset Glow", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
         ]
     },
     {
-        id: "shasti",
+        id: "shashthi",
+        label: "Shashthi",
         title: "Shashthi",
         subtitle: "Adhibas",
         desc: "The Goddess is welcomed under the bel tree. Twilight falls, and the first dhak beats echo across Bengal.",
-        bgUrl: "assets/bg-shasti.png",
+        bgUrl: "assets/bg-shasti.webp",
         sceneRgb: "150, 100, 50", 
         tracks: [
-            { title: "Bodhon Dhak", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" }
+            { title: "Twilight Rhythms", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" }
         ]
     },
     {
-        id: "shaptami",
+        id: "saptami",
+        label: "Saptami",
         title: "Saptami",
         subtitle: "Pushpanjali",
         desc: "A bright morning. Offerings of marigold and bel leaves. A shared devotion connects the pandal to the sky.",
-        bgUrl: "assets/bg-shaptami.png",
+        bgUrl: "assets/bg-shaptami.webp",
         sceneRgb: "240, 230, 200", 
         tracks: [
-            { title: "Anjali Mantra", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" }
+            { title: "Morning Devotion", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" }
         ]
     },
     {
         id: "ashtami",
+        label: "Ashtami",
         title: "Ashtami",
         subtitle: "Sandhi",
         desc: "The most sacred hour. 108 lotuses, 108 diyas. The night is steeped in amber light and intense rhythm.",
-        bgUrl: "assets/bg-ashtami.png",
+        bgUrl: "assets/bg-ashtami.webp",
         sceneRgb: "242, 169, 0", 
         tracks: [
-            { title: "Sandhi Puja Aarti", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-            { title: "Intense Dhak Beats", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" }
+            { title: "Sacred Hour", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+            { title: "Deep Night", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" }
         ]
     },
     {
-        id: "nabami",
+        id: "navami",
+        label: "Navami",
         title: "Navami",
         subtitle: "Celebration",
         desc: "The peak of joy. Dhunuchi naach lights up the night. The scent of coconut husk smoke fills the air.",
-        bgUrl: "assets/bg-nabami.png",
+        bgUrl: "assets/bg-nabami.webp",
         sceneRgb: "217, 37, 37", 
         tracks: [
-            { title: "Dhunuchi Naach", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" }
+            { title: "Joyous Celebration", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" }
         ]
     },
     {
         id: "dashami",
+        label: "Dashami",
         title: "Dashami",
         subtitle: "Sindoor Khela",
         desc: "A bittersweet farewell. Faces painted in red. The immersion draws near, leaving a haze of vermilion.",
-        bgUrl: "assets/bg-dashami.png",
+        bgUrl: "assets/bg-dashami.webp",
         sceneRgb: "255, 69, 0", 
         tracks: [
-            { title: "Bisarjan Melancholy", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" }
+            { title: "Bittersweet Farewell", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" }
         ]
     },
     {
         id: "ekadashi",
+        label: "Ekadashi",
         title: "Ekadashi",
         subtitle: "The Silence",
         desc: "The pandals are empty. A cool, quiet morning remains, carrying a promise: 'Asche bochor abar hobe'.",
-        bgUrl: "assets/bg-ekadashi.png",
+        bgUrl: "assets/bg-ekadashi.webp",
         sceneRgb: "100, 120, 140", 
         tracks: [
-            { title: "Quiet Morning Flute", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" }
+            { title: "Quiet Morning", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" }
         ]
     }
 ];
@@ -109,6 +118,11 @@ let currentDayIndex = 0;
 let currentTrackIndex = 0;
 let isPlaying = false;
 let activeBgLayer = 1;
+let transitionId = 0;
+
+// Render Loop State
+let isPageVisible = true;
+let prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // --- DOM Elements ---
 const bg1 = document.getElementById('bg-1');
@@ -133,8 +147,6 @@ const radioThumb = document.getElementById('radio-thumb');
 const audio = document.getElementById('audio-player');
 const playPauseBtnSmall = document.getElementById('btn-play-pause-small');
 const playIconSmall = document.getElementById('play-icon-small');
-const btnPlayAmbience = document.getElementById('btn-play-ambience');
-const playIconAmbience = document.getElementById('play-icon-ambience');
 
 const audioEq = document.getElementById('audio-eq');
 const onAirIndicator = document.getElementById('on-air-indicator');
@@ -147,6 +159,8 @@ const root = document.documentElement;
 // Custom Cursor
 const cursorDot = document.getElementById('cursor-dot');
 const cursorOutline = document.getElementById('cursor-outline');
+const particlesCanvas = document.getElementById('particles-canvas');
+let particles = [];
 
 // --- Initialize Application ---
 function init() {
@@ -154,10 +168,17 @@ function init() {
     selectDay(0, false);
     startCountdown();
     startClock();
-    initParallax();
-    initMagnetic();
-    initCursor();
-    initParticles();
+    if (!prefersReducedMotion) {
+        initMagnetic();
+        initParticlesData();
+    }
+    
+    // Unified Render Loop
+    requestAnimationFrame(renderLoop);
+
+    document.addEventListener("visibilitychange", () => {
+        isPageVisible = document.visibilityState === 'visible';
+    });
 }
 
 // --- Build Timeline ---
@@ -167,7 +188,7 @@ function buildTimeline() {
         card.className = 'timeline-card';
         card.innerHTML = \`
             <div class="timeline-thumb" style="background-image: url('\${day.bgUrl}')"></div>
-            <div class="timeline-title">\${day.id}</div>
+            <div class="timeline-title">\${day.label}</div>
             <div class="timeline-subtitle">\${day.subtitle}</div>
         \`;
         card.addEventListener('click', () => {
@@ -178,22 +199,21 @@ function buildTimeline() {
         timelineContainer.appendChild(card);
     });
 
-    timelinePrev.addEventListener('click', () => {
+    timelinePrev?.addEventListener('click', () => {
         timelineContainer.scrollBy({ left: -120, behavior: 'smooth' });
     });
-    timelineNext.addEventListener('click', () => {
+    timelineNext?.addEventListener('click', () => {
         timelineContainer.scrollBy({ left: 120, behavior: 'smooth' });
     });
 }
 
 // --- Text Morph Animation ---
 function animateTextMorph(day, index) {
-    // Determine direction
+    const id = ++transitionId;
     const isForward = index > currentDayIndex || (currentDayIndex === festivalDays.length-1 && index === 0);
     
     chapterIndicator.textContent = \`CHAPTER 0\${index + 1} / 09\`;
 
-    // Title
     fpTitleNext.textContent = day.title;
     fpTitleNext.style.transform = isForward ? 'translateY(100%)' : 'translateY(-100%)';
     fpTitleNext.style.opacity = '0';
@@ -201,7 +221,6 @@ function animateTextMorph(day, index) {
     fpTitle.style.transform = isForward ? 'translateY(-100%)' : 'translateY(100%)';
     fpTitle.style.opacity = '0';
     
-    // Subtitle
     fpSubtitleNext.textContent = day.subtitle;
     fpSubtitleNext.style.transform = isForward ? 'translateY(100%)' : 'translateY(-100%)';
     fpSubtitleNext.style.opacity = '0';
@@ -209,27 +228,30 @@ function animateTextMorph(day, index) {
     fpSubtitle.style.transform = isForward ? 'translateY(-100%)' : 'translateY(100%)';
     fpSubtitle.style.opacity = '0';
 
-    // Desc
-    fpDescNext.textContent = day.desc;
-    fpDescNext.style.transform = 'translateY(10px)';
-    fpDescNext.style.opacity = '0';
-    
-    fpDesc.style.transform = 'translateY(-10px)';
-    fpDesc.style.opacity = '0';
+    if (fpDesc && fpDescNext) {
+        fpDescNext.textContent = day.desc;
+        fpDescNext.style.transform = 'translateY(10px)';
+        fpDescNext.style.opacity = '0';
+        
+        fpDesc.style.transform = 'translateY(-10px)';
+        fpDesc.style.opacity = '0';
+    }
 
-    // Trigger reflow
-    void fpTitleNext.offsetWidth;
+    void fpTitleNext.offsetWidth; // trigger reflow
 
-    // Animate In
     fpTitleNext.style.transform = 'translateY(0)';
     fpTitleNext.style.opacity = '1';
     fpSubtitleNext.style.transform = 'translateY(0)';
     fpSubtitleNext.style.opacity = '1';
-    fpDescNext.style.transform = 'translateY(0)';
-    fpDescNext.style.opacity = '1';
+    
+    if (fpDescNext) {
+        fpDescNext.style.transform = 'translateY(0)';
+        fpDescNext.style.opacity = '1';
+    }
 
-    // Swap text after transition
     setTimeout(() => {
+        if (id !== transitionId) return;
+
         fpTitle.textContent = day.title;
         fpTitle.style.transition = 'none';
         fpTitle.style.transform = 'translateY(0)';
@@ -240,26 +262,31 @@ function animateTextMorph(day, index) {
         fpSubtitle.style.transform = 'translateY(0)';
         fpSubtitle.style.opacity = '1';
         
-        fpDesc.textContent = day.desc;
-        fpDesc.style.transition = 'none';
-        fpDesc.style.transform = 'translateY(0)';
-        fpDesc.style.opacity = '1';
+        if (fpDesc) {
+            fpDesc.textContent = day.desc;
+            fpDesc.style.transition = 'none';
+            fpDesc.style.transform = 'translateY(0)';
+            fpDesc.style.opacity = '1';
+        }
 
         fpTitleNext.style.transition = 'none';
         fpTitleNext.style.opacity = '0';
         fpSubtitleNext.style.transition = 'none';
         fpSubtitleNext.style.opacity = '0';
-        fpDescNext.style.transition = 'none';
-        fpDescNext.style.opacity = '0';
+        
+        if (fpDescNext) {
+            fpDescNext.style.transition = 'none';
+            fpDescNext.style.opacity = '0';
+        }
 
-        // Restore transitions
         setTimeout(() => {
+            if (id !== transitionId) return;
             fpTitle.style.transition = '';
             fpSubtitle.style.transition = '';
-            fpDesc.style.transition = '';
+            if(fpDesc) fpDesc.style.transition = '';
             fpTitleNext.style.transition = '';
             fpSubtitleNext.style.transition = '';
-            fpDescNext.style.transition = '';
+            if(fpDescNext) fpDescNext.style.transition = '';
         }, 50);
 
     }, 700);
@@ -269,17 +296,17 @@ function animateTextMorph(day, index) {
 function selectDay(index, crossfade = true) {
     const day = festivalDays[index];
     
-    if (crossfade) animateTextMorph(day, index);
+    if (crossfade && !prefersReducedMotion) animateTextMorph(day, index);
     else {
+        transitionId++;
         chapterIndicator.textContent = \`CHAPTER 0\${index + 1} / 09\`;
         fpTitle.textContent = day.title;
         fpSubtitle.textContent = day.subtitle;
-        fpDesc.textContent = day.desc;
+        if(fpDesc) fpDesc.textContent = day.desc;
     }
 
     currentDayIndex = index;
 
-    // Update Timeline UI
     const cards = timelineContainer.querySelectorAll('.timeline-card');
     cards.forEach((card, i) => {
         if (i === index) {
@@ -290,14 +317,10 @@ function selectDay(index, crossfade = true) {
         }
     });
 
-    // Update Scene Color Variable
     root.style.setProperty('--scene-rgb', day.sceneRgb);
-
-    // Update Radio Thumb
     radioThumb.style.backgroundImage = \`url('\${day.bgUrl}')\`;
 
-    // Update Background via Crossfade
-    if (crossfade) {
+    if (crossfade && !prefersReducedMotion) {
         if (activeBgLayer === 1) {
             bg2.style.backgroundImage = \`url('\${day.bgUrl}')\`;
             bg2.style.opacity = '1';
@@ -315,13 +338,17 @@ function selectDay(index, crossfade = true) {
         bg2.style.opacity = '0';
     }
 
-    // Preload next image silently
-    if (index + 1 < festivalDays.length) {
-        const img = new Image();
-        img.src = festivalDays[index + 1].bgUrl;
-    }
+    // Preload current, previous, next
+    const preloadImg = (idx) => {
+        if (idx >= 0 && idx < festivalDays.length) {
+            const img = new Image();
+            img.src = festivalDays[idx].bgUrl;
+        }
+    };
+    preloadImg(index - 1);
+    preloadImg(index);
+    preloadImg(index + 1);
 
-    // Update Audio Track
     currentTrackIndex = 0;
     loadTrack();
     if (isPlaying) {
@@ -345,7 +372,6 @@ function togglePlay() {
         audio.play().then(() => {
             isPlaying = true;
             playIconSmall.classList.replace('fa-play', 'fa-pause');
-            playIconAmbience.classList.replace('fa-play', 'fa-pause');
             audioEq.style.opacity = '1';
             onAirIndicator.style.opacity = '1';
         }).catch(console.error);
@@ -353,14 +379,12 @@ function togglePlay() {
         audio.pause();
         isPlaying = false;
         playIconSmall.classList.replace('fa-pause', 'fa-play');
-        playIconAmbience.classList.replace('fa-pause', 'fa-play');
         audioEq.style.opacity = '0';
         onAirIndicator.style.opacity = '0.5';
     }
 }
 
 playPauseBtnSmall.addEventListener('click', togglePlay);
-btnPlayAmbience.addEventListener('click', togglePlay);
 
 document.getElementById('btn-next').addEventListener('click', () => {
     const day = festivalDays[currentDayIndex];
@@ -392,71 +416,116 @@ volumeSlider.addEventListener('input', (e) => {
     audio.volume = e.target.value;
 });
 
-// --- Pointer Parallax ---
+// --- Unified Render Loop (Parallax, Cursor, Particles) ---
 let targetX = 0, targetY = 0;
 let currentX = 0, currentY = 0;
-function initParallax() {
-    if (window.innerWidth < 768) return;
-    
-    window.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 2;
-        const y = (e.clientY / window.innerHeight - 0.5) * 2;
-        targetX = x * 15; // Max 15px shift
-        targetY = y * 15;
-    });
+let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+let ox = cx, oy = cy;
+let ctx = null;
 
-    function animateParallax() {
-        currentX += (targetX - currentX) * 0.05; // Ease
-        currentY += (targetY - currentY) * 0.05;
-
-        // Background moves subtly
-        parallaxWrapper.style.transform = \`translate3d(\${-currentX}px, \${-currentY}px, 0)\`;
-        // UI Layer moves opposite subtly for depth
-        uiLayer.style.transform = \`translate3d(\${currentX * 0.3}px, \${currentY * 0.3}px, 0)\`;
-
-        requestAnimationFrame(animateParallax);
-    }
-    animateParallax();
+if (particlesCanvas) {
+    ctx = particlesCanvas.getContext('2d');
 }
 
-// --- Custom Cursor ---
-function initCursor() {
-    if (window.innerWidth < 768) return;
-
-    let cx = window.innerWidth / 2;
-    let cy = window.innerHeight / 2;
-    let ox = cx, oy = cy;
-    
+if (window.innerWidth >= 768 && !prefersReducedMotion) {
     window.addEventListener('mousemove', (e) => {
+        // Parallax
+        const px = (e.clientX / window.innerWidth - 0.5) * 2;
+        const py = (e.clientY / window.innerHeight - 0.5) * 2;
+        targetX = px * 15;
+        targetY = py * 15;
+
+        // Cursor
         cx = e.clientX;
         cy = e.clientY;
-        cursorDot.style.transform = \`translate3d(\${cx}px, \${cy}px, 0) translate(-50%, -50%)\`;
+        if(cursorDot) cursorDot.style.transform = \`translate3d(\${cx}px, \${cy}px, 0) translate(-50%, -50%)\`;
+    });
+}
+
+function initParticlesData() {
+    if(!particlesCanvas || window.innerWidth < 768) return; 
+    let width = particlesCanvas.width = window.innerWidth;
+    let height = particlesCanvas.height = window.innerHeight;
+    
+    window.addEventListener('resize', () => {
+        width = particlesCanvas.width = window.innerWidth;
+        height = particlesCanvas.height = window.innerHeight;
     });
 
-    function animateCursor() {
+    particles = [];
+    for(let i=0; i<40; i++) {
+        particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            r: Math.random() * 1.5,
+            vx: (Math.random() - 0.5) * 0.15,
+            vy: (Math.random() - 0.5) * 0.15,
+            alpha: Math.random() * 0.4
+        });
+    }
+}
+
+function renderLoop() {
+    if (!isPageVisible || prefersReducedMotion) {
+        requestAnimationFrame(renderLoop);
+        return;
+    }
+
+    if (window.innerWidth >= 768) {
+        // Parallax Update
+        currentX += (targetX - currentX) * 0.05;
+        currentY += (targetY - currentY) * 0.05;
+        parallaxWrapper.style.transform = \`translate3d(\${-currentX}px, \${-currentY}px, 0)\`;
+        uiLayer.style.transform = \`translate3d(\${currentX * 0.3}px, \${currentY * 0.3}px, 0)\`;
+
+        // Cursor Outline Update
         ox += (cx - ox) * 0.15;
         oy += (cy - oy) * 0.15;
-        cursorOutline.style.transform = \`translate3d(\${ox}px, \${oy}px, 0) translate(-50%, -50%)\`;
-        requestAnimationFrame(animateCursor);
+        if(cursorOutline) cursorOutline.style.transform = \`translate3d(\${ox}px, \${oy}px, 0) translate(-50%, -50%)\`;
     }
-    animateCursor();
 
-    // Hover effects on interactive elements
+    // Particles Update
+    if (ctx && particlesCanvas.width > 0) {
+        ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+        particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            if(p.x < 0) p.x = particlesCanvas.width;
+            if(p.x > particlesCanvas.width) p.x = 0;
+            if(p.y < 0) p.y = particlesCanvas.height;
+            if(p.y > particlesCanvas.height) p.y = 0;
+            
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = \`rgba(255, 255, 255, \${p.alpha})\`;
+            ctx.fill();
+        });
+    }
+
+    requestAnimationFrame(renderLoop);
+}
+
+// --- Cursor Interactive Effects ---
+if (window.innerWidth >= 768 && !prefersReducedMotion) {
     const interactives = document.querySelectorAll('button, a, .magnetic, input[type="range"], .timeline-card');
     interactives.forEach(el => {
         el.addEventListener('mouseenter', () => {
-            cursorOutline.style.width = '48px';
-            cursorOutline.style.height = '48px';
-            cursorOutline.style.borderColor = 'rgba(255,255,255,0.8)';
-            cursorOutline.style.backgroundColor = 'rgba(255,255,255,0.05)';
-            cursorOutline.style.backdropFilter = 'blur(2px)';
+            if(cursorOutline) {
+                cursorOutline.style.width = '48px';
+                cursorOutline.style.height = '48px';
+                cursorOutline.style.borderColor = 'rgba(255,255,255,0.8)';
+                cursorOutline.style.backgroundColor = 'rgba(255,255,255,0.05)';
+                cursorOutline.style.backdropFilter = 'blur(2px)';
+            }
         });
         el.addEventListener('mouseleave', () => {
-            cursorOutline.style.width = '32px';
-            cursorOutline.style.height = '32px';
-            cursorOutline.style.borderColor = 'rgba(255,255,255,0.3)';
-            cursorOutline.style.backgroundColor = 'transparent';
-            cursorOutline.style.backdropFilter = 'blur(0)';
+            if(cursorOutline) {
+                cursorOutline.style.width = '32px';
+                cursorOutline.style.height = '32px';
+                cursorOutline.style.borderColor = 'rgba(255,255,255,0.3)';
+                cursorOutline.style.backgroundColor = 'transparent';
+                cursorOutline.style.backdropFilter = 'blur(0)';
+            }
         });
     });
 }
@@ -471,9 +540,7 @@ function initMagnetic() {
             const rect = magnet.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            
             const strength = magnet.classList.contains('magnetic-sm') ? 0.2 : 0.4;
-            
             magnet.style.transform = \`translate(\${x * strength}px, \${y * strength}px)\`;
         });
         
@@ -496,7 +563,8 @@ function startClock() {
 }
 
 function startCountdown() {
-    const targetDate = new Date('October 6, 2026 04:00:00 GMT+0530').getTime();
+    // Corrected target date to October 10, 2026
+    const targetDate = new Date('October 10, 2026 04:00:00 GMT+0530').getTime();
 
     const updateCd = () => {
         const now = new Date().getTime();
@@ -522,52 +590,6 @@ function startCountdown() {
 
     updateCd();
     setInterval(updateCd, 1000 * 60);
-}
-
-// --- Simple Canvas Particles (Dust) ---
-function initParticles() {
-    const canvas = document.getElementById('particles-canvas');
-    if(!canvas || window.innerWidth < 768) return; // disable on mobile to save battery
-    const ctx = canvas.getContext('2d');
-    
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-    
-    window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    });
-
-    const particles = [];
-    for(let i=0; i<60; i++) {
-        particles.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            r: Math.random() * 1.5,
-            vx: (Math.random() - 0.5) * 0.2,
-            vy: (Math.random() - 0.5) * 0.2,
-            alpha: Math.random() * 0.5
-        });
-    }
-
-    function render() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach(p => {
-            p.x += p.vx;
-            p.y += p.vy;
-            if(p.x < 0) p.x = width;
-            if(p.x > width) p.x = 0;
-            if(p.y < 0) p.y = height;
-            if(p.y > height) p.y = 0;
-            
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = \`rgba(255, 255, 255, \${p.alpha})\`;
-            ctx.fill();
-        });
-        requestAnimationFrame(render);
-    }
-    render();
 }
 
 // Start
