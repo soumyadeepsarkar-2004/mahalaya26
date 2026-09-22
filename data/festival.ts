@@ -29,6 +29,7 @@ export interface FestivalScene {
   date: string;
   description: string;
   imageBasename: string; // e.g. "bg-mahalaya"
+  mobilePosition?: string; // e.g. "60% center"
   accentRgb: string; // e.g. "230, 161, 91"
   atmosphere: AtmosphereType;
   trackTitle: string;
@@ -46,6 +47,7 @@ export const FESTIVAL_SCENES: FestivalScene[] = [
     description:
       "The scent of shiuli fills the air as Birendra Krishna Bhadra's voice echoes through the morning mist, marking the beginning of Devi Paksha.",
     imageBasename: "bg-mahalaya",
+    mobilePosition: "50% center",
     accentRgb: "230, 161, 91",
     atmosphere: "mist",
     trackTitle: "Ambient Kolkata I",
@@ -61,6 +63,7 @@ export const FESTIVAL_SCENES: FestivalScene[] = [
     description:
       "The city starts transforming. Bamboo scaffolds become grand pandals, and the festive spirit begins to take physical form.",
     imageBasename: "bg-tritiya",
+    mobilePosition: "55% center",
     accentRgb: "166, 124, 82",
     atmosphere: "dust",
     trackTitle: "Ambient Kolkata II",
@@ -76,6 +79,7 @@ export const FESTIVAL_SCENES: FestivalScene[] = [
     description:
       "The wait is over. The idols are unveiled, and the city streets begin to swell with early pandal hoppers.",
     imageBasename: "bg-panchomi",
+    mobilePosition: "65% center",
     accentRgb: "197, 107, 45",
     atmosphere: "golden",
     trackTitle: "Festival Atmosphere I",
@@ -91,6 +95,7 @@ export const FESTIVAL_SCENES: FestivalScene[] = [
     description:
       "Bodhon. The Goddess is welcomed under the bel tree. The dhak beats resound, officially starting the grand festival.",
     imageBasename: "bg-shasti",
+    mobilePosition: "50% center",
     accentRgb: "228, 142, 88",
     atmosphere: "twilight",
     trackTitle: "Festival Atmosphere II",
@@ -106,6 +111,7 @@ export const FESTIVAL_SCENES: FestivalScene[] = [
     description:
       "Nabapatrika snan at dawn. The city is now fully immersed in joy, lights, and the endless rhythm of celebrations.",
     imageBasename: "bg-shaptami",
+    mobilePosition: "52% center",
     accentRgb: "224, 117, 43",
     atmosphere: "incense",
     trackTitle: "Ambient Kolkata I",
@@ -121,6 +127,7 @@ export const FESTIVAL_SCENES: FestivalScene[] = [
     description:
       "Pushpanjali in the morning, Sandhi Puja at the juncture of Ashtami and Navami. The most auspicious day of the festival.",
     imageBasename: "bg-ashtami",
+    mobilePosition: "58% center",
     accentRgb: "218, 59, 33",
     atmosphere: "diya",
     trackTitle: "Ambient Kolkata II",
@@ -136,6 +143,7 @@ export const FESTIVAL_SCENES: FestivalScene[] = [
     description:
       "The final night of unbridled joy. The dhunuchi naach reaches its peak, but a hint of melancholy lingers in the air.",
     imageBasename: "bg-nabami",
+    mobilePosition: "50% center",
     accentRgb: "186, 73, 51",
     atmosphere: "petals",
     trackTitle: "Festival Atmosphere I",
@@ -151,6 +159,7 @@ export const FESTIVAL_SCENES: FestivalScene[] = [
     description:
       'Sindoor Khela and immersion. With tearful eyes, we bid adieu to the Goddess, whispering "Asche bochor abar hobe".',
     imageBasename: "bg-dashami",
+    mobilePosition: "54% center",
     accentRgb: "158, 62, 46",
     atmosphere: "vermilion",
     trackTitle: "Festival Atmosphere II",
@@ -166,6 +175,7 @@ export const FESTIVAL_SCENES: FestivalScene[] = [
     description:
       "Empty pandals, scattered flowers, and quiet streets. The wait for next year begins.",
     imageBasename: "bg-ekadashi",
+    mobilePosition: "50% center",
     accentRgb: "109, 114, 120",
     atmosphere: "cool-mist",
     trackTitle: "Ambient Kolkata I",

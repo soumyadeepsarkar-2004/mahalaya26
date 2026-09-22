@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useFestivalStore } from "@/store/festival-store";
 import { FESTIVAL_SCENES } from "@/data/festival";
@@ -10,6 +10,15 @@ export const SceneBackground: React.FC = () => {
   const currentFestivalId = useFestivalStore((s) => s.currentFestivalId);
   const setIsTransitioning = useFestivalStore((s) => s.setIsTransitioning);
   const scene = FESTIVAL_SCENES.find((s) => s.id === currentFestivalId) || FESTIVAL_SCENES[0];
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Preload surrounding scenes
   useEffect(() => {
@@ -26,7 +35,7 @@ export const SceneBackground: React.FC = () => {
           initial={{ opacity: 0, scale: 1.04, filter: "blur(8px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           exit={{ opacity: 0, scale: 0.98, filter: "blur(4px)" }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
           onAnimationComplete={() => setIsTransitioning(false)}
           className="absolute inset-0 w-full h-full"
         >
@@ -49,7 +58,10 @@ export const SceneBackground: React.FC = () => {
             <img
               src={`/scenes/${scene.imageBasename}.webp`}
               alt={scene.label}
-              className="w-full h-full object-cover object-center transform-gpu"
+              className="w-full h-full object-cover transform-gpu transition-all duration-700"
+              style={{
+                objectPosition: isMobile && scene.mobilePosition ? scene.mobilePosition : "center center",
+              }}
               loading="eager"
               decoding="async"
             />
@@ -57,8 +69,8 @@ export const SceneBackground: React.FC = () => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Cinematic Vignette Overlay */}
-      <div className="absolute inset-0 bg-radial from-transparent via-black/20 to-black/70 pointer-events-none z-10" />
+      {/* Subtle Vignette Overlay */}
+      <div className="absolute inset-0 bg-radial from-transparent via-black/15 to-black/60 pointer-events-none z-10" />
 
       {/* Film Grain Texture */}
       <div

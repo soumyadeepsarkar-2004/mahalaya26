@@ -10,7 +10,7 @@ export const Header: React.FC = () => {
   const setActiveSheet = useFestivalStore((s) => s.setActiveSheet);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-40 px-[clamp(24px,4vw,64px)] pt-[clamp(20px,3vh,32px)] flex items-start justify-between pointer-events-none">
+    <header className="fixed top-0 left-0 w-full z-40 px-4 md:px-[clamp(24px,4vw,64px)] pt-[calc(env(safe-area-inset-top,0px)+16px)] md:pt-[clamp(20px,3vh,32px)] flex items-start justify-between pointer-events-none">
       {/* Brand / Logo */}
       <div className="flex flex-col gap-1 pointer-events-auto">
         <h1 className="text-sm md:text-base font-serif tracking-[0.25em] text-white font-medium uppercase">
