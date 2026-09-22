@@ -126,12 +126,7 @@ body {
         bottom: clamp(175px, 20vh, 220px);
     }
 
-    .radio-card {
-        position: absolute;
-        left: clamp(24px, 4vw, 64px);
-        bottom: 28px;
-        width: clamp(360px, 30vw, 450px);
-    }
+
 
     .utilities-card {
         position: absolute;
