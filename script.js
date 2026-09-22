@@ -408,7 +408,6 @@ function updateAudioUI() {
     }
 }
 
-
 audio.addEventListener('play', updateAudioUI);
 audio.addEventListener('pause', updateAudioUI);
 audio.addEventListener('ended', updateAudioUI);
@@ -499,7 +498,16 @@ function closeSheet() {
 }
 
 if(backdrop) backdrop.addEventListener('click', closeSheet);
+const bsm = document.getElementById('btn-status-mobile'); if(bsm) bsm.addEventListener('click', () => openSheet(sheetStatus));
+const bmm = document.getElementById('btn-menu-mobile'); if(bmm) bmm.addEventListener('click', () => openSheet(sheetMenu));
 
+// Sheet swipe to close
+let sheetTouchStartY = 0;
+[sheetStatus, sheetMenu, sheetAbout].forEach(sheet => {
+    if(!sheet) return;
+    sheet.addEventListener('touchstart', e => {
+        sheetTouchStartY = e.changedTouches[0].screenY;
+    }, {passive: true});
     sheet.addEventListener('touchend', e => {
         const deltaY = e.changedTouches[0].screenY - sheetTouchStartY;
         if (deltaY > 50) closeSheet();
@@ -513,8 +521,7 @@ if(btnArchive) btnArchive.addEventListener('click', () => closeSheet());
 const btnMoments = document.getElementById('btn-menu-moments');
 if(btnMoments) btnMoments.addEventListener('click', () => {
     closeSheet();
-    
-});
+    });
 
 const btnAbout = document.getElementById('btn-menu-about');
 if(btnAbout) btnAbout.addEventListener('click', () => {
