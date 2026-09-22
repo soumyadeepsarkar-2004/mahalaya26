@@ -143,63 +143,66 @@
             </button>
         </div>
 
-        <!-- DESKTOP RADIO CARD -->
-        <div class="radio-card hidden md:flex glass-primary p-4 rounded-[24px] gap-4 items-center shadow-2xl relative overflow-hidden pointer-events-auto z-30">
-            <div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent w-full h-full transform animate-glass-shine pointer-events-none z-0"></div>
-            
-            <div class="w-14 h-14 rounded-[14px] bg-cover bg-center shadow-inner relative overflow-hidden shrink-0 z-10 border border-white/10 transition-all duration-500" id="radio-thumb">
-                <div class="absolute inset-0 bg-black/20 hover:bg-transparent transition-colors duration-500"></div>
-            </div>
-            
-            <div class="flex-1 flex flex-col gap-3 min-w-0 z-10">
-                <div class="flex justify-between items-start">
-                    <div class="flex flex-col min-w-0 pr-2">
-                        <div class="flex items-center gap-2">
-                            <span class="font-serif text-base text-white/95 leading-none">Puja Radio</span>
-                            <div class="w-1.5 h-1.5 rounded-full bg-red-500/80 shadow-[0_0_8px_rgba(239,68,68,0.6)] opacity-50 transition-opacity duration-300" id="on-air-indicator"></div>
-                            <span class="text-[7px] text-red-400/80 tracking-[0.2em] font-bold">ON AIR</span>
-                        </div>
-                        <span id="player-track-desktop" class="text-[10px] tracking-wide text-white/60 mt-1 truncate w-full">...</span>
+                <!-- RADIO DESKTOP -->
+        <div class="radio-card hidden md:flex flex-col gap-4 p-5 rounded-[2px] pointer-events-auto border border-white/5 shadow-2xl relative overflow-hidden" style="background: linear-gradient(135deg, rgba(var(--scene-rgb), 0.15) 0%, rgba(var(--scene-rgb), 0.05) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+            <!-- Top editorial line -->
+            <div class="flex items-center justify-between">
+                <span class="text-[8px] font-mono tracking-[0.3em] text-white/60">PUJA RADIO</span>
+                <div class="flex items-center gap-2">
+                    <div class="flex items-end gap-[2px] h-[8px] opacity-0 transition-opacity duration-300" id="audio-eq-desktop">
+                        <div class="w-[1.5px] bg-white/50 animate-[eq_0.8s_ease-in-out_infinite_alternate]"></div>
+                        <div class="w-[1.5px] bg-white/50 animate-[eq_0.5s_ease-in-out_infinite_alternate]"></div>
+                        <div class="w-[1.5px] bg-white/50 animate-[eq_1.2s_ease-in-out_infinite_alternate]"></div>
                     </div>
-                    
-                    <div class="flex items-end gap-[2px] h-3 opacity-0 transition-opacity duration-500 mt-0.5 shrink-0" id="audio-eq">
-                        <div class="w-[1.5px] bg-white/80 rounded-t h-[30%] eq-bar eq-1"></div>
-                        <div class="w-[1.5px] bg-white/80 rounded-t h-[70%] eq-bar eq-2"></div>
-                        <div class="w-[1.5px] bg-white/80 rounded-t h-[50%] eq-bar eq-3"></div>
-                        <div class="w-[1.5px] bg-white/80 rounded-t h-[90%] eq-bar eq-4"></div>
-                    </div>
-                </div>
-                
-                <div class="flex items-center gap-4">
-                    <button id="btn-prev" class="outline-none text-[10px] text-white/50 hover:text-white transition-colors magnetic-sm"><i class="fas fa-step-backward"></i></button>
-                    <button id="btn-play-pause-small" class="w-6 h-6 flex items-center justify-center outline-none magnetic-sm border border-transparent hover:border-white/20 rounded-full transition-all">
-                        <i class="fas fa-play text-xs text-white" id="play-icon-desktop"></i>
-                    </button>
-                    <button id="btn-next" class="outline-none text-[10px] text-white/50 hover:text-white transition-colors magnetic-sm"><i class="fas fa-step-forward"></i></button>
-                    
-                    <div class="flex items-center gap-2 ml-auto w-20 group relative cursor-pointer">
-                        <i class="fas fa-volume-up text-[9px] text-white/40 group-hover:text-white/80 transition-colors"></i>
-                        <input type="range" id="volume-slider-desktop" min="0" max="1" step="0.01" value="0.8" class="w-full h-[1.5px] bg-white/10 rounded-full appearance-none slider-thumb-mini absolute left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    </div>
+                    <div class="w-1.5 h-1.5 rounded-full bg-white/30 transition-colors duration-500" id="signal-indicator-desktop"></div>
                 </div>
             </div>
-        </div>
-
-        <!-- MOBILE RADIO FLOATING BAR -->
-        <div id="mobile-radio-bar" class="md:hidden absolute bottom-[calc(env(safe-area-inset-bottom,16px)+16px)] left-1/2 -translate-x-1/2 w-[90%] glass-micro rounded-[16px] p-3 flex items-center justify-between pointer-events-auto z-40 shadow-lg cursor-pointer transition-transform">
-            <div class="flex items-center gap-3">
-                <div class="w-1.5 h-1.5 rounded-full bg-red-500/80 animate-pulse"></div>
+            
+            <div class="w-full h-px bg-white/10"></div>
+            
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 rounded-[2px] bg-cover bg-center shrink-0 border border-white/10 shadow-lg transition-all duration-700" id="radio-thumb"></div>
                 <div class="flex flex-col">
-                    <span class="text-[9px] tracking-[0.2em] font-mono text-white/50 uppercase">ON AIR</span>
-                    <span class="text-xs font-serif text-white/90 truncate max-w-[120px]" id="player-track-mobile">Puja Radio</span>
+                    <span class="text-[8px] font-mono tracking-[0.2em] text-white/40 mb-1">NOW PLAYING</span>
+                    <span class="text-sm text-white/90 font-serif" id="player-track-desktop">...</span>
                 </div>
             </div>
-            <button id="btn-play-pause-mobile-bar" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center outline-none">
-                <i class="fas fa-play text-[9px] text-white" id="play-icon-mobile-bar"></i>
-            </button>
+            
+            <div class="w-full h-px bg-white/5"></div>
+            
+            <!-- Controls -->
+            <div class="flex flex-col items-center gap-3">
+                <div class="flex items-center gap-6">
+                    <button id="btn-prev" class="text-white/40 hover:text-white transition-colors outline-none"><i class="fas fa-backward text-[10px]"></i></button>
+                    <button id="btn-play-pause-desktop" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center outline-none hover:bg-white/10 transition-colors">
+                        <i class="fas fa-play text-xs text-white translate-x-[1px]" id="play-icon-desktop"></i>
+                    </button>
+                    <button id="btn-next" class="text-white/40 hover:text-white transition-colors outline-none"><i class="fas fa-forward text-[10px]"></i></button>
+                </div>
+                <div class="flex items-center gap-2 w-full max-w-[140px]">
+                    <i class="fas fa-volume-down text-[8px] text-white/30"></i>
+                    <input type="range" id="volume-slider-desktop" min="0" max="1" step="0.01" value="0.8" class="w-full h-[2px] bg-white/20 appearance-none slider-thumb-analog">
+                    <i class="fas fa-volume-up text-[8px] text-white/30"></i>
+                </div>
+            </div>
         </div>
 
-        <!-- DESKTOP UTILITIES -->
+        <!-- RADIO MOBILE BAR -->
+        <div id="mobile-radio-bar" class="md:hidden absolute bottom-[calc(env(safe-area-inset-bottom,0px)+16px)] left-1/2 -translate-x-1/2 w-[calc(100%-32px)] p-[12px] flex items-center justify-between pointer-events-auto z-30 border border-white/10 rounded-[2px]" style="background: rgba(var(--scene-rgb), 0.15); backdrop-filter: blur(24px);">
+            <div class="flex items-center gap-2 shrink-0">
+                <div class="w-1.5 h-1.5 rounded-full bg-white/30" id="signal-mobile"></div>
+                <span class="text-[8px] font-mono tracking-[0.2em] text-white/50">PUJA RADIO</span>
+            </div>
+            <span class="text-[11px] text-white/90 truncate font-serif absolute left-1/2 -translate-x-1/2" id="player-track-mobile">...</span>
+            
+            <div class="flex items-center gap-3 shrink-0">
+                <button id="btn-play-pause-mobile-bar" class="text-white/80 outline-none p-1">
+                    <i class="fas fa-play text-[10px]" id="play-icon-mobile-bar"></i>
+                </button>
+            </div>
+        </div>
+
+<!-- DESKTOP UTILITIES -->
         <div class="utilities-card hidden xl:flex items-end flex-col gap-3 pointer-events-none z-30">
             <div class="text-[7px] tracking-[0.35em] font-mono text-white/30 uppercase leading-relaxed text-right pr-2">
                 A small tribute<br>to Bengal<br>and everything<br>it gives us
@@ -212,23 +215,28 @@
     <div id="backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300 pointer-events-auto"></div>
 
     <!-- Mobile Radio Expanded Sheet -->
-    <div id="sheet-radio" class="fixed bottom-0 left-0 w-full glass-primary rounded-t-[24px] p-6 pb-[calc(24px+env(safe-area-inset-bottom,0px))] z-50 transform translate-y-full transition-transform duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] pointer-events-auto flex flex-col items-center">
-        <div class="w-10 h-1 bg-white/20 rounded-full mb-6 sheet-handle"></div>
-        <div class="w-24 h-24 rounded-[16px] bg-cover bg-center shadow-lg border border-white/10 mb-6" id="radio-thumb-mobile"></div>
-        <span class="font-serif text-xl text-white/95 mb-1">Puja Radio</span>
-        <span class="text-[10px] text-white/60 font-mono tracking-widest text-center px-4" id="player-track-sheet">...</span>
+    <div id="sheet-radio" class="fixed bottom-0 left-0 w-full rounded-t-[4px] p-6 pb-[calc(24px+env(safe-area-inset-bottom,0px))] z-50 transform translate-y-full transition-transform duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] pointer-events-auto flex flex-col items-center border-t border-white/10" style="background: rgba(var(--scene-rgb), 0.15); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);">
+        <div class="w-10 h-1 bg-white/20 mb-8 sheet-handle"></div>
         
-        <div class="flex items-center gap-8 mt-8">
-            <button id="btn-prev-mobile" class="text-white/50 hover:text-white outline-none"><i class="fas fa-step-backward"></i></button>
-            <button id="btn-play-pause-sheet" class="w-14 h-14 rounded-full glass-secondary flex items-center justify-center outline-none">
-                <i class="fas fa-play text-sm text-white" id="play-icon-sheet"></i>
+        <div class="w-full max-w-[240px] aspect-square bg-cover bg-center border border-white/10 mb-8 shadow-2xl transition-all duration-700" id="radio-thumb-mobile"></div>
+        
+        <span class="text-[9px] font-mono tracking-[0.3em] text-white/50 mb-2">PUJA RADIO</span>
+        <span class="font-serif text-2xl text-white/90 text-center px-4 mb-1" id="player-track-sheet">...</span>
+        
+        <div class="w-12 h-px bg-white/10 my-6"></div>
+        
+        <div class="flex items-center gap-10">
+            <button id="btn-prev-mobile" class="text-white/40 hover:text-white outline-none"><i class="fas fa-backward"></i></button>
+            <button id="btn-play-pause-sheet" class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center outline-none">
+                <i class="fas fa-play text-lg text-white translate-x-[2px]" id="play-icon-sheet"></i>
             </button>
-            <button id="btn-next-mobile" class="text-white/50 hover:text-white outline-none"><i class="fas fa-step-forward"></i></button>
+            <button id="btn-next-mobile" class="text-white/40 hover:text-white outline-none"><i class="fas fa-forward"></i></button>
         </div>
-        <div class="w-full max-w-[200px] mt-8 flex items-center gap-3">
-            <i class="fas fa-volume-down text-[10px] text-white/40"></i>
-            <input type="range" id="volume-slider-mobile" min="0" max="1" step="0.01" value="0.8" class="w-full h-1 bg-white/10 rounded-full appearance-none slider-thumb-mini">
-            <i class="fas fa-volume-up text-[10px] text-white/40"></i>
+        
+        <div class="w-full max-w-[240px] mt-8 flex items-center gap-3">
+            <i class="fas fa-volume-down text-[10px] text-white/30"></i>
+            <input type="range" id="volume-slider-mobile" min="0" max="1" step="0.01" value="0.8" class="w-full h-[2px] bg-white/20 appearance-none slider-thumb-analog">
+            <i class="fas fa-volume-up text-[10px] text-white/30"></i>
         </div>
     </div>
 

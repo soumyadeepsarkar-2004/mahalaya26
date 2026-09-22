@@ -378,19 +378,36 @@ function updateAudioUI() {
     const playIcons = [
         document.getElementById('play-icon-desktop'),
         document.getElementById('play-icon-mobile-bar'),
-        document.getElementById('play-icon-sheet'),
-        document.getElementById('play-icon-mobile')
+        document.getElementById('play-icon-sheet')
     ];
     
     playIcons.forEach(icon => {
         if(icon) {
             icon.className = isPlaying ? "fas fa-pause text-xs text-white" : "fas fa-play text-xs text-white";
-            if (icon.id === 'play-icon-mobile') icon.className = isPlaying ? "fas fa-pause text-[9px] text-white/90" : "fas fa-play text-[9px] text-white/90 translate-x-[1px]";
+            if (icon.id === 'play-icon-mobile-bar' || icon.id === 'play-icon-sheet') {
+                icon.className = isPlaying ? "fas fa-pause text-[10px] text-white/90" : "fas fa-play text-[10px] text-white/90 translate-x-[1px]";
+            }
         }
     });
 
-    const eq = document.getElementById('audio-eq');
+    const eq = document.getElementById('audio-eq-desktop');
     if(eq) eq.style.opacity = isPlaying ? '1' : '0';
+    
+    // Signal Indicators
+    const signals = [
+        document.getElementById('signal-indicator-desktop'),
+        document.getElementById('signal-mobile')
+    ];
+    signals.forEach(sig => {
+        if (!sig) return;
+        if (isPlaying) {
+            sig.className = "w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse";
+            sig.style.boxShadow = "0 0 8px rgba(239, 68, 68, 0.6)";
+        } else {
+            sig.className = "w-1.5 h-1.5 rounded-full bg-white/30";
+            sig.style.boxShadow = "none";
+        }
+    });
     
     const trackName = audioTracks[currentTrackIndex].title;
     [document.getElementById('player-track-desktop'), document.getElementById('player-track-mobile'), document.getElementById('player-track-sheet')].forEach(el => {
@@ -398,11 +415,23 @@ function updateAudioUI() {
     });
 }
 
+// Track Time formatting
+function formatTime(seconds) {
+    if (isNaN(seconds)) return "00:00";
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
+audio.addEventListener('timeupdate', () => {
+    const tm = document.getElementById('time-mobile');
+    if (tm) tm.textContent = formatTime(audio.currentTime);
+});
+
 [
-    document.getElementById('btn-play-pause-small'),
+    document.getElementById('btn-play-pause-desktop'),
     document.getElementById('btn-play-pause-mobile-bar'),
-    document.getElementById('btn-play-pause-sheet'),
-    document.getElementById('btn-play-ambience-mobile')
+    document.getElementById('btn-play-pause-sheet')
 ].forEach(btn => {
     if (btn) btn.addEventListener('click', (e) => {
         e.stopPropagation();
