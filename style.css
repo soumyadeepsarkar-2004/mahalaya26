@@ -143,11 +143,16 @@ body {
     .timeline-container-pos {
         bottom: calc(100px + env(safe-area-inset-bottom, 16px));
     }
+    .hero-copy {
+        top: auto;
+        bottom: calc(170px + env(safe-area-inset-bottom, 16px));
+        transform: none;
+    }
     /* Hide landscape elements if cramped */
     @media (orientation: landscape) {
         .mobile-gradient { opacity: 0.8; }
         .hero-copy {
-            top: 55%;
+            bottom: calc(110px + env(safe-area-inset-bottom, 16px));
         }
     }
 }

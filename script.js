@@ -11,9 +11,9 @@ const festivalDays = [
     { id: 'ekadashi', date: 'Oct 21', title: 'Ekadashi', subtitle: 'The Aftermath', desc: 'Empty pandals, scattered flowers, and quiet streets. The wait for next year begins.', image: 'assets/bg-ekadashi', rgb: '109, 114, 120' }
 ];
 
-// Audio Tracks
+// Audio Tracks (Honest Names)
 const audioTracks = [
-    { title: "Mahalaya - Birendra Krishna Bhadra", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+    { title: "Ambient Kolkata I", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
     { title: "Dhak Beats Ambience", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
     { title: "Kolkata Pandal Sounds", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
     { title: "Sandhi Puja Bells", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
@@ -56,54 +56,88 @@ let deferredPrompt;
 const pwaPrompt = document.getElementById('pwa-prompt');
 const btnInstallPwa = document.getElementById('btn-install-pwa');
 const btnDismissPwa = document.getElementById('btn-dismiss-pwa');
+const iosPrompt = document.getElementById('pwa-prompt-ios');
+const btnDismissIos = document.getElementById('btn-dismiss-ios');
+
+const checkRecentlyDismissed = () => {
+    const dismissedAt = localStorage.getItem('mahalaya-pwa-dismissed-at');
+    return dismissedAt && (Date.now() - parseInt(dismissedAt)) < 7 * 24 * 60 * 60 * 1000;
+};
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(err => console.error(err));
 }
 
+// Android/Chrome Install Prompt
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    const dismissed = localStorage.getItem('mahalaya-pwa-dismissed');
-    if (!dismissed && !window.matchMedia('(display-mode: standalone)').matches && !navigator.standalone) {
+    if (!checkRecentlyDismissed() && !window.matchMedia('(display-mode: standalone)').matches && !navigator.standalone) {
         setTimeout(() => {
-            pwaPrompt.classList.remove('hidden');
-            setTimeout(() => {
-                pwaPrompt.classList.remove('opacity-0', 'translate-y-4');
-            }, 50);
-        }, 15000); // Show after 15s interaction
+            if (pwaPrompt) {
+                pwaPrompt.classList.remove('hidden');
+                setTimeout(() => pwaPrompt.classList.remove('opacity-0', 'translate-y-4'), 50);
+            }
+        }, 15000);
     }
 });
 
-btnInstallPwa.addEventListener('click', async () => {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-            deferredPrompt = null;
+// iOS Install Fallback
+if (!window.matchMedia('(display-mode: standalone)').matches && !navigator.standalone) {
+    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+        setTimeout(() => {
+            if (iosPrompt && !checkRecentlyDismissed()) {
+                iosPrompt.classList.remove('hidden');
+                setTimeout(() => iosPrompt.classList.remove('opacity-0', 'translate-y-4'), 50);
+            }
+        }, 15000);
+    }
+}
+
+if (btnInstallPwa) {
+    btnInstallPwa.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                deferredPrompt = null;
+            }
+            hidePwaPrompt();
         }
-        hidePwaPrompt();
-    }
-});
+    });
+}
 
-btnDismissPwa.addEventListener('click', () => {
-    localStorage.setItem('mahalaya-pwa-dismissed', 'true');
+const dismissPWA = () => {
+    localStorage.setItem('mahalaya-pwa-dismissed-at', Date.now().toString());
     hidePwaPrompt();
-});
+    hideIosPrompt();
+};
+
+if (btnDismissPwa) btnDismissPwa.addEventListener('click', dismissPWA);
+if (btnDismissIos) btnDismissIos.addEventListener('click', dismissPWA);
 
 function hidePwaPrompt() {
-    pwaPrompt.classList.add('opacity-0', 'translate-y-4');
-    setTimeout(() => pwaPrompt.classList.add('hidden'), 500);
+    if (pwaPrompt) {
+        pwaPrompt.classList.add('opacity-0', 'translate-y-4');
+        setTimeout(() => pwaPrompt.classList.add('hidden'), 500);
+    }
+}
+
+function hideIosPrompt() {
+    if (iosPrompt) {
+        iosPrompt.classList.add('opacity-0', 'translate-y-4');
+        setTimeout(() => iosPrompt.classList.add('hidden'), 500);
+    }
 }
 
 // Check offline
 window.addEventListener('offline', () => {
-    document.getElementById('offline-indicator').classList.remove('hidden');
-    document.getElementById('offline-indicator').classList.add('flex');
+    const el = document.getElementById('offline-indicator');
+    if(el) { el.classList.remove('hidden'); el.classList.add('flex'); }
 });
 window.addEventListener('online', () => {
-    document.getElementById('offline-indicator').classList.add('hidden');
-    document.getElementById('offline-indicator').classList.remove('flex');
+    const el = document.getElementById('offline-indicator');
+    if(el) { el.classList.add('hidden'); el.classList.remove('flex'); }
 });
 
 // Audio
@@ -113,36 +147,66 @@ audio.volume = 0.8;
 
 // Initialize Timelines
 function initTimelines() {
-    timelineDesktop.innerHTML = '';
-    timelineMobile.innerHTML = '';
+    if(timelineDesktop) timelineDesktop.innerHTML = '';
+    if(timelineMobile) timelineMobile.innerHTML = '';
     
     festivalDays.forEach((day, index) => {
         // Desktop Card
-        const card = document.createElement('div');
-        card.className = `timeline-card ${index === currentIndex ? 'active' : ''}`;
-        card.innerHTML = `
-            <div class="timeline-thumb" style="background-image: url('${day.image}-480.webp')"></div>
-            <div class="timeline-title">${day.date}</div>
-            <div class="timeline-subtitle">${day.title}</div>
-        `;
-        card.onclick = () => selectDay(index);
-        timelineDesktop.appendChild(card);
+        if (timelineDesktop) {
+            const card = document.createElement('div');
+            card.className = `timeline-card ${index === currentIndex ? 'active' : ''}`;
+            card.innerHTML = `
+                <div class="timeline-thumb" style="background-image: url('${day.image}-480.webp')"></div>
+                <div class="timeline-title">${day.date}</div>
+                <div class="timeline-subtitle">${day.title}</div>
+            `;
+            card.onclick = () => selectDay(index);
+            timelineDesktop.appendChild(card);
+        }
 
         // Mobile Pill
-        const pill = document.createElement('div');
-        pill.className = `timeline-pill ${index === currentIndex ? 'active' : ''}`;
-        pill.innerHTML = `[ ${day.title.toUpperCase()} ]`;
-        pill.onclick = () => selectDay(index);
-        timelineMobile.appendChild(pill);
+        if (timelineMobile) {
+            const pill = document.createElement('div');
+            pill.className = `timeline-pill ${index === currentIndex ? 'active' : ''}`;
+            pill.innerHTML = `[ ${day.title.toUpperCase()} ]`;
+            pill.onclick = () => selectDay(index);
+            timelineMobile.appendChild(pill);
+        }
     });
 }
 initTimelines();
 
-// Day Selection
+// Pre-caching logic for Service Worker
+function cacheCriticalImages() {
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller && !isSlowNetwork) {
+        const cacheImages = [];
+        const toCache = new Set([currentIndex, Math.max(0, currentIndex-1), Math.min(festivalDays.length-1, currentIndex+1)]);
+        toCache.forEach(idx => {
+            cacheImages.push(`${festivalDays[idx].image}-480.webp`);
+            cacheImages.push(`${festivalDays[idx].image}-768.webp`);
+            cacheImages.push(`${festivalDays[idx].image}-1280.webp`);
+        });
+        
+        navigator.serviceWorker.controller.postMessage({
+            type: 'CACHE_ASSETS',
+            assets: cacheImages
+        });
+    }
+}
+window.addEventListener('load', cacheCriticalImages);
+
 function selectDay(index) {
     if (index === currentIndex) return;
     currentIndex = index;
     updateUI();
+    cacheCriticalImages(); // Cache adjacent dynamically
+}
+
+function refreshCurrentScene() {
+    const day = festivalDays[currentIndex];
+    const imageUrl = `${day.image}${imageVariant}`;
+    const activeBg = bg1.style.opacity === '0' ? bg2 : bg1;
+    activeBg.style.backgroundImage = `url('${imageUrl}')`;
 }
 
 function preloadImage(url) {
@@ -157,16 +221,20 @@ function updateUI() {
     const tid = ++transitionId;
     
     // Update active states
-    Array.from(timelineDesktop.children).forEach((child, idx) => {
-        child.classList.toggle('active', idx === currentIndex);
-    });
-    Array.from(timelineMobile.children).forEach((child, idx) => {
-        child.classList.toggle('active', idx === currentIndex);
-    });
+    if (timelineDesktop) {
+        Array.from(timelineDesktop.children).forEach((child, idx) => {
+            child.classList.toggle('active', idx === currentIndex);
+        });
+    }
+    if (timelineMobile) {
+        Array.from(timelineMobile.children).forEach((child, idx) => {
+            child.classList.toggle('active', idx === currentIndex);
+        });
+    }
     
     // Scroll active element into view smoothly
-    const activeDesktop = timelineDesktop.children[currentIndex];
-    const activeMobile = timelineMobile.children[currentIndex];
+    const activeDesktop = timelineDesktop ? timelineDesktop.children[currentIndex] : null;
+    const activeMobile = timelineMobile ? timelineMobile.children[currentIndex] : null;
     if (activeDesktop) activeDesktop.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     if (activeMobile) activeMobile.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
 
@@ -183,9 +251,10 @@ function updateUI() {
 
     // Update Radio Thumbs
     const thumbUrl = `url('${day.image}-480.webp')`;
-    document.getElementById('radio-thumb').style.backgroundImage = thumbUrl;
-    const thumbMobile = document.getElementById('radio-thumb-mobile');
-    if (thumbMobile) thumbMobile.style.backgroundImage = thumbUrl;
+    const rt = document.getElementById('radio-thumb');
+    const rtm = document.getElementById('radio-thumb-mobile');
+    if (rt) rt.style.backgroundImage = thumbUrl;
+    if (rtm) rtm.style.backgroundImage = thumbUrl;
 
     // Preload next
     if (currentIndex < festivalDays.length - 1) {
@@ -197,7 +266,7 @@ function updateUI() {
         curr: document.getElementById(`fp-${type}`),
         next: document.getElementById(`fp-${type}-next`),
         val: type === 'title' ? day.title : (type === 'subtitle' ? day.subtitle : day.desc)
-    }));
+    })).filter(o => o.curr && o.next);
 
     els.forEach(({curr, next, val}) => {
         next.textContent = val;
@@ -207,7 +276,8 @@ function updateUI() {
         next.style.opacity = '1';
     });
 
-    document.getElementById('chapter-indicator').textContent = `CHAPTER 0${currentIndex + 1} / 09`;
+    const ci = document.getElementById('chapter-indicator');
+    if (ci) ci.textContent = `CHAPTER 0${currentIndex + 1} / 09`;
 
     setTimeout(() => {
         if (transitionId !== tid) return;
@@ -239,15 +309,19 @@ function updateTime() {
     
     // Time
     const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-    document.getElementById('current-time-desktop').textContent = timeStr;
-    document.getElementById('sheet-time').textContent = timeStr;
+    const ctd = document.getElementById('current-time-desktop');
+    const stm = document.getElementById('sheet-time');
+    if(ctd) ctd.textContent = timeStr;
+    if(stm) stm.textContent = timeStr;
 
     // Countdown
     const diff = mahalayaDate - now;
     const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
     const cdStr = days > 0 ? `0${days}`.slice(-2) + ' DAYS' : 'IT IS HERE';
-    document.getElementById('cd-val-desktop').textContent = cdStr;
-    document.getElementById('sheet-cd-val').textContent = cdStr;
+    const cdv = document.getElementById('cd-val-desktop');
+    const scdv = document.getElementById('sheet-cd-val');
+    if(cdv) cdv.textContent = cdStr;
+    if(scdv) scdv.textContent = cdStr;
 }
 setInterval(updateTime, 1000);
 updateTime();
@@ -255,11 +329,18 @@ updateTime();
 // Mobile Swipe Navigation
 let touchStartX = 0;
 let touchEndX = 0;
+
 document.getElementById('ui-layer').addEventListener('touchstart', e => {
+    // Ignore if touch originated inside controls/timeline/sheets
+    if (e.target.closest('button') || e.target.closest('input') || e.target.closest('.timeline-container-pos') || e.target.closest('[data-sheet]')) {
+        touchStartX = -1; // invalid
+        return;
+    }
     touchStartX = e.changedTouches[0].screenX;
 }, {passive: true});
 
 document.getElementById('ui-layer').addEventListener('touchend', e => {
+    if (touchStartX === -1) return;
     touchEndX = e.changedTouches[0].screenX;
     handleSwipe();
 }, {passive: true});
@@ -277,13 +358,18 @@ function handleSwipe() {
 }
 
 // Audio Controls
-function togglePlay() {
-    if (isPlaying) {
+async function togglePlay() {
+    if (!isPlaying) {
+        try {
+            await audio.play();
+            isPlaying = true;
+        } catch(e) {
+            console.error("Audio play blocked", e);
+            isPlaying = false;
+        }
+    } else {
         audio.pause();
         isPlaying = false;
-    } else {
-        audio.play().catch(e => console.error("Audio play blocked", e));
-        isPlaying = true;
     }
     updateAudioUI();
 }
@@ -307,9 +393,9 @@ function updateAudioUI() {
     if(eq) eq.style.opacity = isPlaying ? '1' : '0';
     
     const trackName = audioTracks[currentTrackIndex].title;
-    document.getElementById('player-track-desktop').textContent = trackName;
-    document.getElementById('player-track-mobile').textContent = trackName;
-    document.getElementById('player-track-sheet').textContent = trackName;
+    [document.getElementById('player-track-desktop'), document.getElementById('player-track-mobile'), document.getElementById('player-track-sheet')].forEach(el => {
+        if(el) el.textContent = trackName;
+    });
 }
 
 [
@@ -319,37 +405,50 @@ function updateAudioUI() {
     document.getElementById('btn-play-ambience-mobile')
 ].forEach(btn => {
     if (btn) btn.addEventListener('click', (e) => {
-        e.stopPropagation(); // prevent opening sheet if clicking play on bar
+        e.stopPropagation();
         togglePlay();
     });
 });
 
-audio.addEventListener('ended', () => {
+audio.addEventListener('ended', async () => {
     currentTrackIndex = (currentTrackIndex + 1) % audioTracks.length;
     audio.src = audioTracks[currentTrackIndex].src;
-    if (isPlaying) audio.play();
+    if (isPlaying) {
+        try {
+            await audio.play();
+        } catch { isPlaying = false; }
+    }
     updateAudioUI();
 });
 
-document.getElementById('btn-next').addEventListener('click', () => {
+const nextTrack = async () => {
     currentTrackIndex = (currentTrackIndex + 1) % audioTracks.length;
     audio.src = audioTracks[currentTrackIndex].src;
-    if (isPlaying) audio.play();
+    if (isPlaying) {
+        try { await audio.play(); } catch { isPlaying = false; }
+    }
     updateAudioUI();
-});
-document.getElementById('btn-prev').addEventListener('click', () => {
+};
+const prevTrack = async () => {
     currentTrackIndex = (currentTrackIndex - 1 + audioTracks.length) % audioTracks.length;
     audio.src = audioTracks[currentTrackIndex].src;
-    if (isPlaying) audio.play();
+    if (isPlaying) {
+        try { await audio.play(); } catch { isPlaying = false; }
+    }
     updateAudioUI();
-});
-document.getElementById('btn-next-mobile').addEventListener('click', () => document.getElementById('btn-next').click());
-document.getElementById('btn-prev-mobile').addEventListener('click', () => document.getElementById('btn-prev').click());
+};
+
+const bnd = document.getElementById('btn-next'); if(bnd) bnd.addEventListener('click', nextTrack);
+const bpd = document.getElementById('btn-prev'); if(bpd) bpd.addEventListener('click', prevTrack);
+const bnm = document.getElementById('btn-next-mobile'); if(bnm) bnm.addEventListener('click', nextTrack);
+const bpm = document.getElementById('btn-prev-mobile'); if(bpm) bpm.addEventListener('click', prevTrack);
 
 const volDes = document.getElementById('volume-slider-desktop');
 const volMob = document.getElementById('volume-slider-mobile');
-volDes.addEventListener('input', (e) => { audio.volume = e.target.value; volMob.value = e.target.value; });
-volMob.addEventListener('input', (e) => { audio.volume = e.target.value; volDes.value = e.target.value; });
+if(volDes && volMob) {
+    volDes.addEventListener('input', (e) => { audio.volume = e.target.value; volMob.value = e.target.value; });
+    volMob.addEventListener('input', (e) => { audio.volume = e.target.value; volDes.value = e.target.value; });
+}
 
 // Mobile Sheets Logic
 const backdrop = document.getElementById('backdrop');
@@ -359,6 +458,7 @@ const sheetMenu = document.getElementById('sheet-menu');
 let activeSheet = null;
 
 function openSheet(sheet) {
+    if (!sheet) return;
     activeSheet = sheet;
     backdrop.classList.remove('hidden');
     setTimeout(() => {
@@ -377,14 +477,15 @@ function closeSheet() {
     }, 400);
 }
 
-backdrop.addEventListener('click', closeSheet);
-document.getElementById('mobile-radio-bar').addEventListener('click', () => openSheet(sheetRadio));
-document.getElementById('btn-status-mobile').addEventListener('click', () => openSheet(sheetStatus));
-document.getElementById('btn-menu-mobile').addEventListener('click', () => openSheet(sheetMenu));
+if(backdrop) backdrop.addEventListener('click', closeSheet);
+const mrb = document.getElementById('mobile-radio-bar'); if(mrb) mrb.addEventListener('click', () => openSheet(sheetRadio));
+const bsm = document.getElementById('btn-status-mobile'); if(bsm) bsm.addEventListener('click', () => openSheet(sheetStatus));
+const bmm = document.getElementById('btn-menu-mobile'); if(bmm) bmm.addEventListener('click', () => openSheet(sheetMenu));
 
 // Sheet swipe to close
 let sheetTouchStartY = 0;
 [sheetRadio, sheetStatus, sheetMenu].forEach(sheet => {
+    if(!sheet) return;
     sheet.addEventListener('touchstart', e => {
         sheetTouchStartY = e.changedTouches[0].screenY;
     }, {passive: true});
@@ -392,6 +493,17 @@ let sheetTouchStartY = 0;
         const deltaY = e.changedTouches[0].screenY - sheetTouchStartY;
         if (deltaY > 50) closeSheet();
     }, {passive: true});
+});
+
+// Menu Button handlers (Placeholder logic)
+['btn-menu-archive', 'btn-menu-moments', 'btn-menu-about'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) {
+        btn.addEventListener('click', () => {
+            alert(id.replace('btn-menu-', '').toUpperCase() + ' - Coming Soon in next iteration.');
+            closeSheet();
+        });
+    }
 });
 
 // Handle resize events for responsive image loading
@@ -403,18 +515,21 @@ window.addEventListener('resize', () => {
         isMobile = window.innerWidth < 768;
         if (wasMobile !== isMobile) {
             updateImageVariant();
-            selectDay(currentIndex); // refresh image
+            refreshCurrentScene(); // FIX: Explicitly refresh the current scene image
+            initTimelines(); // reset timelines UI sizes
+            selectDay(currentIndex); // ensure selected
         }
     }, 250);
 });
 
 // Particles System (Optimized)
 const canvas = document.getElementById('particles-canvas');
-const ctx = canvas.getContext('2d');
+const ctx = canvas ? canvas.getContext('2d') : null;
 let particles = [];
 let animationFrameId;
 
 function initParticles() {
+    if (!canvas || !ctx) return;
     if (isSlowNetwork || prefersReducedMotion) {
         canvas.style.display = 'none';
         return;
@@ -434,7 +549,7 @@ function initParticles() {
 }
 
 function drawParticles() {
-    if (isSlowNetwork || prefersReducedMotion) return;
+    if (!ctx || isSlowNetwork || prefersReducedMotion) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     particles.forEach(p => {

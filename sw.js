@@ -1,10 +1,13 @@
-const CACHE_NAME = 'mahalaya26-cache-v1';
+const CACHE_NAME = 'mahalaya26-cache-v2';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
     '/style.css',
     '/script.js',
-    '/manifest.webmanifest'
+    '/manifest.webmanifest',
+    '/assets/icon-192.png',
+    '/assets/icon-512.png',
+    '/assets/icon-maskable-512.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -54,7 +57,6 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request).then((cachedResponse) => {
             if (cachedResponse) {
-                // Fetch to update cache silently
                 event.waitUntil(
                     fetch(event.request).then((networkResponse) => {
                         caches.open(CACHE_NAME).then((cache) => {
@@ -67,4 +69,14 @@ self.addEventListener('fetch', (event) => {
             return fetch(event.request);
         })
     );
+});
+
+self.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'CACHE_ASSETS') {
+        event.waitUntil(
+            caches.open(CACHE_NAME).then((cache) => {
+                return cache.addAll(event.data.assets);
+            })
+        );
+    }
 });
