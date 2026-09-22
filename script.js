@@ -4,21 +4,23 @@ const playlists = {
         { title: "Birendra Krishna Bhadra - Ya Chandi", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
         { title: "Jago Tumi Jago", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
     ],
-    "pre-puja": [
-        { title: "Agomoni Gaan - Flute", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+    "tritiya": [
+        { title: "Agomoni Gaan - Flute", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
+    ],
+    "panchomi": [
         { title: "Festive Anticipation", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
     ],
-    "shashthi": [
+    "shasti": [
         { title: "Bodhon Dhak", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" }
     ],
-    "saptami": [
+    "shaptami": [
         { title: "Anjali Mantra", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" }
     ],
     "ashtami": [
         { title: "Sandhi Puja Aarti", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
         { title: "Intense Dhak Beats", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" }
     ],
-    "navami": [
+    "nabami": [
         { title: "Dhunuchi Naach", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" }
     ],
     "dashami": [
@@ -40,15 +42,16 @@ let isPlaying = false;
 
 // --- Background Images Mapping ---
 const backgroundImages = {
-    "mahalaya": "bg_mahalaya.jpg",
-    "pre-puja": "bg_pre-puja.jpg",
-    "shashthi": "bg_shashthi.jpg",
-    "saptami": "bg_saptami.jpg",
-    "ashtami": "bg_ashtami.jpg",
-    "navami": "bg_navami.jpg",
-    "dashami": "bg_dashami.jpg",
-    "ekadashi": "bg_ekadashi.jpg",
-    "radio": "bg_mahalaya.jpg"
+    "mahalaya": "assets/bg-mahalaya.png",
+    "tritiya": "assets/bg-tritiya.png",
+    "panchomi": "assets/bg-panchomi.png",
+    "shasti": "assets/bg-shasti.png",
+    "shaptami": "assets/bg-shaptami.png",
+    "ashtami": "assets/bg-ashtami.png",
+    "nabami": "assets/bg-nabami.png",
+    "dashami": "assets/bg-dashami.png",
+    "ekadashi": "assets/bg-ekadashi.png",
+    "radio": "assets/bg-mahalaya.png"
 };
 
 // --- Elements ---
@@ -182,7 +185,7 @@ document.querySelectorAll('.playlist-item').forEach(item => {
         playlistName.textContent = item.querySelector('.font-semibold').textContent;
         
         // Update background
-        const bgImg = backgroundImages[playlistKey] || "bg_mahalaya.jpg";
+        const bgImg = backgroundImages[playlistKey] || "assets/bg-mahalaya.png";
         backgroundContainer.style.backgroundImage = `url('${bgImg}')`;
 
         loadTrack(currentTrackIndex);
