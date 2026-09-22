@@ -177,35 +177,55 @@ tabPlaylists.addEventListener('click', () => switchTab(tabPlaylists, tabRadio, c
 
 
 // --- Select Playlist / Station ---
+function setActiveItem(clickedItem) {
+    document.querySelectorAll('.playlist-item, .radio-station').forEach(el => {
+        el.classList.remove('playlist-active');
+    });
+    clickedItem.classList.add('playlist-active');
+}
+
 document.querySelectorAll('.playlist-item').forEach(item => {
     item.addEventListener('click', () => {
+        setActiveItem(item);
         const playlistKey = item.getAttribute('data-playlist');
         currentPlaylist = playlists[playlistKey];
         currentTrackIndex = 0;
-        playlistName.textContent = item.querySelector('.font-semibold').textContent;
+        
+        // Use the text from the p containing the name, ignoring the icon
+        const nameEl = item.querySelector('.font-semibold');
+        playlistName.textContent = nameEl ? nameEl.textContent : "Unknown Playlist";
         
         // Update background
         const bgImg = backgroundImages[playlistKey] || "assets/bg-mahalaya.png";
         backgroundContainer.style.backgroundImage = `url('${bgImg}')`;
 
         loadTrack(currentTrackIndex);
-        if (!isPlaying) togglePlay();
-        else audio.play();
+        if (isPlaying) {
+            audio.play().catch(e => console.error(e));
+        } else {
+            togglePlay(); // auto-play when selecting a new playlist
+        }
     });
 });
 
-document.querySelectorAll('.radio-station').forEach((item, index) => {
+document.querySelectorAll('.radio-station').forEach((item, idx) => {
     item.addEventListener('click', () => {
+        setActiveItem(item);
         currentPlaylist = playlists["radio"];
-        currentTrackIndex = index;
-        playlistName.textContent = "Live Radio";
+        currentTrackIndex = idx;
+        
+        const nameEl = item.querySelector('.font-semibold');
+        playlistName.textContent = nameEl ? nameEl.textContent : "Live Radio";
         
         // Update background for radio
-        backgroundContainer.style.backgroundImage = `url('${backgroundImages["radio"]}')`;
+        backgroundContainer.style.backgroundImage = `url('assets/bg-mahalaya.png')`;
 
         loadTrack(currentTrackIndex);
-        if (!isPlaying) togglePlay();
-        else audio.play();
+        if (!isPlaying) {
+            togglePlay();
+        } else {
+            audio.play().catch(e => console.error(e));
+        }
     });
 });
 
@@ -219,10 +239,6 @@ mobileMenuBtn.addEventListener('click', () => {
 // For demonstration, let's create a date dynamically if it's past, but hardcoding for now.
 const targetDate = new Date('October 6, 2026 04:00:00 GMT+0530').getTime();
 
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
 const countdownContainer = document.getElementById('countdown-container');
 const liveBroadcastContainer = document.getElementById('live-broadcast');
 
@@ -252,10 +268,10 @@ const timerInterval = setInterval(() => {
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    daysEl.textContent = days.toString().padStart(2, '0');
-    hoursEl.textContent = hours.toString().padStart(2, '0');
-    minutesEl.textContent = minutes.toString().padStart(2, '0');
-    secondsEl.textContent = seconds.toString().padStart(2, '0');
+    document.querySelectorAll('.days-val').forEach(el => el.textContent = days.toString().padStart(2, '0'));
+    document.querySelectorAll('.hours-val').forEach(el => el.textContent = hours.toString().padStart(2, '0'));
+    document.querySelectorAll('.minutes-val').forEach(el => el.textContent = minutes.toString().padStart(2, '0'));
+    document.querySelectorAll('.seconds-val').forEach(el => el.textContent = seconds.toString().padStart(2, '0'));
 }, 1000);
 
 // Init
