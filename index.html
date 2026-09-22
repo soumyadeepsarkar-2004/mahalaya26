@@ -144,7 +144,7 @@
         </div>
 
                 <!-- RADIO DESKTOP -->
-        <div class="radio-card hidden md:flex absolute bottom-[24px] left-[clamp(24px,4vw,64px)] w-[280px] xl:w-[320px] z-40 flex-col gap-3 p-4 rounded-[4px] pointer-events-auto border border-white/5 shadow-2xl overflow-hidden" style="background: linear-gradient(135deg, rgba(var(--scene-rgb), 0.15) 0%, rgba(var(--scene-rgb), 0.05) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+        <div class="radio-card overflow-hidden">
             <!-- Top editorial line -->
             <div class="flex items-center justify-between">
                 <span class="text-[8px] font-mono tracking-[0.3em] text-white/60">PUJA RADIO</span>
@@ -187,22 +187,6 @@
             </div>
         </div>
 
-        <!-- RADIO MOBILE BAR -->
-        <div id="mobile-radio-bar" class="md:hidden absolute bottom-[calc(env(safe-area-inset-bottom,0px)+16px)] left-1/2 -translate-x-1/2 w-[calc(100%-32px)] px-4 py-3 flex items-center justify-between pointer-events-auto z-40 border border-white/10 rounded-[16px] shadow-lg" style="background: rgba(var(--scene-rgb), 0.15); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
-            <div class="flex items-center gap-2 shrink-0">
-                <div class="w-1.5 h-1.5 rounded-full bg-white/30" id="signal-mobile"></div>
-                <span class="text-[8px] font-mono tracking-[0.2em] text-white/50">PUJA RADIO</span>
-            </div>
-            <span class="text-[11px] text-white/90 truncate font-serif absolute left-1/2 -translate-x-1/2" id="player-track-mobile">...</span>
-            
-            <div class="flex items-center gap-3 shrink-0">
-                <span class="text-[9px] font-mono text-white/40" id="time-mobile">00:00</span>
-                <button id="btn-play-pause-mobile-bar" class="text-white/80 outline-none p-1">
-                    <i class="fas fa-play text-[10px]" id="play-icon-mobile-bar"></i>
-                </button>
-            </div>
-        </div>
-
         <!-- DESKTOP UTILITIES -->
         <div class="utilities-card hidden xl:flex items-end flex-col gap-3 pointer-events-none z-30">
             <div class="text-[7px] tracking-[0.35em] font-mono text-white/30 uppercase leading-relaxed text-right pr-2">
@@ -214,32 +198,6 @@
 
     <!-- MOBILE BOTTOM SHEETS -->
     <div id="backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300 pointer-events-auto"></div>
-
-    <!-- Mobile Radio Expanded Sheet -->
-    <div id="sheet-radio" class="fixed bottom-0 left-0 w-full rounded-t-[24px] p-6 pb-[calc(24px+env(safe-area-inset-bottom,0px))] z-50 transform translate-y-full transition-transform duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] pointer-events-auto flex flex-col items-center border-t border-white/10" style="background: rgba(var(--scene-rgb), 0.15); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);">
-        <div class="w-10 h-1 bg-white/20 mb-8 sheet-handle"></div>
-        
-        <div class="w-full max-w-[240px] aspect-square bg-cover bg-center border border-white/10 mb-8 shadow-2xl transition-all duration-700" id="radio-thumb-mobile"></div>
-        
-        <span class="text-[9px] font-mono tracking-[0.3em] text-white/50 mb-2">PUJA RADIO</span>
-        <span class="font-serif text-2xl text-white/90 text-center px-4 mb-1" id="player-track-sheet">...</span>
-        
-        <div class="w-12 h-px bg-white/10 my-6"></div>
-        
-        <div class="flex items-center gap-10">
-            <button id="btn-prev-mobile" class="text-white/40 hover:text-white outline-none"><i class="fas fa-backward"></i></button>
-            <button id="btn-play-pause-sheet" class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center outline-none">
-                <i class="fas fa-play text-lg text-white translate-x-[2px]" id="play-icon-sheet"></i>
-            </button>
-            <button id="btn-next-mobile" class="text-white/40 hover:text-white outline-none"><i class="fas fa-forward"></i></button>
-        </div>
-        
-        <div class="w-full max-w-[240px] mt-8 flex items-center gap-3">
-            <i class="fas fa-volume-down text-[10px] text-white/30"></i>
-            <input type="range" id="volume-slider-mobile" min="0" max="1" step="0.01" value="0.8" class="w-full h-[2px] bg-white/20 appearance-none slider-thumb-analog">
-            <i class="fas fa-volume-up text-[10px] text-white/30"></i>
-        </div>
-    </div>
 
     <!-- Mobile Status Sheet (Time/Countdown) -->
     <div id="sheet-status" class="fixed bottom-0 left-0 w-full glass-primary rounded-t-[24px] p-6 pb-[calc(24px+env(safe-area-inset-bottom,0px))] z-50 transform translate-y-full transition-transform duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] pointer-events-auto flex flex-col">

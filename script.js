@@ -14,9 +14,9 @@ const festivalDays = [
 // Audio Tracks (Honest Names)
 const audioTracks = [
     { title: "Ambient Kolkata I", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-    { title: "Dhak Beats Ambience", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+    { title: "Ambient Kolkata I", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
     { title: "Kolkata Pandal Sounds", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-    { title: "Sandhi Puja Bells", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
+    { title: "Ambient Kolkata II", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
 ];
 
 // State
@@ -375,45 +375,43 @@ async function togglePlay() {
 }
 
 function updateAudioUI() {
-    const playIcons = [
-        document.getElementById('play-icon-desktop'),
-        document.getElementById('play-icon-mobile-bar'),
-        document.getElementById('play-icon-sheet')
-    ];
-    
-    playIcons.forEach(icon => {
-        if(icon) {
-            icon.className = isPlaying ? "fas fa-pause text-xs text-white" : "fas fa-play text-xs text-white";
-            if (icon.id === 'play-icon-mobile-bar' || icon.id === 'play-icon-sheet') {
-                icon.className = isPlaying ? "fas fa-pause text-[10px] text-white/90" : "fas fa-play text-[10px] text-white/90 translate-x-[1px]";
-            }
-        }
-    });
+    const playing = !audio.paused && !audio.ended;
+    isPlaying = playing;
+
+    const icon = document.getElementById('play-icon-desktop');
+    if (icon) {
+        icon.className = playing
+            ? 'fas fa-pause text-xs text-white'
+            : 'fas fa-play text-xs text-white translate-x-[1px]';
+    }
 
     const eq = document.getElementById('audio-eq-desktop');
-    if(eq) eq.style.opacity = isPlaying ? '1' : '0';
-    
-    // Signal Indicators
-    const signals = [
-        document.getElementById('signal-indicator-desktop'),
-        document.getElementById('signal-mobile')
-    ];
-    signals.forEach(sig => {
-        if (!sig) return;
-        if (isPlaying) {
-            sig.className = "w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse";
-            sig.style.boxShadow = "0 0 8px rgba(239, 68, 68, 0.6)";
-        } else {
-            sig.className = "w-1.5 h-1.5 rounded-full bg-white/30";
-            sig.style.boxShadow = "none";
-        }
-    });
-    
-    const trackName = audioTracks[currentTrackIndex].title;
-    [document.getElementById('player-track-desktop'), document.getElementById('player-track-mobile'), document.getElementById('player-track-sheet')].forEach(el => {
-        if(el) el.textContent = trackName;
-    });
+    if (eq) {
+        eq.style.opacity = playing ? '1' : '0';
+    }
+
+    const signal = document.getElementById('signal-indicator-desktop');
+    if (signal) {
+        signal.className = playing
+            ? 'w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse'
+            : 'w-1.5 h-1.5 rounded-full bg-white/30';
+
+        signal.style.boxShadow = playing
+            ? '0 0 8px rgba(239,68,68,.6)'
+            : 'none';
+    }
+
+    const track = audioTracks[currentTrackIndex]?.title || '';
+    const trackEl = document.getElementById('player-track-desktop');
+    if (trackEl) {
+        trackEl.textContent = track;
+    }
 }
+
+
+audio.addEventListener('play', updateAudioUI);
+audio.addEventListener('pause', updateAudioUI);
+audio.addEventListener('ended', updateAudioUI);
 
 // Track Time formatting
 function formatTime(seconds) {
@@ -428,11 +426,7 @@ audio.addEventListener('timeupdate', () => {
     if (tm) tm.textContent = formatTime(audio.currentTime);
 });
 
-[
-    document.getElementById('btn-play-pause-desktop'),
-    document.getElementById('btn-play-pause-mobile-bar'),
-    document.getElementById('btn-play-pause-sheet')
-].forEach(btn => {
+[document.getElementById('btn-play-pause-desktop')].forEach(btn => {
     if (btn) btn.addEventListener('click', (e) => {
         e.stopPropagation();
         togglePlay();
@@ -473,15 +467,12 @@ const bnm = document.getElementById('btn-next-mobile'); if(bnm) bnm.addEventList
 const bpm = document.getElementById('btn-prev-mobile'); if(bpm) bpm.addEventListener('click', prevTrack);
 
 const volDes = document.getElementById('volume-slider-desktop');
-const volMob = document.getElementById('volume-slider-mobile');
-if(volDes && volMob) {
-    volDes.addEventListener('input', (e) => { audio.volume = e.target.value; volMob.value = e.target.value; });
-    volMob.addEventListener('input', (e) => { audio.volume = e.target.value; volDes.value = e.target.value; });
+if(volDes) {
+    volDes.addEventListener('input', (e) => { audio.volume = e.target.value; });
 }
 
 // Mobile Sheets Logic
 const backdrop = document.getElementById('backdrop');
-const sheetRadio = document.getElementById('sheet-radio');
 const sheetStatus = document.getElementById('sheet-status');
 const sheetMenu = document.getElementById('sheet-menu');
 const sheetAbout = document.getElementById('sheet-about');
@@ -508,17 +499,7 @@ function closeSheet() {
 }
 
 if(backdrop) backdrop.addEventListener('click', closeSheet);
-const mrb = document.getElementById('mobile-radio-bar'); if(mrb) mrb.addEventListener('click', () => openSheet(sheetRadio));
-const bsm = document.getElementById('btn-status-mobile'); if(bsm) bsm.addEventListener('click', () => openSheet(sheetStatus));
-const bmm = document.getElementById('btn-menu-mobile'); if(bmm) bmm.addEventListener('click', () => openSheet(sheetMenu));
 
-// Sheet swipe to close
-let sheetTouchStartY = 0;
-[sheetRadio, sheetStatus, sheetMenu, sheetAbout].forEach(sheet => {
-    if(!sheet) return;
-    sheet.addEventListener('touchstart', e => {
-        sheetTouchStartY = e.changedTouches[0].screenY;
-    }, {passive: true});
     sheet.addEventListener('touchend', e => {
         const deltaY = e.changedTouches[0].screenY - sheetTouchStartY;
         if (deltaY > 50) closeSheet();
@@ -532,7 +513,7 @@ if(btnArchive) btnArchive.addEventListener('click', () => closeSheet());
 const btnMoments = document.getElementById('btn-menu-moments');
 if(btnMoments) btnMoments.addEventListener('click', () => {
     closeSheet();
-    setTimeout(() => openSheet(sheetRadio), 400);
+    
 });
 
 const btnAbout = document.getElementById('btn-menu-about');
