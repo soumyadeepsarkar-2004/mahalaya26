@@ -23,10 +23,10 @@ body {
 
 /* Glass Levels */
 .glass-primary {
-    background: linear-gradient(135deg, rgba(var(--scene-rgb), 0.10), rgba(255, 255, 255, 0.05));
-    backdrop-filter: blur(22px) saturate(120%);
-    -webkit-backdrop-filter: blur(22px) saturate(120%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: linear-gradient(135deg, rgba(var(--scene-rgb), 0.12), rgba(255, 255, 255, 0.035));
+    backdrop-filter: blur(16px) saturate(115%);
+    -webkit-backdrop-filter: blur(16px) saturate(115%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     transition: background 0.8s ease, border-color 0.8s ease;
 }
@@ -51,14 +51,79 @@ body {
     background: linear-gradient(135deg, rgba(var(--scene-rgb), 0.14), rgba(255, 255, 255, 0.08));
     border: 1px solid rgba(255, 255, 255, 0.22);
 }
-.glass-micro:hover {
-    background: linear-gradient(135deg, rgba(var(--scene-rgb), 0.08), rgba(255, 255, 255, 0.04));
-    border: 1px solid rgba(255, 255, 255, 0.12);
-}
 
-/* Scene Transitions */
+/* Scene Transitions & Background Positioning */
 .scene-bg {
     transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background-position: 52% center;
+}
+@media (max-aspect-ratio: 4/3) {
+    .scene-bg {
+        background-position: 58% center;
+    }
+}
+
+.vignette-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50%;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.05) 0%,
+        rgba(0,0,0,0) 45%,
+        rgba(0,0,0,0.35) 72%,
+        rgba(0,0,0,0.78) 100%
+    );
+}
+
+/* Cinematic Desktop Positioning Architecture */
+@media (min-width: 768px) {
+    .hero-copy {
+        width: min(520px, 42vw);
+    }
+    
+    .title-primary {
+        font-size: clamp(3.6rem, 5.5vw, 6rem);
+        line-height: 0.9;
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 600;
+        letter-spacing: 0.025em;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    .timeline-container-pos {
+        position: absolute;
+        left: 50%;
+        bottom: clamp(175px, 20vh, 220px);
+        transform: translateX(-50%);
+    }
+
+    .radio-card {
+        position: absolute;
+        left: clamp(24px, 4vw, 64px);
+        bottom: 28px;
+        width: clamp(360px, 30vw, 450px);
+    }
+
+    .utilities-card {
+        position: absolute;
+        right: clamp(24px, 4vw, 64px);
+        bottom: 32px;
+    }
+}
+
+/* Mobile Overrides (Fallback text sizes) */
+@media (max-width: 767px) {
+    .title-primary {
+        font-size: 3rem;
+        line-height: 1;
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 600;
+        text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
 }
 
 /* Living Glass Animation */
@@ -112,13 +177,13 @@ input[type=range]::-webkit-slider-thumb:hover {
     cursor: pointer;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     scroll-snap-align: center;
-    opacity: 0.5;
-    transform: scale(0.95);
+    opacity: 0.42;
+    transform: scale(0.92);
     filter: grayscale(40%);
 }
 @media (min-width: 768px) {
     .timeline-card {
-        width: 100px;
+        width: 104px;
     }
 }
 .timeline-card:hover {
@@ -128,7 +193,7 @@ input[type=range]::-webkit-slider-thumb:hover {
 }
 .timeline-card.active {
     opacity: 1;
-    transform: scale(1) translateY(-2px);
+    transform: scale(1.08) translateY(-5px);
     filter: grayscale(0%);
 }
 
@@ -144,6 +209,7 @@ input[type=range]::-webkit-slider-thumb:hover {
 }
 @media (min-width: 768px) {
     .timeline-thumb { height: 56px; }
+    .timeline-card.active .timeline-thumb { height: 62px; }
 }
 .timeline-card.active .timeline-thumb {
     border: 1px solid rgba(255, 255, 255, 0.3);
