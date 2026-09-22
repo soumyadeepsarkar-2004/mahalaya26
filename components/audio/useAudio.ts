@@ -1,30 +1,41 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Hls from "hls.js";
 import { useFestivalStore } from "@/store/festival-store";
-import { DEFAULT_AUDIO_TRACKS } from "@/lib/audio";
 
 export function useAudio() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hlsRef = useRef<Hls | null>(null);
 
-  const isPlaying = useFestivalStore((s) => s.isPlaying);
+  const activePlaylist = useFestivalStore((s) => s.activePlaylist);
   const currentTrackIndex = useFestivalStore((s) => s.currentTrackIndex);
+  const isPlaying = useFestivalStore((s) => s.isPlaying);
   const volume = useFestivalStore((s) => s.volume);
   const seekTarget = useFestivalStore((s) => s.seekTarget);
 
   const setIsPlaying = useFestivalStore((s) => s.setIsPlaying);
   const setIsLoading = useFestivalStore((s) => s.setIsLoading);
   const setAudioError = useFestivalStore((s) => s.setAudioError);
+  const setIsLiveStream = useFestivalStore((s) => s.setIsLiveStream);
   const setCurrentTime = useFestivalStore((s) => s.setCurrentTime);
   const setDuration = useFestivalStore((s) => s.setDuration);
   const clearSeekTarget = useFestivalStore((s) => s.clearSeekTarget);
   const nextTrack = useFestivalStore((s) => s.nextTrack);
 
-  const track = DEFAULT_AUDIO_TRACKS[currentTrackIndex] || DEFAULT_AUDIO_TRACKS[0];
+  const track = activePlaylist[currentTrackIndex] || activePlaylist[0];
+
+  // Helper to safely clean up Hls instance
+  const cleanupHls = () => {
+    if (hlsRef.current) {
+      hlsRef.current.destroy();
+      hlsRef.current = null;
+    }
+  };
 
   // Initialize audio element
   useEffect(() => {
-    const audio = new Audio(track.src);
+    const audio = new Audio();
     audio.volume = volume;
     audio.preload = "metadata";
     audioRef.current = audio;
@@ -39,12 +50,14 @@ export function useAudio() {
     const handleEnded = () => nextTrack();
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
     const handleDurationChange = () => {
-      if (!isNaN(audio.duration)) {
+      if (!isNaN(audio.duration) && isFinite(audio.duration)) {
         setDuration(audio.duration);
+      } else {
+        setDuration(0);
       }
     };
     const handleError = () => {
-      console.warn("Audio playback error encountered");
+      console.warn("Audio element encountered playback error");
       setAudioError(true);
     };
 
@@ -60,6 +73,7 @@ export function useAudio() {
 
     return () => {
       audio.pause();
+      cleanupHls();
       audio.removeEventListener("play", handlePlay);
       audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("waiting", handleWaiting);
@@ -72,20 +86,80 @@ export function useAudio() {
     };
   }, []);
 
-  // Handle track changes
+  // Handle track source changes (supports HLS .m3u8 live streams & standard MP3)
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !track?.src) return;
 
     const wasPlaying = isPlaying;
-    audio.src = track.src;
+    cleanupHls();
     setCurrentTime(0);
+    setDuration(0);
     setIsLoading(true);
 
-    if (wasPlaying) {
-      audio.play().catch(() => setIsPlaying(false));
+    const isHls = track.src.includes(".m3u8");
+    const isLive = Boolean(track.isLive || isHls);
+    setIsLiveStream(isLive);
+
+    if (isHls) {
+      if (audio.canPlayType("application/vnd.apple.mpegurl")) {
+        // Native HLS support (Safari on macOS / iOS)
+        audio.src = track.src;
+        if (wasPlaying) {
+          audio.play().catch(() => setIsPlaying(false));
+        }
+      } else if (Hls.isSupported()) {
+        // HLS.js for Chrome, Firefox, Edge, Android
+        const hls = new Hls({
+          enableWorker: true,
+          lowLatencyMode: true,
+          backBufferLength: 30,
+        });
+        hlsRef.current = hls;
+
+        hls.loadSource(track.src);
+        hls.attachMedia(audio);
+
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          setIsLoading(false);
+          if (wasPlaying) {
+            audio.play().catch(() => setIsPlaying(false));
+          }
+        });
+
+        hls.on(Hls.Events.ERROR, (_event, data) => {
+          if (data.fatal) {
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                console.warn("HLS fatal network error, attempting recovery...");
+                hls.startLoad();
+                break;
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                console.warn("HLS fatal media error, recovering...");
+                hls.recoverMediaError();
+                break;
+              default:
+                cleanupHls();
+                setAudioError(true);
+                break;
+            }
+          }
+        });
+      } else {
+        // Fallback
+        audio.src = track.src;
+        if (wasPlaying) {
+          audio.play().catch(() => setIsPlaying(false));
+        }
+      }
+    } else {
+      // Standard MP3 or Icecast audio stream
+      audio.src = track.src;
+      if (wasPlaying) {
+        audio.play().catch(() => setIsPlaying(false));
+      }
     }
-  }, [currentTrackIndex]);
+  }, [track?.src]);
 
   // Handle Play/Pause
   useEffect(() => {
@@ -94,7 +168,7 @@ export function useAudio() {
 
     if (isPlaying) {
       audio.play().catch((e) => {
-        console.warn("Autoplay blocked by browser:", e);
+        console.warn("Autoplay blocked or playback interrupted:", e);
         setIsPlaying(false);
       });
     } else {
@@ -102,12 +176,14 @@ export function useAudio() {
     }
   }, [isPlaying]);
 
-  // Handle Seeking
+  // Handle Seeking (only for non-live tracks)
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio || seekTarget === null) return;
 
-    audio.currentTime = seekTarget;
+    if (!track.isLive && isFinite(audio.duration) && audio.duration > 0) {
+      audio.currentTime = seekTarget;
+    }
     clearSeekTarget();
   }, [seekTarget]);
 
@@ -121,5 +197,7 @@ export function useAudio() {
 
   return {
     track,
+    playlist: activePlaylist,
+    currentIndex: currentTrackIndex,
   };
 }

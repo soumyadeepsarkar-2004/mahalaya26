@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { FESTIVAL_SCENES, type FestivalId } from "@/data/festival";
-import { DEFAULT_AUDIO_TRACKS } from "@/lib/audio";
+import { getPlaylistForFestival, type AudioTrack } from "@/lib/audio";
 
 export type SheetType = "menu" | "status" | "about" | "archive" | "moments" | null;
 
@@ -10,10 +10,12 @@ interface FestivalState {
   isTransitioning: boolean;
   
   // Audio state
+  activePlaylist: AudioTrack[];
   currentTrackIndex: number;
   isPlaying: boolean;
   isLoading: boolean;
   audioError: boolean;
+  isLiveStream: boolean;
   currentTime: number;
   duration: number;
   volume: number;
@@ -33,6 +35,7 @@ interface FestivalState {
   togglePlay: () => void;
   setIsLoading: (loading: boolean) => void;
   setAudioError: (error: boolean) => void;
+  setIsLiveStream: (isLive: boolean) => void;
   setCurrentTime: (time: number) => void;
   setDuration: (duration: number) => void;
   seekTo: (time: number) => void;
@@ -47,15 +50,19 @@ interface FestivalState {
   setPlayerExpanded: (expanded: boolean) => void;
 }
 
+const initialPlaylist = getPlaylistForFestival("mahalaya");
+
 export const useFestivalStore = create<FestivalState>((set, get) => ({
   currentFestivalId: "mahalaya",
   previousFestivalId: null,
   isTransitioning: false,
   
+  activePlaylist: initialPlaylist,
   currentTrackIndex: 0,
   isPlaying: false,
   isLoading: false,
   audioError: false,
+  isLiveStream: !!initialPlaylist[0]?.isLive,
   currentTime: 0,
   duration: 0,
   volume: 0.8,
@@ -69,10 +76,17 @@ export const useFestivalStore = create<FestivalState>((set, get) => ({
     const { currentFestivalId } = get();
     if (currentFestivalId === id) return;
     
+    const newPlaylist = getPlaylistForFestival(id);
     set({
       previousFestivalId: currentFestivalId,
       currentFestivalId: id,
       isTransitioning: true,
+      activePlaylist: newPlaylist,
+      currentTrackIndex: 0,
+      currentTime: 0,
+      duration: 0,
+      audioError: false,
+      isLiveStream: !!newPlaylist[0]?.isLive,
     });
   },
   
@@ -95,24 +109,47 @@ export const useFestivalStore = create<FestivalState>((set, get) => ({
   togglePlay: () => set((state) => ({ isPlaying: !state.isPlaying, audioError: false })),
   setIsLoading: (loading: boolean) => set({ isLoading: loading }),
   setAudioError: (error: boolean) => set({ audioError: error, isPlaying: false, isLoading: false }),
+  setIsLiveStream: (isLive: boolean) => set({ isLiveStream: isLive }),
   setCurrentTime: (time: number) => set({ currentTime: time }),
   setDuration: (duration: number) => set({ duration: duration }),
   seekTo: (time: number) => set({ seekTarget: time, currentTime: time }),
   clearSeekTarget: () => set({ seekTarget: null }),
   
-  setTrackIndex: (index: number) => set({ currentTrackIndex: index, currentTime: 0 }),
-  nextTrack: () =>
-    set((state) => ({
-      currentTrackIndex: (state.currentTrackIndex + 1) % DEFAULT_AUDIO_TRACKS.length,
+  setTrackIndex: (index: number) => {
+    const { activePlaylist } = get();
+    const validIdx = Math.max(0, Math.min(activePlaylist.length - 1, index));
+    set({
+      currentTrackIndex: validIdx,
       currentTime: 0,
-    })),
-  prevTrack: () =>
-    set((state) => ({
-      currentTrackIndex:
-        (state.currentTrackIndex - 1 + DEFAULT_AUDIO_TRACKS.length) %
-        DEFAULT_AUDIO_TRACKS.length,
+      duration: 0,
+      audioError: false,
+      isLiveStream: !!activePlaylist[validIdx]?.isLive,
+    });
+  },
+  
+  nextTrack: () => {
+    const { activePlaylist, currentTrackIndex } = get();
+    const nextIdx = (currentTrackIndex + 1) % activePlaylist.length;
+    set({
+      currentTrackIndex: nextIdx,
       currentTime: 0,
-    })),
+      duration: 0,
+      audioError: false,
+      isLiveStream: !!activePlaylist[nextIdx]?.isLive,
+    });
+  },
+  
+  prevTrack: () => {
+    const { activePlaylist, currentTrackIndex } = get();
+    const prevIdx = (currentTrackIndex - 1 + activePlaylist.length) % activePlaylist.length;
+    set({
+      currentTrackIndex: prevIdx,
+      currentTime: 0,
+      duration: 0,
+      audioError: false,
+      isLiveStream: !!activePlaylist[prevIdx]?.isLive,
+    });
+  },
     
   setVolume: (volume: number) => set({ volume: Math.max(0, Math.min(1, volume)) }),
   setUiVisible: (visible: boolean) => set({ uiVisible: visible }),

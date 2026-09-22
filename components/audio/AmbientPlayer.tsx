@@ -12,19 +12,24 @@ import {
   GripHorizontal,
   Radio as RadioIcon,
   Loader2,
+  Signal,
+  Disc3,
+  Flame,
+  Music,
 } from "lucide-react";
-import { motion, useMotionValue, useAnimation } from "motion/react";
+import { motion, useAnimation } from "motion/react";
 import { useFestivalStore } from "@/store/festival-store";
 import { FESTIVAL_SCENES } from "@/data/festival";
 import { formatTime } from "@/lib/utils";
 import { useAudio } from "./useAudio";
 
 export const AmbientPlayer: React.FC = () => {
-  const { track } = useAudio();
+  const { track, playlist, currentIndex } = useAudio();
 
   const isPlaying = useFestivalStore((s) => s.isPlaying);
   const isLoading = useFestivalStore((s) => s.isLoading);
   const audioError = useFestivalStore((s) => s.audioError);
+  const isLiveStream = useFestivalStore((s) => s.isLiveStream);
   const currentTime = useFestivalStore((s) => s.currentTime);
   const duration = useFestivalStore((s) => s.duration);
   const volume = useFestivalStore((s) => s.volume);
@@ -32,6 +37,7 @@ export const AmbientPlayer: React.FC = () => {
   const togglePlay = useFestivalStore((s) => s.togglePlay);
   const nextTrack = useFestivalStore((s) => s.nextTrack);
   const prevTrack = useFestivalStore((s) => s.prevTrack);
+  const setTrackIndex = useFestivalStore((s) => s.setTrackIndex);
   const setVolume = useFestivalStore((s) => s.setVolume);
   const seekTo = useFestivalStore((s) => s.seekTo);
 
@@ -65,7 +71,46 @@ export const AmbientPlayer: React.FC = () => {
     }
   };
 
-  const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
+  // Needle position calculation:
+  // If track is recorded with duration: reflects playback progress
+  // If live stream: reflects station position across the dial
+  const stationRatio = playlist.length > 1 ? currentIndex / (playlist.length - 1) : 0.5;
+  const progressPercent =
+    !isLiveStream && duration > 0
+      ? (currentTime / duration) * 100
+      : stationRatio * 100;
+
+  // Category Icon & Badge
+  const getCategoryBadge = () => {
+    switch (track.category) {
+      case "radio":
+        return {
+          icon: <Signal className="w-2.5 h-2.5 text-red-400 animate-pulse" />,
+          label: "LIVE FM RADIO",
+          color: "text-red-400 border-red-500/30 bg-red-500/10",
+        };
+      case "dhak":
+        return {
+          icon: <Flame className="w-2.5 h-2.5 text-amber-400 animate-bounce" />,
+          label: "DHAK BEATS",
+          color: "text-amber-400 border-amber-500/30 bg-amber-500/10",
+        };
+      case "chant":
+        return {
+          icon: <Disc3 className="w-2.5 h-2.5 text-orange-400" />,
+          label: "SACRED CHANT",
+          color: "text-orange-300 border-orange-500/30 bg-orange-500/10",
+        };
+      default:
+        return {
+          icon: <Music className="w-2.5 h-2.5 text-emerald-400" />,
+          label: "FESTIVE SONG",
+          color: "text-emerald-300 border-emerald-500/30 bg-emerald-500/10",
+        };
+    }
+  };
+
+  const badge = getCategoryBadge();
 
   return (
     <motion.div
@@ -135,7 +180,7 @@ export const AmbientPlayer: React.FC = () => {
         {/* -----------------------------------------------------------------------
             2. MAIN FACEPLATE: Speaker Grille + Illuminated Frequency Dial
             ----------------------------------------------------------------------- */}
-        <div className="grid grid-cols-[100px_1fr] md:grid-cols-[115px_1fr] gap-3 items-center mb-3">
+        <div className="grid grid-cols-[96px_1fr] md:grid-cols-[112px_1fr] gap-3 items-center mb-2.5">
           
           {/* Perforated Circular Speaker Grille */}
           <div className="relative w-full aspect-square rounded-xl bg-[#14110f] border border-[#3d3126] shadow-inner p-2 flex items-center justify-center overflow-hidden">
@@ -156,7 +201,11 @@ export const AmbientPlayer: React.FC = () => {
               }}
             >
               {/* Spinning vinyl center effect */}
-              <div className="absolute inset-0 rounded-full border border-white/20 animate-[spin_12s_linear_infinite]" />
+              <div
+                className={`absolute inset-0 rounded-full border border-white/20 ${
+                  isPlaying ? "animate-[spin_10s_linear_infinite]" : ""
+                }`}
+              />
               <div className="absolute inset-[35%] rounded-full bg-[#2a2018] border border-[#d49b58]/40" />
             </div>
           </div>
@@ -166,9 +215,11 @@ export const AmbientPlayer: React.FC = () => {
             {/* Warm Amber Dial Backlight */}
             <div className="absolute inset-0 bg-gradient-to-b from-amber-500/10 via-amber-600/5 to-transparent pointer-events-none" />
 
-            {/* Dial Scale Header */}
+            {/* Dial Scale Header: Station Frequency & Broadcast status */}
             <div className="flex items-center justify-between text-[7px] font-mono text-[#a88665] uppercase tracking-widest border-b border-[#382b1f] pb-1">
-              <span>MW · 540-1600 kHz</span>
+              <span className="font-semibold text-[#e6b980]">
+                {track.frequency || "MW · 540-1600 kHz"}
+              </span>
               <div className="flex items-center gap-1">
                 <span
                   className={`w-1.5 h-1.5 rounded-full transition-colors ${
@@ -177,8 +228,8 @@ export const AmbientPlayer: React.FC = () => {
                       : "bg-neutral-600"
                   }`}
                 />
-                <span className="text-[6.5px] text-[#c9a073]">
-                  {isPlaying ? "ON AIR" : "PAUSED"}
+                <span className="text-[6.5px] text-[#c9a073] font-bold">
+                  {isPlaying ? (isLiveStream ? "ON AIR LIVE" : "PLAYING") : "PAUSED"}
                 </span>
               </div>
             </div>
@@ -189,17 +240,40 @@ export const AmbientPlayer: React.FC = () => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const clickX = e.clientX - rect.left;
                 const ratio = Math.max(0, Math.min(1, clickX / rect.width));
-                if (duration > 0) seekTo(ratio * duration);
+
+                if (isLiveStream) {
+                  // Switch station in playlist based on dial segment
+                  const targetIdx = Math.min(
+                    playlist.length - 1,
+                    Math.floor(ratio * playlist.length)
+                  );
+                  setTrackIndex(targetIdx);
+                } else if (duration > 0) {
+                  seekTo(ratio * duration);
+                }
               }}
+              title={
+                isLiveStream
+                  ? "Click along dial to switch radio stations"
+                  : "Click to seek broadcast"
+              }
               className="relative h-6 my-1 bg-[#0d0a08] rounded border border-[#2e2319] cursor-pointer flex items-center px-1"
             >
-              {/* Tick marks */}
-              <div className="w-full flex justify-between px-1 pointer-events-none opacity-50">
-                {[550, 700, 900, 1100, 1300, 1500].map((khz) => (
-                  <div key={khz} className="flex flex-col items-center">
-                    <div className="w-[1px] h-2 bg-[#d49b58]" />
-                    <span className="text-[5px] font-mono text-[#a88665] mt-0.5">
-                      {khz}
+              {/* Tick marks & Station indicators */}
+              <div className="w-full flex justify-between px-1 pointer-events-none opacity-55">
+                {playlist.map((pTrack, idx) => (
+                  <div key={pTrack.id} className="flex flex-col items-center">
+                    <div
+                      className={`w-[1.5px] h-2 ${
+                        idx === currentIndex ? "bg-amber-400" : "bg-[#8a7056]"
+                      }`}
+                    />
+                    <span
+                      className={`text-[5px] font-mono mt-0.5 ${
+                        idx === currentIndex ? "text-amber-300 font-bold" : "text-[#8a7056]"
+                      }`}
+                    >
+                      {pTrack.frequency?.replace(" FM", "").replace("AM ", "") || idx + 1}
                     </span>
                   </div>
                 ))}
@@ -207,37 +281,68 @@ export const AmbientPlayer: React.FC = () => {
 
               {/* Glowing Red Illuminated Tuning Needle */}
               <div
-                className="absolute top-0 bottom-0 w-[2px] bg-red-500 shadow-[0_0_8px_#ef4444] transition-all duration-200 pointer-events-none"
-                style={{ left: `${progressPercent}%` }}
+                className="absolute top-0 bottom-0 w-[2px] bg-red-500 shadow-[0_0_8px_#ef4444] transition-all duration-300 pointer-events-none"
+                style={{ left: `${Math.min(98, Math.max(2, progressPercent))}%` }}
               >
-                <div className="w-2 h-1 bg-red-500 -translate-x-[3px] rounded-full" />
+                <div className="w-2 h-1 bg-red-500 -translate-x-[3px] rounded-full shadow-[0_0_6px_#ef4444]" />
               </div>
             </div>
 
-            {/* Current Track Info */}
-            <div className="flex items-center justify-between min-w-0 pt-0.5">
-              <div className="flex flex-col min-w-0 flex-1 pr-1">
-                <span className="text-[10px] md:text-[11px] font-serif font-medium text-[#f0dfc8] truncate leading-tight">
-                  {audioError ? "Transmission error" : track.title}
+            {/* Current Track Info & Category Badge */}
+            <div className="flex flex-col min-w-0 pt-0.5">
+              <div className="flex items-center justify-between gap-1 mb-0.5">
+                <span
+                  className={`inline-flex items-center gap-1 px-1.5 py-0.2 rounded border text-[6.5px] font-mono tracking-wider uppercase ${badge.color}`}
+                >
+                  {badge.icon}
+                  <span>{badge.label}</span>
                 </span>
-                <span className="text-[7.5px] font-mono text-[#8a7056] truncate">
-                  {formatTime(currentTime)} / {formatTime(duration)}
+                <span className="text-[7px] font-mono text-[#8a7056]">
+                  {isLiveStream
+                    ? "LIVE"
+                    : `${formatTime(currentTime)} / ${formatTime(duration)}`}
                 </span>
               </div>
+              <span className="text-[9.5px] md:text-[10.5px] font-serif font-medium text-[#f0dfc8] truncate leading-tight">
+                {audioError ? "Transmission error · Retrying..." : track.title}
+              </span>
+              <span className="text-[7px] font-mono text-[#8a7056] truncate mt-0.5">
+                {track.artist}
+              </span>
             </div>
           </div>
         </div>
 
         {/* -----------------------------------------------------------------------
-            3. BOTTOM CONTROLS: Chunky Buttons & Analog Volume Slider
+            3. STATION SWITCHER PILLS (For quick channel tuning)
             ----------------------------------------------------------------------- */}
-        <div className="flex items-center justify-between pt-2 border-t border-[#382b1f] gap-2">
+        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar pb-2 mb-2 border-b border-[#2e2319]">
+          {playlist.map((item, idx) => (
+            <button
+              key={item.id}
+              onClick={() => setTrackIndex(idx)}
+              className={`px-2 py-0.5 rounded-md text-[7.5px] font-mono tracking-wider uppercase transition-all whitespace-nowrap cursor-pointer border ${
+                idx === currentIndex
+                  ? "bg-[#d49b58]/20 border-[#d49b58] text-[#f0c28d] font-bold shadow-[0_0_8px_rgba(212,155,88,0.25)]"
+                  : "bg-[#16120e] border-[#382b1f] text-[#8a7056] hover:text-[#c9a073] hover:border-[#524132]"
+              }`}
+            >
+              {item.frequency || `CH ${idx + 1}`}
+            </button>
+          ))}
+        </div>
+
+        {/* -----------------------------------------------------------------------
+            4. BOTTOM CONTROLS: Chunky Buttons & Analog Volume Slider
+            ----------------------------------------------------------------------- */}
+        <div className="flex items-center justify-between gap-2">
           
           {/* Mechanical Step & Play Buttons */}
           <div className="flex items-center gap-2">
             <button
               onClick={prevTrack}
               aria-label="Previous Broadcast"
+              title="Previous Broadcast / Station"
               className="w-8 h-8 rounded-lg bg-gradient-to-b from-[#2e251e] to-[#1c1612] border border-[#524132] hover:border-[#806750] active:scale-95 text-[#c9a073] flex items-center justify-center transition-all shadow-md cursor-pointer"
             >
               <SkipBack className="w-3.5 h-3.5" />
@@ -246,6 +351,7 @@ export const AmbientPlayer: React.FC = () => {
             <button
               onClick={togglePlay}
               aria-label={isPlaying ? "Pause" : "Tune In"}
+              title={isPlaying ? "Pause Broadcast" : "Tune In / Play"}
               className="w-10 h-10 rounded-xl bg-gradient-to-b from-[#d49b58] to-[#99642d] border border-[#f0c28d] active:scale-95 text-[#1a120b] flex items-center justify-center transition-all shadow-[0_4px_12px_rgba(212,155,88,0.4)] cursor-pointer font-bold"
             >
               {isLoading ? (
@@ -260,6 +366,7 @@ export const AmbientPlayer: React.FC = () => {
             <button
               onClick={nextTrack}
               aria-label="Next Broadcast"
+              title="Next Broadcast / Station"
               className="w-8 h-8 rounded-lg bg-gradient-to-b from-[#2e251e] to-[#1c1612] border border-[#524132] hover:border-[#806750] active:scale-95 text-[#c9a073] flex items-center justify-center transition-all shadow-md cursor-pointer"
             >
               <SkipForward className="w-3.5 h-3.5" />
