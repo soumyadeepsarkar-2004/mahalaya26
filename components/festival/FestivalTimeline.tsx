@@ -42,11 +42,11 @@ export const FestivalTimeline: React.FC = () => {
     <>
       {/* =========================================================================
           DESKTOP TIMELINE (hidden md:block)
-          Floating pill centered at bottom-[28px]
+          Floating pill on bottom-left
           ========================================================================= */}
       <div
         ref={desktopContainerRef}
-        className="hidden md:block fixed left-1/2 -translate-x-1/2 bottom-[28px] z-30 pointer-events-auto"
+        className="hidden md:block fixed left-[clamp(24px,4vw,64px)] bottom-8 z-30 pointer-events-auto"
       >
         <div className="flex items-center gap-2 p-2 rounded-full backdrop-blur-2xl bg-white/[0.07] border border-white/10 shadow-2xl">
           {FESTIVAL_SCENES.map((scene) => {
@@ -94,10 +94,10 @@ export const FestivalTimeline: React.FC = () => {
 
       {/* =========================================================================
           MOBILE TIMELINE (md:hidden)
-          Dedicated compact horizontal scroll at bottom
+          Dedicated compact horizontal scroll directly above mobile player
           ========================================================================= */}
       <div
-        className="md:hidden fixed left-3 right-3 bottom-[calc(12px+env(safe-area-inset-bottom,0px))] z-30 pointer-events-auto"
+        className="md:hidden fixed left-3 right-3 bottom-[calc(185px+env(safe-area-inset-bottom,0px))] z-30 pointer-events-auto"
       >
         <div
           ref={mobileContainerRef}

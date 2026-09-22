@@ -75,7 +75,7 @@ export const AmbientPlayer: React.FC = () => {
       animate={controls}
       onDragStart={() => setHasMoved(true)}
       whileDrag={{ scale: 1.02, cursor: "grabbing", zIndex: 60 }}
-      className="fixed z-40 pointer-events-auto cursor-grab select-none transition-shadow duration-300 left-3 md:left-8 bottom-[calc(88px+env(safe-area-inset-bottom,0px))] md:bottom-8 w-[calc(100vw-24px)] max-w-[340px] md:max-w-[380px]"
+      className="fixed z-40 pointer-events-auto cursor-grab select-none transition-shadow duration-300 right-3 md:right-8 bottom-[calc(10px+env(safe-area-inset-bottom,0px))] md:bottom-8 w-[calc(100vw-24px)] max-w-[340px] md:max-w-[370px]"
     >
       {/* =========================================================================
           VINTAGE RADIO CHASSIS CONTAINER
@@ -110,17 +110,19 @@ export const AmbientPlayer: React.FC = () => {
 
           {/* Controls: Drag Indicator & Re-place button */}
           <div className="flex items-center gap-1.5">
-            {hasMoved && (
-              <button
-                onClick={handleResetPosition}
-                title="Reset to original resting position"
-                aria-label="Reset to original position"
-                className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#d49b58]/20 hover:bg-[#d49b58]/35 border border-[#d49b58]/50 text-[#e6b980] text-[8px] font-mono tracking-wider uppercase transition-all cursor-pointer shadow-sm animate-pulse"
-              >
-                <RotateCcw className="w-2.5 h-2.5" />
-                <span>RE-PLACE</span>
-              </button>
-            )}
+            <button
+              onClick={handleResetPosition}
+              title="Reset to original bottom-right position"
+              aria-label="Reset to original position"
+              className={`flex items-center gap-1 px-2 py-0.5 rounded-full border text-[8px] font-mono tracking-wider uppercase transition-all cursor-pointer shadow-sm ${
+                hasMoved
+                  ? "bg-[#d49b58]/25 hover:bg-[#d49b58]/40 border-[#d49b58] text-[#e6b980] animate-pulse"
+                  : "bg-white/5 hover:bg-white/10 border-white/10 text-white/50"
+              }`}
+            >
+              <RotateCcw className="w-2.5 h-2.5" />
+              <span>RE-PLACE</span>
+            </button>
             <div
               title="Drag to move anywhere"
               className="p-1 text-neutral-500 hover:text-neutral-300 cursor-grab active:cursor-grabbing"

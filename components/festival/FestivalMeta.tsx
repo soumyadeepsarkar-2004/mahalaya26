@@ -16,7 +16,7 @@ export const FestivalMeta: React.FC = () => {
     <div
       className={cn(
         "fixed left-4 right-4 md:right-auto md:left-[clamp(24px,4vw,64px)] pointer-events-none z-20 transition-all duration-300",
-        "bottom-[calc(265px+env(safe-area-inset-bottom,0px))] md:bottom-[clamp(240px,28vh,360px)] md:max-w-[460px]"
+        "top-[clamp(85px,13vh,125px)] md:top-auto md:bottom-[clamp(120px,16vh,180px)] md:max-w-[480px]"
       )}
     >
       <AnimatePresence mode="wait">
