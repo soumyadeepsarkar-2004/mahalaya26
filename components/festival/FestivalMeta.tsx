@@ -16,12 +16,7 @@ export const FestivalMeta: React.FC = () => {
     <div
       className={cn(
         "fixed left-4 right-4 md:right-auto md:left-[clamp(24px,4vw,64px)] pointer-events-none z-20 transition-all duration-300",
-        // Desktop positioning
-        "md:bottom-[clamp(180px,24vh,300px)] md:max-w-[460px]",
-        // Mobile positioning: placed above timeline and player with safe-area support
-        isPlayerExpanded
-          ? "bottom-[calc(260px+env(safe-area-inset-bottom,0px))]"
-          : "bottom-[calc(152px+env(safe-area-inset-bottom,0px))]"
+        "bottom-[calc(265px+env(safe-area-inset-bottom,0px))] md:bottom-[clamp(240px,28vh,360px)] md:max-w-[460px]"
       )}
     >
       <AnimatePresence mode="wait">

@@ -94,15 +94,10 @@ export const FestivalTimeline: React.FC = () => {
 
       {/* =========================================================================
           MOBILE TIMELINE (md:hidden)
-          Dedicated compact horizontal scroll directly above the mobile player
+          Dedicated compact horizontal scroll at bottom
           ========================================================================= */}
       <div
-        className={cn(
-          "md:hidden fixed left-3 right-3 z-30 pointer-events-auto transition-all duration-300",
-          isPlayerExpanded
-            ? "bottom-[calc(185px+env(safe-area-inset-bottom,0px))]"
-            : "bottom-[calc(78px+env(safe-area-inset-bottom,0px))]"
-        )}
+        className="md:hidden fixed left-3 right-3 bottom-[calc(12px+env(safe-area-inset-bottom,0px))] z-30 pointer-events-auto"
       >
         <div
           ref={mobileContainerRef}
